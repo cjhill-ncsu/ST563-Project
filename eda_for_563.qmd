@@ -53,7 +53,12 @@ sqf_combined <- sqf_combined |>
   mutate(
     SUSPECT_HEIGHT = as.numeric(SUSPECT_HEIGHT),
     SUSPECT_WEIGHT = as.numeric(SUSPECT_WEIGHT),
-    SUSPECT_REPORTED_AGE = as.numeric(SUSPECT_REPORTED_AGE)
+    SUSPECT_REPORTED_AGE = as.numeric(SUSPECT_REPORTED_AGE),
+    STOP_DURATION_MINUTES = as.numeric(STOP_DURATION_MINUTES),
+    OBSERVED_DURATION_MINUTES = as.numeric(OBSERVED_DURATION_MINUTES),
+    STOP_LOCATION_X = as.numeric(STOP_LOCATION_X),
+    STOP_LOCATION_Y = as.numeric(STOP_LOCATION_Y)
+    
   )
 ```
 
@@ -162,7 +167,61 @@ sqf_combined |>
 ## Missingness
 
 ```{r echo = FALSE}
-get_na_summary(sqf_combined)
+na_summary <- get_na_summary(sqf_combined)
+na_summary
 ```
 
+## Working Dataset
+
+### Drop Columns with High Missingness
+
+```{r echo = FALSE}
+# filter columns with high missingness 
+useful_cols <- na_summary |>
+  filter(NA_Count < 10000) |>
+  select(Column) 
+
+# use useful_cols to filter columns and remove NA
+working_dataset <- sqf_combined |>
+  select(all_of(useful_cols$Column)) |>
+  drop_na()
+
+glimpse(working_dataset)
+```
+
+## Type Conversions for remaining predictors
+
+```{r echo = FALSE}
+# Some columns should stay characters
+excluded_columns <- c("STOP_LOCATION_FULL_ADDRESS", 
+                      "DEMEANOR_OF_PERSON_STOPPED")
+
+factor_columns <- working_dataset |>
+  select(-all_of(excluded_columns)) |>
+  select(where(is.character)) |>
+  colnames()
+
+# convert all character columns to factor except the excluded columns
+working_dataset <- working_dataset |>
+  mutate(across(all_of(factor_columns), as.factor))
+
+glimpse(working_dataset)
+```
+
+## Check unique values in factor columns
+
+```{r echo = FALSE}
+columns_of_interest <- c("SUSPECT_EYE_COLOR", 
+                         "SUSPECT_HAIR_COLOR", 
+                         "SUSPECT_BODY_BUILD_TYPE", 
+                         "SUSPECTED_CRIME_DESCRIPTION")
+
+# Map `unique` to each column and store the result
+unique_values <- map(columns_of_interest, ~ unique(working_dataset[[.x]]))
+
+# Name the results for clarity
+names(unique_values) <- columns_of_interest
+
+unique_values
+```
 
