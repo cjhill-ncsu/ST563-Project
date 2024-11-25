@@ -15,13 +15,12 @@ library(readxl)
 
 ```{r}
 # File path and names
-file_path <- "C:/Users/ahill/Downloads/"
 file_names <- c("sqf-2018", "sqf-2019", "sqf-2020", "sqf-2021", "sqf-2022", "sqf-2023")
 
 # Function to read and coerce all columns to character
 standardize_dataset <- function(file_name) {
   year <- as.numeric(str_extract(file_name, "\\d{4}"))
-  read_excel(paste0(file_path, file_name, ".xlsx")) |>
+  read_excel(paste0(file_name, ".xlsx")) |>
     set_names(~ toupper(gsub(" ", "_", .))) |> 
     mutate(across(everything(), as.character)) |> 
     mutate(FILE_YEAR = as.character(year))
@@ -37,7 +36,6 @@ sort(colnames(sqf_combined))
 options(width = 100)
 glimpse(sqf_combined)
 ```
-
 
 ## Strange Null Values to NA
 
@@ -91,7 +89,6 @@ sqf_combined <- sqf_combined |>
   )
 ```
 
-
 ## Missingness
 
 ```{r}
@@ -108,4 +105,3 @@ na_summary |>
 
 glimpse(sqf_combined)
 ```
-
