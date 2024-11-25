@@ -6,14 +6,14 @@ editor_options:
   chunk_output_type: console
 ---
 
-```{r}
+```{r echo = FALSE, message = FALSE, warning = FALSE}
 library(tidyverse)
 library(readxl)
 ```
 
 ## Read xlsx Files from 2018 to 2023
 
-```{r}
+```{r echo = FALSE, message = FALSE, warning = FALSE}
 # File path and names
 file_names <- c("sqf-2018", "sqf-2019", "sqf-2020", "sqf-2021", "sqf-2022", "sqf-2023")
 
@@ -32,21 +32,23 @@ sqf_combined <- file_names |>
   map(standardize_dataset) |>
   bind_rows()
 
-sort(colnames(sqf_combined))
+sqf_combined_sorted <- sqf_combined %>%
+  select(all_of(sort(names(sqf_combined))))
+
 options(width = 100)
-glimpse(sqf_combined)
+glimpse(sqf_combined_sorted) 
 ```
 
 ## Strange Null Values to NA
 
-```{r}
+```{r echo = FALSE}
 sqf_combined <- sqf_combined |>
   mutate(across(everything(), ~ na_if(., "(null)")))
 ```
 
 ## Numeric Columns
 
-```{r}
+```{r echo = FALSE}
 sqf_combined <- sqf_combined |>
   mutate(
     SUSPECT_HEIGHT = as.numeric(SUSPECT_HEIGHT),
@@ -57,7 +59,7 @@ sqf_combined <- sqf_combined |>
 
 ## Stop Frisk Time
 
-```{r}
+```{r echo = FALSE}
 sqf_combined |>
   filter(!str_detect(STOP_FRISK_TIME, 
                      "^\\d{2}:\\d{2}:\\d{2}$")) |>
@@ -66,7 +68,7 @@ sqf_combined |>
 
 ```
 
-```{r}
+```{r echo = FALSE}
 sqf_combined <- sqf_combined |>
   mutate(
     STOP_FRISK_TIME = if_else(
@@ -80,7 +82,7 @@ sqf_combined <- sqf_combined |>
 
 ```
 
-```{r}
+```{r echo = FALSE}
 sqf_combined <- sqf_combined |>
   mutate(
     STOP_FRISK_DATE = as.Date(STOP_FRISK_DATE, 
@@ -91,17 +93,76 @@ sqf_combined <- sqf_combined |>
 
 ## Missingness
 
-```{r}
-na_summary <- sqf_combined |>
-  summarise(across(everything(), ~ sum(is.na(.)))) |>
-  pivot_longer(cols = everything(), 
-               names_to = "Column", 
-               values_to = "NA_Count")
+```{r echo = FALSE}
+get_na_summary <- function(data) {
+  data |>
+    summarise(across(everything(), ~ sum(is.na(.)))) |>
+    pivot_longer(cols = everything(), 
+                 names_to = "Column", 
+                 values_to = "NA_Count") |>
+    arrange(desc(NA_Count)) |>
+    print(n = Inf)
+}
+get_na_summary(sqf_combined)
+```
 
-# View columns with high NA counts
-na_summary |>
-  arrange(desc(NA_Count)) |>
+## Flag Variables
+
+```{r echo = FALSE}
+# Step 1: Identify FLAG/FLG columns
+flag_columns <- sqf_combined |>
+  select(contains("FLAG"), contains("FLG")) |>
+  colnames()
+
+# Glimpse unique values in FLAG/FLG columns
+sqf_combined |>
+  select(all_of(flag_columns)) |>
+  summarise(across(everything(), ~ list(unique(.)))) |>
+  pivot_longer(everything(), names_to = "Column", values_to = "Unique_Values") |>
+  mutate(Unique_Values = map_chr(Unique_Values, ~ paste(.x, collapse = ", "))) |>
   print(n = Inf)
 
-glimpse(sqf_combined)
 ```
+
+### Impute NA to N in FLAG Columns
+
+- Only "Y" and NA present: Replace NA with "N"
+
+- "Y", NA, and "(" present: Replace "(" with NA, and NA with "N"
+
+- "Y", "N", NA, and "(" present: Replace "(" with NA
+
+```{r echo = FALSE}
+process_flag_column <- function(column) {
+  unique_vals <- unique(column)
+  
+  if (all(unique_vals %in% c("Y", NA))) {
+    return(if_else(is.na(column), "N", column))
+  } else if (all(unique_vals %in% c("Y", NA, "("))) {
+    column <- if_else(is.na(column), "N", column)  # First replace NA with "N"
+    return(if_else(column == "(", NA_character_, column))  # Then replace "(" with NA
+  } else if (all(unique_vals %in% c("Y", "N", NA, "("))) {
+    return(if_else(column == "(", NA_character_, column))
+  } else {
+    return(column)
+  }
+}
+
+sqf_combined <- sqf_combined |>
+  mutate(across(all_of(flag_columns), process_flag_column))
+
+sqf_combined |>
+  select(all_of(flag_columns)) |>
+  summarise(across(everything(), ~ list(unique(.)))) |>
+  pivot_longer(everything(), names_to = "Column", values_to = "Unique_Values") |>
+  mutate(Unique_Values = map_chr(Unique_Values, ~ paste(.x, collapse = ", "))) |>
+  print(n = Inf)
+```
+
+## Missingness
+
+```{r echo = FALSE}
+get_na_summary(sqf_combined)
+```
+
+
