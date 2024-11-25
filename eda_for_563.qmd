@@ -1,0 +1,111 @@
+---
+title: "Project"
+format: html
+editor: visual
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r}
+library(tidyverse)
+library(readxl)
+```
+
+## Read xlsx Files from 2018 to 2023
+
+```{r}
+# File path and names
+file_path <- "C:/Users/ahill/Downloads/"
+file_names <- c("sqf-2018", "sqf-2019", "sqf-2020", "sqf-2021", "sqf-2022", "sqf-2023")
+
+# Function to read and coerce all columns to character
+standardize_dataset <- function(file_name) {
+  year <- as.numeric(str_extract(file_name, "\\d{4}"))
+  read_excel(paste0(file_path, file_name, ".xlsx")) |>
+    set_names(~ toupper(gsub(" ", "_", .))) |> 
+    mutate(across(everything(), as.character)) |> 
+    mutate(FILE_YEAR = as.character(year))
+}
+
+
+# Read and combine data
+sqf_combined <- file_names |>
+  map(standardize_dataset) |>
+  bind_rows()
+
+sort(colnames(sqf_combined))
+options(width = 100)
+glimpse(sqf_combined)
+```
+
+
+## Strange Null Values to NA
+
+```{r}
+sqf_combined <- sqf_combined |>
+  mutate(across(everything(), ~ na_if(., "(null)")))
+```
+
+## Numeric Columns
+
+```{r}
+sqf_combined <- sqf_combined |>
+  mutate(
+    SUSPECT_HEIGHT = as.numeric(SUSPECT_HEIGHT),
+    SUSPECT_WEIGHT = as.numeric(SUSPECT_WEIGHT),
+    SUSPECT_REPORTED_AGE = as.numeric(SUSPECT_REPORTED_AGE)
+  )
+```
+
+## Stop Frisk Time
+
+```{r}
+sqf_combined |>
+  filter(!str_detect(STOP_FRISK_TIME, 
+                     "^\\d{2}:\\d{2}:\\d{2}$")) |>
+  select(STOP_FRISK_TIME) |>
+  distinct()
+
+```
+
+```{r}
+sqf_combined <- sqf_combined |>
+  mutate(
+    STOP_FRISK_TIME = if_else(
+      str_detect(STOP_FRISK_TIME, 
+                 "^1899-12-31 \\d{2}:\\d{2}:\\d{2}$"),
+      str_extract(STOP_FRISK_TIME, 
+                  "\\d{2}:\\d{2}:\\d{2}$"),
+      NA_character_
+    )
+  )
+
+```
+
+```{r}
+sqf_combined <- sqf_combined |>
+  mutate(
+    STOP_FRISK_DATE = as.Date(STOP_FRISK_DATE, 
+                              format = "%Y-%m-%d"),
+    STOP_FRISK_TIME = hms::as_hms(STOP_FRISK_TIME)
+  )
+```
+
+
+## Missingness
+
+```{r}
+na_summary <- sqf_combined |>
+  summarise(across(everything(), ~ sum(is.na(.)))) |>
+  pivot_longer(cols = everything(), 
+               names_to = "Column", 
+               values_to = "NA_Count")
+
+# View columns with high NA counts
+na_summary |>
+  arrange(desc(NA_Count)) |>
+  print(n = Inf)
+
+glimpse(sqf_combined)
+```
+
