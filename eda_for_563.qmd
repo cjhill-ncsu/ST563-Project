@@ -9,6 +9,8 @@ editor_options:
 ```{r echo = FALSE, message = FALSE, warning = FALSE}
 library(tidyverse)
 library(readxl)
+library(writexl)
+library(ggplot2)
 ```
 
 ## Read xlsx Files from 2018 to 2023
@@ -131,11 +133,11 @@ sqf_combined |>
 
 ### Impute NA to N in FLAG Columns
 
-- Only "Y" and NA present: Replace NA with "N"
+-   Only "Y" and NA present: Replace NA with "N"
 
-- "Y", NA, and "(" present: Replace "(" with NA, and NA with "N"
+-   "Y", NA, and "(" present: Replace "(" with NA, and NA with "N"
 
-- "Y", "N", NA, and "(" present: Replace "(" with NA
+-   "Y", "N", NA, and "(" present: Replace "(" with NA
 
 ```{r echo = FALSE}
 process_flag_column <- function(column) {
@@ -223,5 +225,27 @@ unique_values <- map(columns_of_interest, ~ unique(working_dataset[[.x]]))
 names(unique_values) <- columns_of_interest
 
 unique_values
+
+write_xlsx(working_dataset, 'working_dataset.xlsx')
 ```
 
+## Different Variables on Race
+
+```{r}
+# Suspected crime vs. race
+ggplot(working_dataset, aes(x = SUSPECTED_CRIME_DESCRIPTION,
+                            fill = SUSPECT_RACE_DESCRIPTION)) + 
+  geom_bar() +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) 
+```
+
+```{r}
+# Suspected Arrested Flag vs. Race
+ggplot(working_dataset, aes(x = SUSPECT_ARRESTED_FLAG,
+                            fill = SUSPECT_RACE_DESCRIPTION)) +
+    geom_bar() +
+    theme(axis.text.x = element_text(angle = 90, 
+                                     vjust = 0.5, hjust=1)) 
+```
+
+#  
