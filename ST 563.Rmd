@@ -1,0 +1,12 @@
+---
+title: "ST 563 Project"
+author: "Kristina Golden and Chris Hill"
+date: "2024-11-26"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## 
