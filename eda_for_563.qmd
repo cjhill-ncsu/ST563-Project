@@ -195,20 +195,36 @@ glimpse(working_dataset)
 ## Type Conversions for remaining predictors
 
 ```{r echo = FALSE}
-# Some columns should stay characters
-excluded_columns <- c("STOP_LOCATION_FULL_ADDRESS", 
-                      "DEMEANOR_OF_PERSON_STOPPED")
+# Define columns to exclude
+excluded_columns <- c(
+  "STOP_LOCATION_FULL_ADDRESS", 
+  "DEMEANOR_OF_PERSON_STOPPED", 
+  "STOP_FRISK_DATE", 
+  "YEAR2", 
+  "MONTH2", 
+  "DAY2", 
+  "FILE_YEAR",
+  "STOP_LOCATION_X",
+  "STOP_LOCATION_Y"
+)
 
-factor_columns <- working_dataset |>
-  select(-all_of(excluded_columns)) |>
-  select(where(is.character)) |>
+# Drop excluded columns
+working_dataset <- working_dataset %>%
+  select(-all_of(excluded_columns))
+
+# Identify character columns to convert to factors
+factor_columns <- working_dataset %>%
+  select(where(is.character)) %>%
   colnames()
 
-# convert all character columns to factor except the excluded columns
-working_dataset <- working_dataset |>
-  mutate(across(all_of(factor_columns), as.factor))
+# Convert character columns to factors and ensure SUSPECT_RACE_DESCRIPTION stays a factor
+working_dataset <- working_dataset %>%
+  mutate(across(all_of(factor_columns), ~ factor(make.names(as.character(.))))) %>%
+  mutate(SUSPECT_RACE_DESCRIPTION = factor(make.names(as.character(SUSPECT_RACE_DESCRIPTION))))
 
+# Verify structure
 str(working_dataset)
+
 ```
 
 ## Check unique values in factor columns
@@ -248,6 +264,41 @@ working_dataset <- droplevels(working_dataset)
 
 str(working_dataset)
 ```
+
+# Look at level counts
+
+```{r}
+factor_levels <- sapply(data, function(x) if (is.factor(x)) nlevels(x) else NA)
+
+# Display results
+factor_info <- data.frame(
+  Predictor = names(factor_levels),
+  Levels = factor_levels
+)
+
+# Show predictors that are factors with their number of levels
+factor_info <- factor_info[!is.na(factor_info$Levels), ]
+print(factor_info)
+```
+
+# Drop RECORD_STATUS_CODE
+
+```{r}
+working_dataset <- working_dataset %>%
+  select(-RECORD_STATUS_CODE)
+```
+
+# Fix Special Characters in response level names
+
+```{r}
+unique(working_dataset$SUSPECT_RACE_DESCRIPTION)
+
+# Replace "/" with a space in a specific column
+working_dataset$SUSPECT_RACE_DESCRIPTION <- gsub("/", " ", 
+                                      working_dataset$SUSPECT_RACE_DESCRIPTION)
+
+```
+
 
 # Save dataset
 

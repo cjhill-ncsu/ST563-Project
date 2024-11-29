@@ -1,0 +1,141 @@
+---
+title: "Modeling"
+format: html
+editor: visual
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r}
+library(caret)
+library(tidyverse)
+library(MLmetrics)
+library(doParallel)
+
+num_cores <- parallel::detectCores() - 1
+cl <- makeCluster(num_cores)
+registerDoParallel(cl)
+
+set.seed(123) 
+```
+
+
+# Data
+
+```{r}
+data <- readRDS("working_dataset.rds")
+
+str(data)
+
+# temp subset rows for quicker development before full data is used
+data <- data[sample(1:nrow(data), 5000), ]
+```
+
+# Preprocessing
+
+```{r}
+#| label: preprocessing
+
+train_index <- createDataPartition(data$SUSPECT_RACE_DESCRIPTION, 
+                                   p = 0.8, list = FALSE)
+train_data <- data[train_index, ]
+test_data <- data[-train_index, ]
+```
+
+# Define control object with metrics
+
+```{r}
+
+ctrl <- trainControl(
+  method = "cv",
+  number = 5,
+  summaryFunction = multiClassSummary,
+  classProbs = TRUE,
+  savePredictions = "final"
+)
+
+```
+
+# kNN
+
+```{r}
+knn_model <- train(
+  SUSPECT_RACE_DESCRIPTION ~ ., 
+  data = train_data, 
+  method = "knn",
+  trControl = ctrl, 
+  tuneLength = 10 
+)
+```
+
+# SVM
+
+```{r}
+svm_model <- train(
+  SUSPECT_RACE_DESCRIPTION ~ ., 
+  data = train_data, 
+  method = "svmRadial",
+  trControl = ctrl,
+  tuneLength = 10 
+)
+```
+
+# Elastic Net
+
+```{r}
+elastic_net_model <- train(
+  SUSPECT_RACE_DESCRIPTION ~ ., 
+  data = train_data, 
+  method = "glmnet",
+  trControl = ctrl,
+  tuneLength = 10 
+)
+```
+
+```{r}
+stopCluster(cl)
+registerDoSEQ()
+```
+
+# Compare
+
+```{r}
+models <- list(kNN = knn_model, 
+               SVM = svm_model, 
+               ElasticNet = elastic_net_model)
+
+resamples <- resamples(models)
+summary(resamples)
+
+bwplot(resamples, metric = "Accuracy")
+bwplot(resamples, metric = "Kappa")
+
+test_predictions <- lapply(models, 
+                           predict, 
+                           newdata = test_data)
+
+test_metrics <- lapply(test_predictions, function(pred) {
+  cm <- confusionMatrix(pred, 
+                        test_data$SUSPECT_RACE_DESCRIPTION)
+  data.frame(Accuracy = cm$overall['Accuracy'], 
+             Kappa = cm$overall['Kappa'])
+})
+
+test_metrics_df <- bind_rows(test_metrics, .id = "Model")
+print(test_metrics_df)
+
+test_metrics_df %>%
+  pivot_longer(cols = c(Accuracy, Kappa), 
+               names_to = "Metric", 
+               values_to = "Value") %>%
+  ggplot(aes(x = Model, 
+             y = Value, 
+             fill = Metric)) +
+  geom_bar(stat = "identity", 
+           position = position_dodge()) +
+  labs(title = "Test Set Performance", 
+       y = "Value", 
+       x = "Model") +
+  theme_minimal()
+```
+
