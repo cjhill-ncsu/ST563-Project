@@ -178,6 +178,7 @@ na_summary
 ### Drop Columns with High Missingness
 
 ```{r echo = FALSE}
+
 # filter columns with high missingness 
 useful_cols <- na_summary |>
   filter(NA_Count < 10000) |>
@@ -207,7 +208,7 @@ factor_columns <- working_dataset |>
 working_dataset <- working_dataset |>
   mutate(across(all_of(factor_columns), as.factor))
 
-glimpse(working_dataset)
+str(working_dataset)
 ```
 
 ## Check unique values in factor columns
@@ -216,7 +217,9 @@ glimpse(working_dataset)
 columns_of_interest <- c("SUSPECT_EYE_COLOR", 
                          "SUSPECT_HAIR_COLOR", 
                          "SUSPECT_BODY_BUILD_TYPE", 
-                         "SUSPECTED_CRIME_DESCRIPTION")
+                         "SUSPECTED_CRIME_DESCRIPTION",
+                         "STOP_LOCATION_PATROL_BORO_NAME",
+                         "STOP_LOCATION_BORO_NAME")
 
 # Map `unique` to each column and store the result
 unique_values <- map(columns_of_interest, ~ unique(working_dataset[[.x]]))
@@ -226,7 +229,32 @@ names(unique_values) <- columns_of_interest
 
 unique_values
 
+```
+
+## Clean SUSPECT_HAIR_COLOR with "(nu" to NA
+
+Also drop any unused levels that are present
+
+```{r}
+
+sum(working_dataset$SUSPECT_HAIR_COLOR == "(nu", na.rm = TRUE)
+
+working_dataset$SUSPECT_HAIR_COLOR[working_dataset$SUSPECT_HAIR_COLOR == "(nu"] <- NA
+
+# Remove rows with NA values in the SUSPECT_HAIR_COLOR column
+working_dataset <- working_dataset[!is.na(working_dataset$SUSPECT_HAIR_COLOR), ]
+
+working_dataset <- droplevels(working_dataset)
+
+str(working_dataset)
+```
+
+# Save dataset
+
+```{r}
 write_xlsx(working_dataset, 'working_dataset.xlsx')
+
+saveRDS(working_dataset, "working_dataset.rds")
 ```
 
 ## Different Variables on Race
@@ -248,4 +276,3 @@ ggplot(working_dataset, aes(x = SUSPECT_ARRESTED_FLAG,
                                      vjust = 0.5, hjust=1)) 
 ```
 
-#  
