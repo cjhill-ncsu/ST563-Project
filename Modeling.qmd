@@ -25,10 +25,11 @@ set.seed(123)
 ```{r}
 data <- readRDS("working_dataset.rds")
 
+data <- data %>%
+  select(contains("FLAG"), SUSPECT_RACE_DESCRIPTION)
+
 str(data)
 
-# temp subset rows for quicker development before full data is used
-data <- data[sample(1:nrow(data), 5000), ]
 ```
 
 # Preprocessing

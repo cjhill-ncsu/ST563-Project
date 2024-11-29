@@ -288,14 +288,29 @@ working_dataset <- working_dataset %>%
   select(-RECORD_STATUS_CODE)
 ```
 
-# Fix Special Characters in response level names
+# Response Variable
 
 ```{r}
-unique(working_dataset$SUSPECT_RACE_DESCRIPTION)
+table(working_dataset$SUSPECT_RACE_DESCRIPTION)
 
-# Replace "/" with a space in a specific column
-working_dataset$SUSPECT_RACE_DESCRIPTION <- gsub("/", " ", 
-                                      working_dataset$SUSPECT_RACE_DESCRIPTION)
+working_dataset <- working_dataset %>%
+  # Convert to character to avoid factor level issues
+  mutate(SUSPECT_RACE_DESCRIPTION = as.character(SUSPECT_RACE_DESCRIPTION)) %>%
+  
+  # Consolidate levels using case_when
+  mutate(SUSPECT_RACE_DESCRIPTION = case_when(
+    SUSPECT_RACE_DESCRIPTION %in% c("AMERICAN.INDIAN.ALASKAN.N", "AMERICAN.INDIAN.ALASKAN.NATIVE") ~ "Other",
+    SUSPECT_RACE_DESCRIPTION %in% c("MIDDLE.EASTERN.SOUTHWEST", "MIDDLE.EASTERN.SOUTHWEST.ASIAN") ~ "Other",
+    SUSPECT_RACE_DESCRIPTION == "ASIAN...PACIFIC.ISLANDER" ~ "Asian",
+    SUSPECT_RACE_DESCRIPTION %in% c("BLACK.HISPANIC", "WHITE.HISPANIC") ~ "Hispanic",
+    TRUE ~ SUSPECT_RACE_DESCRIPTION
+  )) %>%
+  
+  # Convert back to factor to remove unused levels
+  mutate(SUSPECT_RACE_DESCRIPTION = factor(SUSPECT_RACE_DESCRIPTION, levels = unique(SUSPECT_RACE_DESCRIPTION)))
+
+# Verify the result
+table(working_dataset$SUSPECT_RACE_DESCRIPTION)
 
 ```
 
