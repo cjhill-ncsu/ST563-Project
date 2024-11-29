@@ -314,6 +314,27 @@ table(working_dataset$SUSPECT_RACE_DESCRIPTION)
 
 ```
 
+# Flag Counts
+
+```{r}
+working_dataset <- working_dataset |>
+  mutate(PHYSICAL_FORCE_COUNT = rowSums(across(contains("PHYSICAL_FORCE"), 
+                                               ~ . == "Y")))
+
+# Consolidate suspect actions flags into a single predictor
+working_dataset <- working_dataset |>
+  mutate(SUSPECT_ACTIONS_COUNT = rowSums(across(contains("SUSPECTS_ACTIONS"), 
+                                                ~ . == "Y")))
+# Consolidate weapon flags into a single predictor
+weapon_flags <- c("FIREARM_FLAG", 
+                  "KNIFE_CUTTER_FLAG", 
+                  "OTHER_WEAPON_FLAG",
+                  "WEAPON_FOUND_FLAG")
+working_dataset <- working_dataset |>
+  mutate(WEAPON_FLAG_COUNT = rowSums(across(weapon_flags, ~ . == "Y")))
+
+str(working_dataset)
+```
 
 # Save dataset
 

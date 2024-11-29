@@ -25,11 +25,25 @@ set.seed(123)
 ```{r}
 data <- readRDS("working_dataset.rds")
 
-data <- data %>%
-  select(contains("FLAG"), SUSPECT_RACE_DESCRIPTION)
+str(data)
+```
+
+```{r}
+data <- data |> select(SUSPECT_RACE_DESCRIPTION,
+                        SUSPECT_ACTIONS_COUNT,
+                       PHYSICAL_FORCE_COUNT,
+                       WEAPON_FLAG_COUNT,
+                       SUSPECT_REPORTED_AGE,
+                       SUSPECT_HEIGHT,
+                       SUSPECT_BODY_BUILD_TYPE,
+                       SUSPECT_SEX,
+                       STOP_DURATION_MINUTES,
+                       SUSPECT_ARRESTED_FLAG,
+                       SUSPECTED_CRIME_DESCRIPTION,
+                       STOP_LOCATION_PRECINCT,
+                       SEARCHED_FLAG)
 
 str(data)
-
 ```
 
 # Preprocessing
@@ -60,12 +74,13 @@ ctrl <- trainControl(
 # kNN
 
 ```{r}
+knn_grid <- expand.grid(k = seq(5, 31, by = 2))
 knn_model <- train(
   SUSPECT_RACE_DESCRIPTION ~ ., 
   data = train_data, 
   method = "knn",
   trControl = ctrl, 
-  tuneLength = 10 
+  tuneGrid = knn_grid
 )
 ```
 
@@ -125,10 +140,10 @@ test_metrics <- lapply(test_predictions, function(pred) {
 test_metrics_df <- bind_rows(test_metrics, .id = "Model")
 print(test_metrics_df)
 
-test_metrics_df %>%
+test_metrics_df |>
   pivot_longer(cols = c(Accuracy, Kappa), 
                names_to = "Metric", 
-               values_to = "Value") %>%
+               values_to = "Value") |>
   ggplot(aes(x = Model, 
              y = Value, 
              fill = Metric)) +
