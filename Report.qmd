@@ -1,0 +1,25 @@
+---
+title: "Project Report"
+author:
+  - name: "Kristina Golden"
+  - name: "Christoher Hill"
+format: 
+  html:
+    toc: true    
+    toc-depth: 3 
+editor: visual
+execute:
+  echo: false    
+editor_options: 
+  chunk_output_type: console
+---
+
+\newpage
+
+```{r}
+#data <- readRDS("modeled_data.rds")
+models <- readRDS("models.rds")
+
+# Show summary contents of the models object
+summary(models)
+```

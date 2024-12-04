@@ -69,6 +69,9 @@ preprocess <- preProcess(data[, numeric_cols], method = c("center", "scale"))
 
 # Standardize the numeric columns and overwrite the dataset
 data[, numeric_cols] <- predict(preprocess, data[, numeric_cols])
+
+# save data used for modeling
+saveRDS(data, "modeled_data.rds")
 ```
 
 ```{r}
@@ -157,7 +160,7 @@ stopCluster(cl)
 registerDoSEQ()
 ```
 
-# Compare
+# Compare Trained Models
 
 ```{r}
 # Define models
@@ -178,6 +181,14 @@ bwplot(resamples, metric = "ROC")
 bwplot(resamples, metric = "Sens")
 bwplot(resamples, metric = "Spec")
 ```
+
+# Save Trained Models
+
+```{r}
+saveRDS(models, "models.rds")
+```
+
+# Compare Tested Models
 
 ```{r}
 # Initialize a list to store metrics
