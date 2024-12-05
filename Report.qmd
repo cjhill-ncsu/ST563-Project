@@ -75,12 +75,4 @@ models <- readRDS("models.rds")
 
 # Appendix
 
-## Technical Details
 
-## Supporting Information
-
-## Well-Commented Code
-
----
-
-# References
