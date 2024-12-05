@@ -17,9 +17,51 @@ editor_options:
 \newpage
 
 ```{r}
-#data <- readRDS("modeling_data.rds")
+library(tidyverse)
+library(caret)
+library(lattice)
+library(MLmetrics)
+
+train_data <- readRDS("training_data.rds")
+test_data <- readRDS("testing_data.rds")
 models <- readRDS("models.rds")
 ```
+
+```{r}
+test_metrics <- lapply(seq_along(models), function(i) {
+  model <- models[[i]]
+  model_name <- names(models)[i]
+  
+  probs <- predict(model, newdata = test_data, type = "prob")
+  preds <- predict(model, newdata = test_data)
+
+  cm <- confusionMatrix(preds, test_data$SUSPECT_ARRESTED_FLAG)
+
+  accuracy <- cm$overall["Accuracy"]
+  kappa <- cm$overall["Kappa"]
+  
+  positive_class <- levels(test_data$SUSPECT_ARRESTED_FLAG)[2]
+  
+  log_loss <- LogLoss(
+    y_pred = as.matrix(probs), 
+    y_true = as.numeric(test_data$SUSPECT_ARRESTED_FLAG == positive_class)
+  )
+  
+  auc <- AUC(
+    y_pred = probs[, positive_class], 
+    y_true = as.numeric(test_data$SUSPECT_ARRESTED_FLAG == positive_class)
+  )
+
+  data.frame(
+    Model = model_name,
+    Accuracy = accuracy,
+    Kappa = kappa,
+    LogLoss = log_loss,
+    AUC = auc
+  )
+})
+```
+
 
 # Introduction
 
@@ -75,4 +117,96 @@ models <- readRDS("models.rds")
 
 # Appendix
 
+## Figures
+
+### A. Variable Importance Plots
+
+```{r}
+lapply(names(models), function(model_name) {
+
+  var_imp_df <- as.data.frame(varImp(models[[model_name]])$importance)
+  var_imp_df$Variable <- rownames(var_imp_df)
+  
+  ggplot(var_imp_df, aes(x = reorder(Variable, 
+                                     Overall), 
+                         y = Overall)) +
+    geom_bar(stat = "identity", 
+             fill = "steelblue") +
+    coord_flip() +
+    labs(
+      title = paste(model_name),
+      y = "Importance",
+      caption = "This plot shows the relative contribution of each variable to the model's predictive performance."
+    ) +
+    theme_minimal()
+})
+```
+
+### B. Tuning Parameter Plots
+
+```{r}
+lapply(names(models), function(model_name) {
+  model <- models[[model_name]]
+  
+  if (model$bestTune[[1]] != "none") {
+    plot(model, main = paste(model_name))
+  }
+})
+```
+
+### C. Trained model summaries
+
+```{r}
+resamples <- resamples(models)
+
+# Customize boxplot settings for consistency
+trellis.par.set(
+  box.rectangle = list(fill = "steelblue", col = "black"), 
+)
+
+bwplot(resamples, metric = "ROC")
+bwplot(resamples, metric = "Sens")
+bwplot(resamples, metric = "Spec")
+```
+
+### D. Test Metrics
+
+```{r}
+test_metrics_df <- bind_rows(test_metrics)
+
+# Define the "best" direction for each metric
+metric_direction <- tibble(
+  Metric = c("Accuracy", "AUC", "Kappa", "LogLoss"),
+  Direction = c("max", "max", "max", "min")
+)
+
+# Transform data and determine "best" bars
+test_metrics_df_long <- test_metrics_df |>
+  pivot_longer(-Model, names_to = "Metric", values_to = "Value") |>
+  left_join(metric_direction, by = "Metric") |>
+  group_by(Metric) |>
+  mutate(Best = ifelse(
+    (Direction == "max" & Value == max(Value)) | 
+    (Direction == "min" & Value == min(Value)), 
+    "Best", 
+    "Others"
+  )) |>
+  ungroup()
+
+ggplot(test_metrics_df_long, aes(x = Model, y = Value, fill = Best)) +
+  geom_bar(stat = "identity", width = 0.7) +
+  facet_wrap(~ Metric, scales = "free_y", nrow = 1) +
+  scale_fill_manual(values = c("Best" = "steelblue", "Others" = "lightgrey")) +
+  labs(
+    title = "Model Test Performance Metrics",
+    x = "Model",
+    y = "Metric Value"
+  ) +
+  theme_minimal() +
+  theme(
+    legend.position = "none", 
+    strip.text = element_text(size = 12), 
+    axis.text.x = element_text(angle = 45, hjust = 1)
+  )
+```
 

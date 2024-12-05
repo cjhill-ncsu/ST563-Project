@@ -80,9 +80,6 @@ preprocess <- preProcess(data[, numeric_cols], method = c("center", "scale"))
 
 # Standardize the numeric columns and overwrite the dataset
 data[, numeric_cols] <- predict(preprocess, data[, numeric_cols])
-
-# save data used for modeling
-saveRDS(data, "modeled_data.rds")
 ```
 
 ```{r}
@@ -91,6 +88,10 @@ train_index <- createDataPartition(data$SUSPECT_ARRESTED_FLAG,
 
 train_data <- data[train_index, ]
 test_data <- data[-train_index, ]
+
+# save data used for modeling
+saveRDS(data, "training_data.rds")
+saveRDS(test_data, "testing_data.rds")
 
 nrow(train_data)
 table(train_data$SUSPECT_ARRESTED_FLAG)
