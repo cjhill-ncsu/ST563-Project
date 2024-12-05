@@ -2,7 +2,7 @@
 title: "Project Report"
 author:
   - name: "Kristina Golden"
-  - name: "Christoher Hill"
+  - name: "Christopher Hill"
 format: 
   html:
     toc: true    
@@ -17,9 +17,70 @@ editor_options:
 \newpage
 
 ```{r}
-#data <- readRDS("modeled_data.rds")
+#data <- readRDS("modeling_data.rds")
 models <- readRDS("models.rds")
-
-# Show summary contents of the models object
-summary(models)
 ```
+
+# Introduction
+
+## Problem Description
+
+## Study Design and Sampling Methods
+
+## Scientific Questions to Investigate
+
+## Overview of Conclusions
+
+## Roadmap for the Report
+
+## Data Source Reference
+
+[NYPD Stop, Question and Frisk Data](https://www.nyc.gov/site/nypd/stats/reports-analysis/stopfrisk.page)
+
+---
+
+# Methods
+
+## Data Summaries and Preprocessing
+
+### Visual and Numeric Summaries
+
+### Data Preprocessing Steps
+
+## Statistical Models and Methods
+
+### Model Descriptions and Assumptions
+
+### Model Comparisons
+
+### Scientific Questions and Results Interpretation
+
+## Performance Investigation and Criteria
+
+## Limitations of Methods
+
+---
+
+# Conclusions
+
+## Study Objectives Summary
+
+## Findings and Interpretation
+
+## Project Goals and Outcomes
+
+## Additional Observations
+
+---
+
+# Appendix
+
+## Technical Details
+
+## Supporting Information
+
+## Well-Commented Code
+
+---
+
+# References

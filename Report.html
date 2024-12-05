@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Kristina Golden">
-<meta name="author" content="Christoher Hill">
+<meta name="author" content="Christopher Hill">
 
 <title>Project Report</title>
 <style>
@@ -42,8 +42,52 @@ ul.task-list li input[type="checkbox"] {
 <body>
 
 <div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
-<div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-  
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a>
+  <ul class="collapse">
+  <li><a href="#problem-description" id="toc-problem-description" class="nav-link" data-scroll-target="#problem-description">Problem Description</a></li>
+  <li><a href="#study-design-and-sampling-methods" id="toc-study-design-and-sampling-methods" class="nav-link" data-scroll-target="#study-design-and-sampling-methods">Study Design and Sampling Methods</a></li>
+  <li><a href="#scientific-questions-to-investigate" id="toc-scientific-questions-to-investigate" class="nav-link" data-scroll-target="#scientific-questions-to-investigate">Scientific Questions to Investigate</a></li>
+  <li><a href="#overview-of-conclusions" id="toc-overview-of-conclusions" class="nav-link" data-scroll-target="#overview-of-conclusions">Overview of Conclusions</a></li>
+  <li><a href="#roadmap-for-the-report" id="toc-roadmap-for-the-report" class="nav-link" data-scroll-target="#roadmap-for-the-report">Roadmap for the Report</a></li>
+  <li><a href="#data-source-reference" id="toc-data-source-reference" class="nav-link" data-scroll-target="#data-source-reference">Data Source Reference</a></li>
+  </ul></li>
+  <li><a href="#methods" id="toc-methods" class="nav-link" data-scroll-target="#methods">Methods</a>
+  <ul class="collapse">
+  <li><a href="#data-summaries-and-preprocessing" id="toc-data-summaries-and-preprocessing" class="nav-link" data-scroll-target="#data-summaries-and-preprocessing">Data Summaries and Preprocessing</a>
+  <ul class="collapse">
+  <li><a href="#visual-and-numeric-summaries" id="toc-visual-and-numeric-summaries" class="nav-link" data-scroll-target="#visual-and-numeric-summaries">Visual and Numeric Summaries</a></li>
+  <li><a href="#data-preprocessing-steps" id="toc-data-preprocessing-steps" class="nav-link" data-scroll-target="#data-preprocessing-steps">Data Preprocessing Steps</a></li>
+  </ul></li>
+  <li><a href="#statistical-models-and-methods" id="toc-statistical-models-and-methods" class="nav-link" data-scroll-target="#statistical-models-and-methods">Statistical Models and Methods</a>
+  <ul class="collapse">
+  <li><a href="#model-descriptions-and-assumptions" id="toc-model-descriptions-and-assumptions" class="nav-link" data-scroll-target="#model-descriptions-and-assumptions">Model Descriptions and Assumptions</a></li>
+  <li><a href="#model-comparisons" id="toc-model-comparisons" class="nav-link" data-scroll-target="#model-comparisons">Model Comparisons</a></li>
+  <li><a href="#scientific-questions-and-results-interpretation" id="toc-scientific-questions-and-results-interpretation" class="nav-link" data-scroll-target="#scientific-questions-and-results-interpretation">Scientific Questions and Results Interpretation</a></li>
+  </ul></li>
+  <li><a href="#performance-investigation-and-criteria" id="toc-performance-investigation-and-criteria" class="nav-link" data-scroll-target="#performance-investigation-and-criteria">Performance Investigation and Criteria</a></li>
+  <li><a href="#limitations-of-methods" id="toc-limitations-of-methods" class="nav-link" data-scroll-target="#limitations-of-methods">Limitations of Methods</a></li>
+  </ul></li>
+  <li><a href="#conclusions" id="toc-conclusions" class="nav-link" data-scroll-target="#conclusions">Conclusions</a>
+  <ul class="collapse">
+  <li><a href="#study-objectives-summary" id="toc-study-objectives-summary" class="nav-link" data-scroll-target="#study-objectives-summary">Study Objectives Summary</a></li>
+  <li><a href="#findings-and-interpretation" id="toc-findings-and-interpretation" class="nav-link" data-scroll-target="#findings-and-interpretation">Findings and Interpretation</a></li>
+  <li><a href="#project-goals-and-outcomes" id="toc-project-goals-and-outcomes" class="nav-link" data-scroll-target="#project-goals-and-outcomes">Project Goals and Outcomes</a></li>
+  <li><a href="#additional-observations" id="toc-additional-observations" class="nav-link" data-scroll-target="#additional-observations">Additional Observations</a></li>
+  </ul></li>
+  <li><a href="#appendix" id="toc-appendix" class="nav-link" data-scroll-target="#appendix">Appendix</a>
+  <ul class="collapse">
+  <li><a href="#technical-details" id="toc-technical-details" class="nav-link" data-scroll-target="#technical-details">Technical Details</a></li>
+  <li><a href="#supporting-information" id="toc-supporting-information" class="nav-link" data-scroll-target="#supporting-information">Supporting Information</a></li>
+  <li><a href="#well-commented-code" id="toc-well-commented-code" class="nav-link" data-scroll-target="#well-commented-code">Well-Commented Code</a></li>
+  </ul></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
+  </ul>
+</nav>
 </div>
 <main class="content" id="quarto-document-content">
 
@@ -60,7 +104,7 @@ ul.task-list li input[type="checkbox"] {
     <div class="quarto-title-meta-heading">Authors</div>
     <div class="quarto-title-meta-contents">
              <p>Kristina Golden </p>
-             <p>Christoher Hill </p>
+             <p>Christopher Hill </p>
           </div>
   </div>
     
@@ -74,14 +118,92 @@ ul.task-list li input[type="checkbox"] {
 
 
 <div style="page-break-after: always;"></div>
-<div class="cell">
-<div class="cell-output cell-output-stdout">
-<pre><code>                   Length Class Mode
-XGBoost            25     train list
-ElasticNet         25     train list
-LogisticRegression 25     train list</code></pre>
-</div>
-</div>
+<section id="introduction" class="level1">
+<h1>Introduction</h1>
+<section id="problem-description" class="level2">
+<h2 class="anchored" data-anchor-id="problem-description">Problem Description</h2>
+</section>
+<section id="study-design-and-sampling-methods" class="level2">
+<h2 class="anchored" data-anchor-id="study-design-and-sampling-methods">Study Design and Sampling Methods</h2>
+</section>
+<section id="scientific-questions-to-investigate" class="level2">
+<h2 class="anchored" data-anchor-id="scientific-questions-to-investigate">Scientific Questions to Investigate</h2>
+</section>
+<section id="overview-of-conclusions" class="level2">
+<h2 class="anchored" data-anchor-id="overview-of-conclusions">Overview of Conclusions</h2>
+</section>
+<section id="roadmap-for-the-report" class="level2">
+<h2 class="anchored" data-anchor-id="roadmap-for-the-report">Roadmap for the Report</h2>
+</section>
+<section id="data-source-reference" class="level2">
+<h2 class="anchored" data-anchor-id="data-source-reference">Data Source Reference</h2>
+<p><a href="https://www.nyc.gov/site/nypd/stats/reports-analysis/stopfrisk.page">NYPD Stop, Question and Frisk Data</a></p>
+<hr>
+</section>
+</section>
+<section id="methods" class="level1">
+<h1>Methods</h1>
+<section id="data-summaries-and-preprocessing" class="level2">
+<h2 class="anchored" data-anchor-id="data-summaries-and-preprocessing">Data Summaries and Preprocessing</h2>
+<section id="visual-and-numeric-summaries" class="level3">
+<h3 class="anchored" data-anchor-id="visual-and-numeric-summaries">Visual and Numeric Summaries</h3>
+</section>
+<section id="data-preprocessing-steps" class="level3">
+<h3 class="anchored" data-anchor-id="data-preprocessing-steps">Data Preprocessing Steps</h3>
+</section>
+</section>
+<section id="statistical-models-and-methods" class="level2">
+<h2 class="anchored" data-anchor-id="statistical-models-and-methods">Statistical Models and Methods</h2>
+<section id="model-descriptions-and-assumptions" class="level3">
+<h3 class="anchored" data-anchor-id="model-descriptions-and-assumptions">Model Descriptions and Assumptions</h3>
+</section>
+<section id="model-comparisons" class="level3">
+<h3 class="anchored" data-anchor-id="model-comparisons">Model Comparisons</h3>
+</section>
+<section id="scientific-questions-and-results-interpretation" class="level3">
+<h3 class="anchored" data-anchor-id="scientific-questions-and-results-interpretation">Scientific Questions and Results Interpretation</h3>
+</section>
+</section>
+<section id="performance-investigation-and-criteria" class="level2">
+<h2 class="anchored" data-anchor-id="performance-investigation-and-criteria">Performance Investigation and Criteria</h2>
+</section>
+<section id="limitations-of-methods" class="level2">
+<h2 class="anchored" data-anchor-id="limitations-of-methods">Limitations of Methods</h2>
+<hr>
+</section>
+</section>
+<section id="conclusions" class="level1">
+<h1>Conclusions</h1>
+<section id="study-objectives-summary" class="level2">
+<h2 class="anchored" data-anchor-id="study-objectives-summary">Study Objectives Summary</h2>
+</section>
+<section id="findings-and-interpretation" class="level2">
+<h2 class="anchored" data-anchor-id="findings-and-interpretation">Findings and Interpretation</h2>
+</section>
+<section id="project-goals-and-outcomes" class="level2">
+<h2 class="anchored" data-anchor-id="project-goals-and-outcomes">Project Goals and Outcomes</h2>
+</section>
+<section id="additional-observations" class="level2">
+<h2 class="anchored" data-anchor-id="additional-observations">Additional Observations</h2>
+<hr>
+</section>
+</section>
+<section id="appendix" class="level1">
+<h1>Appendix</h1>
+<section id="technical-details" class="level2">
+<h2 class="anchored" data-anchor-id="technical-details">Technical Details</h2>
+</section>
+<section id="supporting-information" class="level2">
+<h2 class="anchored" data-anchor-id="supporting-information">Supporting Information</h2>
+</section>
+<section id="well-commented-code" class="level2">
+<h2 class="anchored" data-anchor-id="well-commented-code">Well-Commented Code</h2>
+<hr>
+</section>
+</section>
+<section id="references" class="level1">
+<h1>References</h1>
+</section>
 
 </main>
 <!-- /main column -->
