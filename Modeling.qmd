@@ -11,7 +11,7 @@ library(caret)
 library(tidyverse)
 library(MLmetrics)
 library(doParallel)
-
+library(xgboost)
 set.seed(123) 
 ```
 
@@ -149,6 +149,38 @@ elastic_imp <- varImp(elastic_net_model)
 plot(elastic_imp)
 ```
 
+# Random Forest
+
+```{r}
+# rf_grid <- expand.grid(mtry = seq(1, ncol(train_data) - 1, by = 1))
+
+# rf_model <- train(
+#   formula,
+#   data = train_data,
+#   method = "rf",
+#   trControl = ctrl,
+#   tuneGrid = rf_grid
+#   metric = "ROC"
+# )
+
+# rf_model$bestTune
+
+rf_grid <- expand.grid(mtry = 8)
+
+rf_model <- train(
+  formula,
+  data = train_data,
+  method = "rf",
+  trControl = ctrl,
+  tuneGrid = rf_grid,
+  ntree = 500,
+  metric = "ROC"
+)
+
+rf_imp <- varImp(rf_model)
+plot(rf_imp)
+```
+
 # XGBoost
 
 ```{r}
@@ -179,7 +211,8 @@ registerDoSEQ()
 models <- list(
   XGBoost = xgb_model,
   ElasticNet = elastic_net_model,
-  LogisticRegression = logistic_model
+  LogisticRegression = logistic_model,
+  RandomForest = rf_model
 )
 
 # Generate resamples
