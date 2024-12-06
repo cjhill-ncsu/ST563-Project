@@ -368,33 +368,22 @@ stacked_bar <- function(var) {
     theme_minimal() +
     theme(
       axis.text.x = element_text(angle = 90, hjust = 1)
-    )
+    ) +
+    scale_fill_manual(values=c('hotpink', 'purple'))
 }
 
-variables <- c('SUSPECT_EYE_COLOR',
-            'SUSPECT_BODY_BUILD_TYPE',
-            'SUSPECT_HAIR_COLOR',
-            'SUSPECT_SEX',
-            'ISSUING_OFFICER_RANK',
-            'STOP_WAS_INITIATED',
-            'STOP_LOCATION_BORO_NAME',
-            'SEARCHED_FLAG',
-            'FRISKED_FLAG',
-            'SUSPECT_RACE_DESCRIPTION',
-            'WEAPON_FOUND_FLAG',
-            'KNIFE_CUTTER_FLAG',
-            'FIREARM_FLAG',
-            'OTHER_CONTRABAND_FLAG',
-            'BACKROUND_CIRCUMSTANCES_VIOLENT_CRIME_FLAG',
-            'BACKROUND_CIRCUMSTANCES_SUSPECT_KNOWN_TO_CARRY_WEAPON_FLAG',
-            'PHYSICAL_FORCE_VERBAL_INSTRUCTION_FLAG',
-            'PHYSICAL_FORCE_WEAPON_IMPACT_FLAG',
-            'PHYSICAL_FORCE_RESTRAINT_USED_FLAG', 
-            'PHYSICAL_FORCE_OTHER_FLAG',
-            'PHYSICAL_FORCE_OC_SPRAY_USED_FLAG',
-            'PHYSICAL_FORCE_HANDCUFF_SUSPECT_FLAG',
-            'PHYSICAL_FORCE_DRAW_POINT_FIREARM_FLAG',
-            'PHYSICAL_FORCE_CEW_FLAG')
+variables <- c('SUSPECT_RACE_DESCRIPTION',
+               'PHYSICAL_FORCE_VERBAL_INSTRUCTION_FLAG',
+               'PHYSICAL_FORCE_WEAPON_IMPACT_FLAG',
+               'PHYSICAL_FORCE_RESTRAINT_USED_FLAG', 
+               'PHYSICAL_FORCE_OTHER_FLAG',
+               'PHYSICAL_FORCE_OC_SPRAY_USED_FLAG',
+               'PHYSICAL_FORCE_HANDCUFF_SUSPECT_FLAG',
+               'PHYSICAL_FORCE_DRAW_POINT_FIREARM_FLAG',
+               'PHYSICAL_FORCE_CEW_FLAG',
+               'WEAPON_FLAG_COUNT',
+               'SUSPECT_ACTIONS_COUNT',
+               'SUSPECT_ARRESTED_FLAG')
 
 # Apply the function to each variable
 plots <- lapply(variables, stacked_bar)
@@ -414,6 +403,7 @@ boxplots <- function(var) {
   ggplot(data, aes(x=.data[[var]], color=SUSPECT_ARRESTED_FLAG, 
               fill=SUSPECT_ARRESTED_FLAG)) +
     geom_boxplot() +
+    scale_fill_manual(values=c("hotpink", "purple")) +
     theme(
       legend.position="none",
       panel.spacing = unit(0.1, "lines"),
@@ -423,15 +413,10 @@ boxplots <- function(var) {
       title = var,
       x = var) +
     xlim(0, n) +
-    facet_wrap(~SUSPECT_ARRESTED_FLAG)
+    facet_wrap(~SUSPECT_ARRESTED_FLAG) 
 }
 
-variables <- c('SUSPECT_REPORTED_AGE',
-               'SUSPECT_WEIGHT',
-               'SUSPECT_HEIGHT',
-               'OBSERVED_DURATION_MINUTES',
-               'STOP_DURATION_MINUTES'
-               )
+variables <- c('STOP_DURATION_MINUTES')
 
 # Apply the function to each variable
 plots <- lapply(variables, boxplots)
@@ -439,14 +424,4 @@ plots <- lapply(variables, boxplots)
 plots
 ```
 
-## Variable Selection
-
-```{r}
-set.seed(5291988)
-data2 <- subset(data, select = -c(SUSPECT_RACE_DESCRIPTION))
-rf <- randomForest(x = data2[, ], y = data[, 11])
-imp <- varImpt(rf, scale = FALSE)
-imp
-
-MUTUAL INFORMATION
-```
+## 
