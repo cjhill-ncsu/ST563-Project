@@ -11,101 +11,192 @@ library(caret)
 library(tidyverse)
 library(MLmetrics)
 library(doParallel)
-
-num_cores <- parallel::detectCores() - 1
-cl <- makeCluster(num_cores)
-registerDoParallel(cl)
-
+library(xgboost)
 set.seed(123) 
 ```
 
+# Parallel Processing
+
+```{r}
+num_cores <- parallel::detectCores() - 1 
+cat("Using", num_cores, "cores for parallel processing.\n")
+
+cl <- makeCluster(num_cores)   
+registerDoParallel(cl)   
+
+cat("Registered parallel backend:", foreach::getDoParName(), "\n")
+cat("Number of workers:", foreach::getDoParWorkers(), "\n")
+
+# Set RNG stream for reproducibility
+clusterSetRNGStream(cl, 123)
+```
 
 # Data
 
 ```{r}
 data <- readRDS("working_dataset.rds")
-
-str(data)
 ```
 
 ```{r}
-data <- data |> select(SUSPECT_RACE_DESCRIPTION,
-                        SUSPECT_ACTIONS_COUNT,
-                       PHYSICAL_FORCE_COUNT,
-                       WEAPON_FLAG_COUNT,
-                       SUSPECT_REPORTED_AGE,
-                       SUSPECT_HEIGHT,
-                       SUSPECT_BODY_BUILD_TYPE,
-                       SUSPECT_SEX,
-                       STOP_DURATION_MINUTES,
-                       SUSPECT_ARRESTED_FLAG,
-                       SUSPECTED_CRIME_DESCRIPTION,
-                       STOP_LOCATION_PRECINCT,
-                       SEARCHED_FLAG)
 
-str(data)
+# Check the frequency of the updated categories
+ table(data$SUSPECT_RACE_DESCRIPTION)
+```
+
+# Defing the Predictors and Response
+
+```{r}
+data <- data |> select(SUSPECT_RACE_DESCRIPTION,
+                       PHYSICAL_FORCE_CEW_FLAG,
+                       PHYSICAL_FORCE_DRAW_POINT_FIREARM_FLAG,
+                       PHYSICAL_FORCE_HANDCUFF_SUSPECT_FLAG,
+                       PHYSICAL_FORCE_OC_SPRAY_USED_FLAG,
+                       PHYSICAL_FORCE_OTHER_FLAG,
+                       PHYSICAL_FORCE_RESTRAINT_USED_FLAG,
+                       PHYSICAL_FORCE_VERBAL_INSTRUCTION_FLAG,
+                       PHYSICAL_FORCE_WEAPON_IMPACT_FLAG,
+                       WEAPON_FLAG_COUNT,
+                       STOP_DURATION_MINUTES,
+                       SUSPECT_ACTIONS_COUNT,
+                       SUSPECT_ARRESTED_FLAG)
+```
+
+# Define the formula
+
+```{r}
+response <- "SUSPECT_ARRESTED_FLAG"
+
+# Construct the formula dynamically
+formula <- as.formula(paste(response, "~ ."))
 ```
 
 # Preprocessing
 
 ```{r}
-#| label: preprocessing
+numeric_cols <- sapply(data, is.numeric)
 
-train_index <- createDataPartition(data$SUSPECT_RACE_DESCRIPTION, 
-                                   p = 0.8, list = FALSE)
+# Apply standardization (centering and scaling)
+preprocess <- preProcess(data[, numeric_cols], method = c("center", "scale"))
+
+# Standardize the numeric columns and overwrite the dataset
+data[, numeric_cols] <- predict(preprocess, data[, numeric_cols])
+```
+
+```{r}
+train_index <- createDataPartition(data$SUSPECT_ARRESTED_FLAG, 
+                                   p = 0.7, list = FALSE)
+
 train_data <- data[train_index, ]
 test_data <- data[-train_index, ]
+
+# save data used for modeling
+saveRDS(data, "training_data.rds")
+saveRDS(test_data, "testing_data.rds")
+
+nrow(train_data)
+table(train_data$SUSPECT_ARRESTED_FLAG)
+
+nrow(test_data)
 ```
 
 # Define control object with metrics
 
 ```{r}
-
 ctrl <- trainControl(
   method = "cv",
   number = 5,
-  summaryFunction = multiClassSummary,
+  summaryFunction = twoClassSummary,
   classProbs = TRUE,
-  savePredictions = "final"
-)
-
-```
-
-# kNN
-
-```{r}
-knn_grid <- expand.grid(k = seq(5, 31, by = 2))
-knn_model <- train(
-  SUSPECT_RACE_DESCRIPTION ~ ., 
-  data = train_data, 
-  method = "knn",
-  trControl = ctrl, 
-  tuneGrid = knn_grid
+  allowParallel = TRUE
 )
 ```
 
-# SVM
+# Logistic Regression
 
 ```{r}
-svm_model <- train(
-  SUSPECT_RACE_DESCRIPTION ~ ., 
+logistic_model <- train(
+  formula, 
   data = train_data, 
-  method = "svmRadial",
+  method = "glm",
   trControl = ctrl,
-  tuneLength = 10 
+  metric = "ROC"
 )
+
+log_reg_imp <- varImp(logistic_model)
+plot(log_reg_imp)
 ```
 
 # Elastic Net
 
 ```{r}
+elastic_net_grid <- expand.grid(
+  alpha = seq(0, 1, by = 0.1),  
+  lambda = 10^seq(-4, 0, length = 20)  
+)
+
 elastic_net_model <- train(
-  SUSPECT_RACE_DESCRIPTION ~ ., 
+  formula, 
   data = train_data, 
   method = "glmnet",
   trControl = ctrl,
-  tuneLength = 10 
+  tuneGrid = elastic_net_grid,
+  metric = "ROC"
 )
+
+plot(elastic_net_model)
+elastic_net_model$bestTune
+elastic_imp <- varImp(elastic_net_model)
+plot(elastic_imp)
+```
+
+# Random Forest
+
+```{r}
+# rf_grid <- expand.grid(mtry = seq(1, ncol(train_data) - 1, by = 1))
+
+# rf_model <- train(
+#   formula,
+#   data = train_data,
+#   method = "rf",
+#   trControl = ctrl,
+#   tuneGrid = rf_grid
+#   metric = "ROC"
+# )
+
+# rf_model$bestTune
+
+rf_grid <- expand.grid(mtry = 8)
+
+rf_model <- train(
+  formula,
+  data = train_data,
+  method = "rf",
+  trControl = ctrl,
+  tuneGrid = rf_grid,
+  ntree = 500,
+  metric = "ROC"
+)
+
+rf_imp <- varImp(rf_model)
+plot(rf_imp)
+```
+
+# XGBoost
+
+```{r}
+xgb_model <- train(
+  formula, 
+  data = train_data, 
+  method = "xgbTree",
+  trControl = ctrl,
+  metric = "ROC",
+  tuneLength = 5
+)
+
+plot(xgb_model)
+xgb_model$bestTune
+xgb_imp <- varImp(xgb_model)
+plot(xgb_imp)
 ```
 
 ```{r}
@@ -113,45 +204,111 @@ stopCluster(cl)
 registerDoSEQ()
 ```
 
-# Compare
+# Compare Trained Models
 
 ```{r}
-models <- list(kNN = knn_model, 
-               SVM = svm_model, 
-               ElasticNet = elastic_net_model)
+# Define models
+models <- list(
+  XGBoost = xgb_model,
+  ElasticNet = elastic_net_model,
+  LogisticRegression = logistic_model,
+  RandomForest = rf_model
+)
 
+# Generate resamples
 resamples <- resamples(models)
+
+# Summary of metrics
 summary(resamples)
 
-bwplot(resamples, metric = "Accuracy")
-bwplot(resamples, metric = "Kappa")
-
-test_predictions <- lapply(models, 
-                           predict, 
-                           newdata = test_data)
-
-test_metrics <- lapply(test_predictions, function(pred) {
-  cm <- confusionMatrix(pred, 
-                        test_data$SUSPECT_RACE_DESCRIPTION)
-  data.frame(Accuracy = cm$overall['Accuracy'], 
-             Kappa = cm$overall['Kappa'])
-})
-
-test_metrics_df <- bind_rows(test_metrics, .id = "Model")
-print(test_metrics_df)
-
-test_metrics_df |>
-  pivot_longer(cols = c(Accuracy, Kappa), 
-               names_to = "Metric", 
-               values_to = "Value") |>
-  ggplot(aes(x = Model, 
-             y = Value, 
-             fill = Metric)) +
-  geom_bar(stat = "identity", 
-           position = position_dodge()) +
-  labs(title = "Test Set Performance", 
-       y = "Value", 
-       x = "Model") +
-  theme_minimal()
+# Visualize the selected metrics
+bwplot(resamples, metric = "ROC")
+bwplot(resamples, metric = "Sens")
+bwplot(resamples, metric = "Spec")
 ```
 
+# Save Trained Models
+
+```{r}
+saveRDS(models, "models.rds")
+```
+
+# Compare Tested Models
+
+```{r}
+# Initialize a list to store metrics
+test_metrics <- lapply(seq_along(models), function(i) {
+  model <- models[[i]]
+  model_name <- names(models)[i]
+  
+  # Predict class probabilities and class labels
+  probs <- predict(model, newdata = test_data, type = "prob")
+  preds <- predict(model, newdata = test_data)
+  
+  # Debug: Check structure of predictions and test data
+  print(paste("Model:", model_name))
+  print(str(probs))  # Check if probs is correctly formatted
+  print(table(preds))  # Distribution of predicted classes
+  print(table(test_data$SUSPECT_ARRESTED_FLAG))  # Distribution of true classes
+  
+  # Compute confusion matrix
+  cm <- confusionMatrix(preds, test_data$SUSPECT_ARRESTED_FLAG)
+  
+  print(cm)
+  
+  # Calculate metrics
+  accuracy <- cm$overall["Accuracy"]
+  kappa <- cm$overall["Kappa"]
+  
+  positive_class <- levels(test_data$SUSPECT_ARRESTED_FLAG)[2]
+  
+  log_loss <- LogLoss(
+    y_pred = as.matrix(probs), 
+    y_true = as.numeric(test_data$SUSPECT_ARRESTED_FLAG == positive_class)
+  )
+  
+  auc <- MLmetrics::AUC(
+    y_pred = probs[, positive_class], 
+    y_true = as.numeric(test_data$SUSPECT_ARRESTED_FLAG == positive_class)
+  )
+  
+  # Return metrics as a data frame
+  data.frame(
+    Model = model_name,
+    Accuracy = accuracy,
+    Kappa = kappa,
+    LogLoss = log_loss,
+    AUC = auc
+  )
+})
+
+# Combine into a single data frame
+test_metrics_df <- bind_rows(test_metrics)
+print(test_metrics_df)
+
+```
+
+```{r}
+test_metrics_df_long <- test_metrics_df %>%
+  pivot_longer(cols = -Model, 
+               names_to = "Metric", 
+               values_to = "Value")
+
+ggplot(test_metrics_df_long, aes(x = Model, 
+                                 y = Value, 
+                                 fill = Model)) +
+  geom_bar(stat = "identity", 
+           position = position_dodge(), 
+           width = 0.7) +
+  facet_wrap(~ Metric, 
+             scales = "free_y", 
+             nrow = 1) + 
+  labs(title = "Model Performance Metrics",
+       x = "Model",
+       y = "Metric Value") +
+  theme_minimal() +
+  theme(legend.position = "none", 
+        strip.text = element_text(size = 12), 
+        axis.text.x = element_text(angle = 45, hjust = 1))
+
+```

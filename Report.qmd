@@ -1,0 +1,224 @@
+---
+title: "Project Report"
+author:
+  - name: "Kristina Golden"
+  - name: "Christopher Hill"
+format: 
+  html:
+    toc: true    
+    toc-depth: 3 
+editor: visual
+execute:
+  echo: false
+  message: false
+  warning: false    
+editor_options: 
+  chunk_output_type: console
+---
+
+\newpage
+
+```{r}
+library(tidyverse)
+library(caret)
+library(lattice)
+library(MLmetrics)
+
+train_data <- readRDS("training_data.rds")
+test_data <- readRDS("testing_data.rds")
+models <- readRDS("models.rds")
+```
+
+```{r}
+test_metrics <- lapply(seq_along(models), function(i) {
+  model <- models[[i]]
+  model_name <- names(models)[i]
+  
+  probs <- predict(model, newdata = test_data, type = "prob")
+  preds <- predict(model, newdata = test_data)
+
+  cm <- confusionMatrix(preds, test_data$SUSPECT_ARRESTED_FLAG)
+
+  accuracy <- cm$overall["Accuracy"]
+  kappa <- cm$overall["Kappa"]
+  
+  positive_class <- levels(test_data$SUSPECT_ARRESTED_FLAG)[2]
+  
+  log_loss <- LogLoss(
+    y_pred = as.matrix(probs), 
+    y_true = as.numeric(test_data$SUSPECT_ARRESTED_FLAG == positive_class)
+  )
+  
+  auc <- AUC(
+    y_pred = probs[, positive_class], 
+    y_true = as.numeric(test_data$SUSPECT_ARRESTED_FLAG == positive_class)
+  )
+
+  data.frame(
+    Model = model_name,
+    Accuracy = accuracy,
+    Kappa = kappa,
+    LogLoss = log_loss,
+    AUC = auc
+  )
+})
+```
+
+
+# Introduction
+
+## Problem Description
+
+## Study Design and Sampling Methods
+
+## Scientific Questions to Investigate
+
+## Overview of Conclusions
+
+## Roadmap for the Report
+
+## Data Source Reference
+
+[NYPD Stop, Question and Frisk Data](https://www.nyc.gov/site/nypd/stats/reports-analysis/stopfrisk.page)
+
+---
+
+# Methods
+
+## Data Summaries and Preprocessing
+
+### Visual and Numeric Summaries
+
+### Data Preprocessing Steps
+
+## Statistical Models and Methods
+
+### Model Descriptions and Assumptions
+
+### Model Comparisons
+
+### Scientific Questions and Results Interpretation
+
+## Performance Investigation and Criteria
+
+### Metrics Used for Model Evaluation
+
+- **AUC** (Area Under the *Receiver Operating Characteristic* Curve) - was used as our training metric of choice during model tuning. See [Figures C: Trained Model Summaries](#trained-model-summaries). AUC measures how correctly a model distinguishes between true outcomes and false outcomes across all possible boundaries between classes. A model with a larger AUC value can be said to better distinguish between true and false outcomes across all boundaries between classes.
+
+- LogLoss - quantifies how uncertain a model is about its predictions, penalizing incorrect predictions with greater uncertainty. A model with a smaller LogLoss value can be said to make more confident and accurate predictions because it assigns higher probabilities to correct outcomes and lower probabilities to incorrect ones, minimizing uncertainty.
+
+- Kappa - measures how correct a model's predictions are compared to actual outcomes, while accounting for correctness expected by random chance. A model with a larger Kappa value can be said to make predictions that are more correct relative to chance alone.
+
+- Accuracy - is the proportion of correctly predicted outcomes out of all predictions made.
+
+## Limitations of Methods
+
+---
+
+# Conclusions
+
+## Study Objectives Summary
+
+## Findings and Interpretation
+
+## Project Goals and Outcomes
+
+## Additional Observations
+
+---
+
+# Appendix
+
+## Figures
+
+### A. Variable Importance Plots
+
+```{r}
+lapply(names(models), function(model_name) {
+
+  var_imp_df <- as.data.frame(varImp(models[[model_name]])$importance)
+  var_imp_df$Variable <- rownames(var_imp_df)
+  
+  ggplot(var_imp_df, aes(x = reorder(Variable, 
+                                     Overall), 
+                         y = Overall)) +
+    geom_bar(stat = "identity", 
+             fill = "steelblue") +
+    coord_flip() +
+    labs(
+      title = paste(model_name),
+      y = "Importance",
+      caption = "This plot shows the relative contribution of each variable to the model's predictive performance."
+    ) +
+    theme_minimal()
+})
+```
+
+### B. Tuning Parameter Plots
+
+```{r}
+lapply(names(models), function(model_name) {
+  model <- models[[model_name]]
+  
+  if (model$bestTune[[1]] != "none") {
+    plot(model, main = paste(model_name))
+  }
+})
+```
+
+### C. Trained model summaries  {#trained-model-summaries}
+
+```{r}
+resamples <- resamples(models)
+
+# Customize boxplot settings for consistency
+trellis.par.set(
+  box.rectangle = list(fill = "steelblue", col = "black"), 
+)
+
+bwplot(resamples, metric = "ROC")
+bwplot(resamples, metric = "Sens")
+bwplot(resamples, metric = "Spec")
+```
+
+### D. Test Metrics
+
+```{r}
+test_metrics_df <- bind_rows(test_metrics)
+
+# Define the "best" direction for each metric
+metric_direction <- tibble(
+  Metric = c("Accuracy", "AUC", "Kappa", "LogLoss"),
+  Direction = c("max", "max", "max", "min")
+)
+
+# Transform data and determine "best" bars
+test_metrics_df_long <- test_metrics_df |>
+  pivot_longer(-Model, names_to = "Metric", values_to = "Value") |>
+  left_join(metric_direction, by = "Metric") |>
+  group_by(Metric) |>
+  mutate(Best = ifelse(
+    (Direction == "max" & Value == max(Value)) | 
+    (Direction == "min" & Value == min(Value)), 
+    "Best", 
+    "Others"
+  )) |>
+  ungroup()
+
+ggplot(test_metrics_df_long, aes(x = Model, y = Value, fill = Best)) +
+  geom_bar(stat = "identity", width = 0.7) +
+  facet_wrap(~ Metric, scales = "free_y", nrow = 1) +
+  scale_fill_manual(values = c("Best" = "steelblue", "Others" = "lightgrey")) +
+  labs(
+    title = "Model Test Performance Metrics",
+    x = "Model",
+    y = "Metric Value"
+  ) +
+  theme_minimal() +
+  theme(
+    legend.position = "none", 
+    strip.text = element_text(size = 12), 
+    axis.text.x = element_text(angle = 45, hjust = 1)
+  )
+```
+
