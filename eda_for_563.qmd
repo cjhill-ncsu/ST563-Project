@@ -17,6 +17,7 @@ library(readxl)
 library(caret)
 library(glmnet)
 library(Boruta)
+library(randomForest)
 ```
 
 ## Read xlsx Files from 2018 to 2023
@@ -357,7 +358,7 @@ saveRDS(working_dataset, "working_dataset.rds")
 data <- working_dataset
 
 stacked_bar <- function(var) {
-  ggplot(data, aes(x = .data[[var]], fill = SUSPECT_RACE_DESCRIPTION)) +
+  ggplot(data, aes(x = .data[[var]], fill = SUSPECT_ARRESTED_FLAG)) +
     geom_bar(position = 'fill') +
     labs(
       title = var,
@@ -379,7 +380,7 @@ variables <- c('SUSPECT_EYE_COLOR',
             'STOP_LOCATION_BORO_NAME',
             'SEARCHED_FLAG',
             'FRISKED_FLAG',
-            'SUSPECT_ARRESTED_FLAG',
+            'SUSPECT_RACE_DESCRIPTION',
             'WEAPON_FOUND_FLAG',
             'KNIFE_CUTTER_FLAG',
             'FIREARM_FLAG',
@@ -410,8 +411,8 @@ stacked_bar('SUSPECTED_CRIME_DESCRIPTION')
 ```{r}
 boxplots <- function(var) {
   n <- max(data[[var]], na.rm = TRUE)
-  ggplot(data, aes(x=.data[[var]], color=SUSPECT_RACE_DESCRIPTION, 
-              fill=SUSPECT_RACE_DESCRIPTION)) +
+  ggplot(data, aes(x=.data[[var]], color=SUSPECT_ARRESTED_FLAG, 
+              fill=SUSPECT_ARRESTED_FLAG)) +
     geom_boxplot() +
     theme(
       legend.position="none",
@@ -422,7 +423,7 @@ boxplots <- function(var) {
       title = var,
       x = var) +
     xlim(0, n) +
-    facet_wrap(~SUSPECT_RACE_DESCRIPTION)
+    facet_wrap(~SUSPECT_ARRESTED_FLAG)
 }
 
 variables <- c('SUSPECT_REPORTED_AGE',
@@ -436,4 +437,16 @@ variables <- c('SUSPECT_REPORTED_AGE',
 plots <- lapply(variables, boxplots)
 
 plots
+```
+
+## Variable Selection
+
+```{r}
+set.seed(5291988)
+data2 <- subset(data, select = -c(SUSPECT_RACE_DESCRIPTION))
+rf <- randomForest(x = data2[, ], y = data[, 11])
+imp <- varImpt(rf, scale = FALSE)
+imp
+
+MUTUAL INFORMATION
 ```
