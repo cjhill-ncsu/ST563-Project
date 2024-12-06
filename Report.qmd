@@ -23,6 +23,7 @@ library(tidyverse)
 library(caret)
 library(lattice)
 library(MLmetrics)
+library(knitr)
 
 train_data <- readRDS("training_data.rds")
 test_data <- readRDS("testing_data.rds")
@@ -81,13 +82,49 @@ test_metrics <- lapply(seq_along(models), function(i) {
 
 [NYPD Stop, Question and Frisk Data](https://www.nyc.gov/site/nypd/stats/reports-analysis/stopfrisk.page)
 
----
+\newpage
 
 # Methods
 
 ## Data Summaries and Preprocessing
 
 ### Visual and Numeric Summaries
+
+```{r}
+# Display Race levels and their proportions of Arrested
+proportions_table <- train_data %>%
+  group_by(SUSPECT_RACE_DESCRIPTION) %>%
+  summarise(
+    Total = n(),
+    Arrested = sum(SUSPECT_ARRESTED_FLAG == "Y"),
+    Proportion = Arrested / Total
+  ) %>%
+  arrange(desc(Proportion))
+
+kable(proportions_table)
+
+# Display proportion of arrested by race level as a stacked bar plot
+train_data %>%
+  mutate(SUSPECT_RACE_DESCRIPTION = factor(
+    SUSPECT_RACE_DESCRIPTION, 
+    levels = proportions_table$SUSPECT_RACE_DESCRIPTION
+  )) %>%
+  ggplot(aes(x = SUSPECT_RACE_DESCRIPTION, 
+             fill = SUSPECT_ARRESTED_FLAG)) + 
+  geom_bar(position = "fill") +
+  labs(
+    title = "Proportion Arrested",
+    x = "Race Description",
+    y = "Proportion"
+  ) +
+  theme_minimal() + 
+  theme(
+    legend.position = "none",
+    axis.text.x = element_text(angle = 45, hjust = 1)
+  )
+
+```
+
 
 ### Data Preprocessing Steps
 
@@ -113,7 +150,7 @@ test_metrics <- lapply(seq_along(models), function(i) {
 
 ## Limitations of Methods
 
----
+\newpage
 
 # Conclusions
 
@@ -125,7 +162,7 @@ test_metrics <- lapply(seq_along(models), function(i) {
 
 ## Additional Observations
 
----
+\newpage
 
 # Appendix
 
