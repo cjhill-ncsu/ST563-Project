@@ -622,34 +622,27 @@ $ FILE_YEAR                                                  &lt;chr&gt; "2018",
 <h2 class="anchored" data-anchor-id="type-conversions-for-remaining-predictors">Type Conversions for remaining predictors</h2>
 <div class="cell">
 <div class="cell-output cell-output-stdout">
-<pre><code>tibble [52,297 × 67] (S3: tbl_df/tbl/data.frame)
+<pre><code>tibble [52,297 × 58] (S3: tbl_df/tbl/data.frame)
  $ SUSPECT_REPORTED_AGE                                      : num [1:52297] 26 40 38 36 20 46 36 29 41 22 ...
- $ DEMEANOR_OF_PERSON_STOPPED                                : chr [1:52297] "NERVOUS" "RELIEVED" "COMPLAIN" "COMPLAINT" ...
  $ SUSPECT_WEIGHT                                            : num [1:52297] 250 150 160 230 150 215 170 185 190 220 ...
  $ SUSPECTS_ACTIONS_PROXIMITY_TO_SCENE_FLAG                  : Factor w/ 2 levels "N","Y": 1 2 1 1 2 1 1 1 1 1 ...
  $ SUSPECT_HEIGHT                                            : num [1:52297] 6.1 5.5 5.1 5.11 5.1 5.7 5.8 6.1 6.1 6.1 ...
  $ SUSPECT_EYE_COLOR                                         : Factor w/ 11 levels "BLK","BLU","BRO",..: 3 3 3 3 3 3 3 3 3 3 ...
  $ SUSPECT_BODY_BUILD_TYPE                                   : Factor w/ 5 levels "HEA","MED","THN",..: 1 3 2 2 3 1 5 5 5 2 ...
- $ SUSPECT_HAIR_COLOR                                        : Factor w/ 15 levels "(nu","BLD","BLK",..: 3 2 3 3 3 3 3 3 3 3 ...
+ $ SUSPECT_HAIR_COLOR                                        : Factor w/ 15 levels "BLD","BLK","BLN",..: 2 1 2 2 2 2 2 2 2 2 ...
  $ PHYSICAL_FORCE_VERBAL_INSTRUCTION_FLAG                    : Factor w/ 2 levels "N","Y": 1 2 2 2 2 2 2 2 2 2 ...
  $ SUPERVISING_OFFICER_RANK                                  : Factor w/ 14 levels "CPT","DI","DT3",..: 13 13 13 13 13 14 14 14 14 8 ...
- $ SUPERVISING_OFFICER_COMMAND_CODE                          : Factor w/ 310 levels "001","005","006",..: 163 272 239 239 248 182 182 182 182 182 ...
- $ SUSPECT_RACE_DESCRIPTION                                  : Factor w/ 9 levels "AMERICAN INDIAN/ALASKAN N",..: 5 9 2 8 4 4 4 4 4 4 ...
+ $ SUPERVISING_OFFICER_COMMAND_CODE                          : Factor w/ 310 levels "X001","X005",..: 163 272 239 239 248 182 182 182 182 182 ...
+ $ SUSPECT_RACE_DESCRIPTION                                  : Factor w/ 9 levels "AMERICAN.INDIAN.ALASKAN.N",..: 5 9 2 8 4 4 4 4 4 4 ...
  $ SUSPECT_SEX                                               : Factor w/ 2 levels "FEMALE","MALE": 2 2 2 2 2 2 2 2 2 2 ...
- $ STOP_LOCATION_SECTOR_CODE                                 : Factor w/ 15 levels "(","1","A","B",..: 5 4 4 4 5 4 4 4 4 6 ...
- $ STOP_LOCATION_STREET_NAME                                 : Factor w/ 5655 levels "1 AVE","1 AVENUE",..: 2132 4265 2550 2550 4364 2554 2554 2554 2554 1095 ...
- $ STOP_LOCATION_X                                           : num [1:52297] 1004892 1026706 1001347 1001347 1006033 ...
- $ STOP_LOCATION_Y                                           : num [1:52297] 253548 237776 166195 166195 180591 ...
+ $ STOP_LOCATION_SECTOR_CODE                                 : Factor w/ 15 levels "A","B","C","D",..: 3 2 2 2 3 2 2 2 2 4 ...
+ $ STOP_LOCATION_STREET_NAME                                 : Factor w/ 5655 levels "ABERDEEN.STREET",..: 1183 3316 1601 1601 3415 1605 1605 1605 1605 146 ...
  $ ISSUING_OFFICER_RANK                                      : Factor w/ 16 levels "CPT","DI","DT1",..: 13 13 13 13 13 13 13 13 13 6 ...
- $ STOP_FRISK_DATE                                           : Date[1:52297], format: "2018-01-01" "2018-01-01" "2018-01-01" ...
- $ YEAR2                                                     : Factor w/ 6 levels "2018","2019",..: 1 1 1 1 1 1 1 1 1 1 ...
- $ MONTH2                                                    : Factor w/ 12 levels "April","August",..: 5 5 5 5 5 5 5 5 5 5 ...
- $ DAY2                                                      : Factor w/ 7 levels "Friday","Monday",..: 2 2 2 2 2 2 2 2 2 2 ...
- $ STOP_WAS_INITIATED                                        : Factor w/ 3 levels "Based on C/W on Scene",..: 2 2 2 2 3 3 3 3 3 3 ...
+ $ STOP_WAS_INITIATED                                        : Factor w/ 3 levels "Based.on.C.W.on.Scene",..: 2 2 2 2 3 3 3 3 3 3 ...
  $ RECORD_STATUS_CODE                                        : Factor w/ 1 level "APP": 1 1 1 1 1 1 1 1 1 1 ...
- $ ISSUING_OFFICER_COMMAND_CODE                              : Factor w/ 327 levels "001","005","006",..: 171 288 255 255 266 192 192 192 192 192 ...
+ $ ISSUING_OFFICER_COMMAND_CODE                              : Factor w/ 327 levels "X001","X005",..: 171 288 255 255 266 192 192 192 192 192 ...
  $ OBSERVED_DURATION_MINUTES                                 : num [1:52297] 1 0 2 2 1 1 1 1 1 1 ...
- $ SUSPECTED_CRIME_DESCRIPTION                               : Factor w/ 27 levels "ASSAULT","AUTO STRIPPIG",..: 5 14 24 24 27 5 5 5 5 5 ...
+ $ SUSPECTED_CRIME_DESCRIPTION                               : Factor w/ 27 levels "ASSAULT","AUTO.STRIPPIG",..: 5 14 24 24 27 5 5 5 5 5 ...
  $ STOP_DURATION_MINUTES                                     : num [1:52297] 15 10 15 15 15 10 10 10 10 2 ...
  $ OFFICER_EXPLAINED_STOP_FLAG                               : Factor w/ 2 levels "N","Y": 2 2 2 2 2 2 2 2 2 2 ...
  $ OTHER_PERSON_STOPPED_FLAG                                 : Factor w/ 2 levels "N","Y": 1 1 2 2 1 2 2 2 2 1 ...
@@ -685,11 +678,9 @@ $ FILE_YEAR                                                  &lt;chr&gt; "2018",
  $ SEARCH_BASIS_INCIDENTAL_TO_ARREST_FLAG                    : Factor w/ 2 levels "N","Y": 1 1 1 1 1 2 2 2 2 1 ...
  $ SEARCH_BASIS_OTHER_FLAG                                   : Factor w/ 2 levels "N","Y": 2 1 2 2 1 1 1 1 1 1 ...
  $ SEARCH_BASIS_OUTLINE_FLAG                                 : Factor w/ 2 levels "N","Y": 1 1 1 1 1 1 1 1 1 1 ...
- $ STOP_LOCATION_PRECINCT                                    : Factor w/ 134 levels "001","005","006",..: 95 99 113 113 115 115 115 115 115 115 ...
- $ STOP_LOCATION_FULL_ADDRESS                                : chr [1:52297] "DYCKMAN STREET &amp;&amp; POST AVENUE" "2245 RANDALL AVENUE" "EAST 38 STREET &amp;&amp; AVENUE L" "EAST 38 STREET &amp;&amp; AVENUE L" ...
+ $ STOP_LOCATION_PRECINCT                                    : Factor w/ 134 levels "X001","X005",..: 95 99 113 113 115 115 115 115 115 115 ...
  $ STOP_LOCATION_PATROL_BORO_NAME                            : Factor w/ 8 levels "PBBN","PBBS",..: 4 3 2 2 2 2 2 2 2 2 ...
- $ STOP_LOCATION_BORO_NAME                                   : Factor w/ 5 levels "BRONX","BROOKLYN",..: 3 1 2 2 2 2 2 2 2 2 ...
- $ FILE_YEAR                                                 : Factor w/ 6 levels "2018","2019",..: 1 1 1 1 1 1 1 1 1 1 ...</code></pre>
+ $ STOP_LOCATION_BORO_NAME                                   : Factor w/ 5 levels "BRONX","BROOKLYN",..: 3 1 2 2 2 2 2 2 2 2 ...</code></pre>
 </div>
 </div>
 </section>
@@ -702,63 +693,572 @@ $ FILE_YEAR                                                  &lt;chr&gt; "2018",
 Levels: BLK BLU BRO GRN GRY HAZ MAR MUL OTH PNK ZZZ
 
 $SUSPECT_HAIR_COLOR
- [1] BLK BLD XXX BLN BRO GRY ZZZ ORG RED WHI PNK SDY GRN PLE (nu
-Levels: (nu BLD BLK BLN BRO GRN GRY ORG PLE PNK RED SDY WHI XXX ZZZ
+ [1] BLK  BLD  XXX  BLN  BRO  GRY  ZZZ  ORG  RED  WHI  PNK  SDY  GRN  PLE  X.nu
+Levels: BLD BLK BLN BRO GRN GRY ORG PLE PNK RED SDY WHI X.nu XXX ZZZ
 
 $SUSPECT_BODY_BUILD_TYPE
 [1] HEA THN MED XXX U  
 Levels: HEA MED THN U XXX
 
 $SUSPECTED_CRIME_DESCRIPTION
- [1] CPW                                         GRAND LARCENY                              
- [3] ROBBERY                                     UNAUTHORIZED USE OF A VEHICLE              
+ [1] CPW                                         GRAND.LARCENY                              
+ [3] ROBBERY                                     UNAUTHORIZED.USE.OF.A.VEHICLE              
  [5] OTHER                                       ASSAULT                                    
- [7] BURGLARY                                    PETIT LARCENY                              
- [9] CRIMINAL POSSESSION OF MARIHUANA            CRIMINAL TRESPASS                          
-[11] GRAND LARCENY AUTO                          THEFT OF SERVICES                          
-[13] RECKLESS ENDANGERMENT                       CRIMINAL POSSESSION OF CONTROLLED SUBSTANCE
+ [7] BURGLARY                                    PETIT.LARCENY                              
+ [9] CRIMINAL.POSSESSION.OF.MARIHUANA            CRIMINAL.TRESPASS                          
+[11] GRAND.LARCENY.AUTO                          THEFT.OF.SERVICES                          
+[13] RECKLESS.ENDANGERMENT                       CRIMINAL.POSSESSION.OF.CONTROLLED.SUBSTANCE
 [15] CPSP                                        RAPE                                       
-[17] CRIMINAL SALE OF CONTROLLED SUBSTANCE       FORCIBLE TOUCHING                          
-[19] CRIMINAL MISCHIEF                           AUTO STRIPPIG                              
-[21] MENACING                                    MAKING GRAFFITI                            
-[23] CRIMINAL SALE OF MARIHUANA                  CRIMINAL POSSESSION OF FORGED INSTRUMENT   
+[17] CRIMINAL.SALE.OF.CONTROLLED.SUBSTANCE       FORCIBLE.TOUCHING                          
+[19] CRIMINAL.MISCHIEF                           AUTO.STRIPPIG                              
+[21] MENACING                                    MAKING.GRAFFITI                            
+[23] CRIMINAL.SALE.OF.MARIHUANA                  CRIMINAL.POSSESSION.OF.FORGED.INSTRUMENT   
 [25] TERRORISM                                   MURDER                                     
 [27] PROSTITUTION                               
-27 Levels: ASSAULT AUTO STRIPPIG BURGLARY CPSP CPW ... UNAUTHORIZED USE OF A VEHICLE</code></pre>
+27 Levels: ASSAULT AUTO.STRIPPIG BURGLARY CPSP CPW ... UNAUTHORIZED.USE.OF.A.VEHICLE
+
+$STOP_LOCATION_PATROL_BORO_NAME
+[1] PBMN PBBX PBBS PBBN PBQS PBMS PBQN PBSI
+Levels: PBBN PBBS PBBX PBMN PBMS PBQN PBQS PBSI
+
+$STOP_LOCATION_BORO_NAME
+[1] MANHATTAN     BRONX         BROOKLYN      QUEENS        STATEN.ISLAND
+Levels: BRONX BROOKLYN MANHATTAN QUEENS STATEN.ISLAND</code></pre>
 </div>
 </div>
 </section>
+<section id="clean-suspect_hair_color-with-nu-to-na" class="level2">
+<h2 class="anchored" data-anchor-id="clean-suspect_hair_color-with-nu-to-na">Clean SUSPECT_HAIR_COLOR with “(nu” to NA</h2>
+<p>Also drop any unused levels that are present</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(working_dataset<span class="sc">$</span>SUSPECT_HAIR_COLOR <span class="sc">==</span> <span class="st">"(nu"</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>working_dataset<span class="sc">$</span>SUSPECT_HAIR_COLOR[working_dataset<span class="sc">$</span>SUSPECT_HAIR_COLOR <span class="sc">==</span> <span class="st">"(nu"</span>] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Remove rows with NA values in the SUSPECT_HAIR_COLOR column</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>working_dataset <span class="ot">&lt;-</span> working_dataset[<span class="sc">!</span><span class="fu">is.na</span>(working_dataset<span class="sc">$</span>SUSPECT_HAIR_COLOR), ]</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>working_dataset <span class="ot">&lt;-</span> <span class="fu">droplevels</span>(working_dataset)</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(working_dataset)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>tibble [52,297 × 58] (S3: tbl_df/tbl/data.frame)
+ $ SUSPECT_REPORTED_AGE                                      : num [1:52297] 26 40 38 36 20 46 36 29 41 22 ...
+ $ SUSPECT_WEIGHT                                            : num [1:52297] 250 150 160 230 150 215 170 185 190 220 ...
+ $ SUSPECTS_ACTIONS_PROXIMITY_TO_SCENE_FLAG                  : Factor w/ 2 levels "N","Y": 1 2 1 1 2 1 1 1 1 1 ...
+ $ SUSPECT_HEIGHT                                            : num [1:52297] 6.1 5.5 5.1 5.11 5.1 5.7 5.8 6.1 6.1 6.1 ...
+ $ SUSPECT_EYE_COLOR                                         : Factor w/ 11 levels "BLK","BLU","BRO",..: 3 3 3 3 3 3 3 3 3 3 ...
+ $ SUSPECT_BODY_BUILD_TYPE                                   : Factor w/ 5 levels "HEA","MED","THN",..: 1 3 2 2 3 1 5 5 5 2 ...
+ $ SUSPECT_HAIR_COLOR                                        : Factor w/ 15 levels "BLD","BLK","BLN",..: 2 1 2 2 2 2 2 2 2 2 ...
+ $ PHYSICAL_FORCE_VERBAL_INSTRUCTION_FLAG                    : Factor w/ 2 levels "N","Y": 1 2 2 2 2 2 2 2 2 2 ...
+ $ SUPERVISING_OFFICER_RANK                                  : Factor w/ 14 levels "CPT","DI","DT3",..: 13 13 13 13 13 14 14 14 14 8 ...
+ $ SUPERVISING_OFFICER_COMMAND_CODE                          : Factor w/ 310 levels "X001","X005",..: 163 272 239 239 248 182 182 182 182 182 ...
+ $ SUSPECT_RACE_DESCRIPTION                                  : Factor w/ 9 levels "AMERICAN.INDIAN.ALASKAN.N",..: 5 9 2 8 4 4 4 4 4 4 ...
+ $ SUSPECT_SEX                                               : Factor w/ 2 levels "FEMALE","MALE": 2 2 2 2 2 2 2 2 2 2 ...
+ $ STOP_LOCATION_SECTOR_CODE                                 : Factor w/ 15 levels "A","B","C","D",..: 3 2 2 2 3 2 2 2 2 4 ...
+ $ STOP_LOCATION_STREET_NAME                                 : Factor w/ 5655 levels "ABERDEEN.STREET",..: 1183 3316 1601 1601 3415 1605 1605 1605 1605 146 ...
+ $ ISSUING_OFFICER_RANK                                      : Factor w/ 16 levels "CPT","DI","DT1",..: 13 13 13 13 13 13 13 13 13 6 ...
+ $ STOP_WAS_INITIATED                                        : Factor w/ 3 levels "Based.on.C.W.on.Scene",..: 2 2 2 2 3 3 3 3 3 3 ...
+ $ RECORD_STATUS_CODE                                        : Factor w/ 1 level "APP": 1 1 1 1 1 1 1 1 1 1 ...
+ $ ISSUING_OFFICER_COMMAND_CODE                              : Factor w/ 327 levels "X001","X005",..: 171 288 255 255 266 192 192 192 192 192 ...
+ $ OBSERVED_DURATION_MINUTES                                 : num [1:52297] 1 0 2 2 1 1 1 1 1 1 ...
+ $ SUSPECTED_CRIME_DESCRIPTION                               : Factor w/ 27 levels "ASSAULT","AUTO.STRIPPIG",..: 5 14 24 24 27 5 5 5 5 5 ...
+ $ STOP_DURATION_MINUTES                                     : num [1:52297] 15 10 15 15 15 10 10 10 10 2 ...
+ $ OFFICER_EXPLAINED_STOP_FLAG                               : Factor w/ 2 levels "N","Y": 2 2 2 2 2 2 2 2 2 2 ...
+ $ OTHER_PERSON_STOPPED_FLAG                                 : Factor w/ 2 levels "N","Y": 1 1 2 2 1 2 2 2 2 1 ...
+ $ SUSPECT_ARRESTED_FLAG                                     : Factor w/ 2 levels "N","Y": 1 1 2 2 1 2 2 2 2 2 ...
+ $ SUMMONS_ISSUED_FLAG                                       : Factor w/ 2 levels "N","Y": 1 1 1 1 1 1 1 1 1 1 ...
+ $ OFFICER_IN_UNIFORM_FLAG                                   : Factor w/ 2 levels "N","Y": 2 2 2 2 2 2 2 2 2 2 ...
+ $ FRISKED_FLAG                                              : Factor w/ 2 levels "N","Y": 2 2 2 2 2 2 2 2 2 2 ...
+ $ SEARCHED_FLAG                                             : Factor w/ 2 levels "N","Y": 2 1 2 2 1 2 2 2 2 1 ...
+ $ OTHER_CONTRABAND_FLAG                                     : Factor w/ 2 levels "N","Y": 1 1 1 1 2 2 1 1 1 2 ...
+ $ FIREARM_FLAG                                              : Factor w/ 2 levels "N","Y": 1 1 1 1 1 2 2 2 2 2 ...
+ $ KNIFE_CUTTER_FLAG                                         : Factor w/ 2 levels "N","Y": 1 1 1 1 1 1 1 1 1 1 ...
+ $ OTHER_WEAPON_FLAG                                         : Factor w/ 2 levels "N","Y": 1 1 1 1 1 1 1 1 1 1 ...
+ $ WEAPON_FOUND_FLAG                                         : Factor w/ 2 levels "N","Y": 1 1 1 1 1 2 2 2 2 2 ...
+ $ PHYSICAL_FORCE_CEW_FLAG                                   : Factor w/ 2 levels "N","Y": 1 1 1 1 1 1 1 1 1 1 ...
+ $ PHYSICAL_FORCE_DRAW_POINT_FIREARM_FLAG                    : Factor w/ 2 levels "N","Y": 2 1 1 1 1 1 1 1 1 1 ...
+ $ PHYSICAL_FORCE_HANDCUFF_SUSPECT_FLAG                      : Factor w/ 2 levels "N","Y": 1 1 1 1 1 1 1 1 1 1 ...
+ $ PHYSICAL_FORCE_OC_SPRAY_USED_FLAG                         : Factor w/ 2 levels "N","Y": 1 1 1 1 1 1 1 1 1 1 ...
+ $ PHYSICAL_FORCE_OTHER_FLAG                                 : Factor w/ 2 levels "N","Y": 1 1 1 1 1 1 1 1 1 1 ...
+ $ PHYSICAL_FORCE_RESTRAINT_USED_FLAG                        : Factor w/ 2 levels "N","Y": 1 1 2 2 1 1 1 1 1 1 ...
+ $ PHYSICAL_FORCE_WEAPON_IMPACT_FLAG                         : Factor w/ 2 levels "N","Y": 1 1 1 1 1 1 1 1 1 1 ...
+ $ BACKROUND_CIRCUMSTANCES_VIOLENT_CRIME_FLAG                : Factor w/ 2 levels "N","Y": 1 2 2 2 1 1 1 1 1 1 ...
+ $ BACKROUND_CIRCUMSTANCES_SUSPECT_KNOWN_TO_CARRY_WEAPON_FLAG: Factor w/ 2 levels "N","Y": 1 1 1 1 1 1 1 1 1 1 ...
+ $ SUSPECTS_ACTIONS_CASING_FLAG                              : Factor w/ 2 levels "N","Y": 1 1 1 1 1 1 1 1 1 1 ...
+ $ SUSPECTS_ACTIONS_CONCEALED_POSSESSION_WEAPON_FLAG         : Factor w/ 2 levels "N","Y": 1 1 1 1 1 1 2 2 2 1 ...
+ $ SUSPECTS_ACTIONS_DECRIPTION_FLAG                          : Factor w/ 2 levels "N","Y": 2 2 2 2 2 1 1 1 1 1 ...
+ $ SUSPECTS_ACTIONS_DRUG_TRANSACTIONS_FLAG                   : Factor w/ 2 levels "N","Y": 1 1 1 1 1 1 1 1 1 1 ...
+ $ SUSPECTS_ACTIONS_IDENTIFY_CRIME_PATTERN_FLAG              : Factor w/ 2 levels "N","Y": 1 1 1 1 1 1 1 1 1 1 ...
+ $ SUSPECTS_ACTIONS_LOOKOUT_FLAG                             : Factor w/ 2 levels "N","Y": 1 1 1 1 1 1 1 1 1 1 ...
+ $ SUSPECTS_ACTIONS_OTHER_FLAG                               : Factor w/ 2 levels "N","Y": 1 1 2 2 1 2 2 1 1 2 ...
+ $ SEARCH_BASIS_ADMISSION_FLAG                               : Factor w/ 2 levels "N","Y": 1 1 1 1 1 1 1 1 1 1 ...
+ $ SEARCH_BASIS_CONSENT_FLAG                                 : Factor w/ 2 levels "N","Y": 1 1 1 1 1 1 1 1 1 1 ...
+ $ SEARCH_BASIS_HARD_OBJECT_FLAG                             : Factor w/ 2 levels "N","Y": 1 1 1 1 1 1 1 1 1 1 ...
+ $ SEARCH_BASIS_INCIDENTAL_TO_ARREST_FLAG                    : Factor w/ 2 levels "N","Y": 1 1 1 1 1 2 2 2 2 1 ...
+ $ SEARCH_BASIS_OTHER_FLAG                                   : Factor w/ 2 levels "N","Y": 2 1 2 2 1 1 1 1 1 1 ...
+ $ SEARCH_BASIS_OUTLINE_FLAG                                 : Factor w/ 2 levels "N","Y": 1 1 1 1 1 1 1 1 1 1 ...
+ $ STOP_LOCATION_PRECINCT                                    : Factor w/ 134 levels "X001","X005",..: 95 99 113 113 115 115 115 115 115 115 ...
+ $ STOP_LOCATION_PATROL_BORO_NAME                            : Factor w/ 8 levels "PBBN","PBBS",..: 4 3 2 2 2 2 2 2 2 2 ...
+ $ STOP_LOCATION_BORO_NAME                                   : Factor w/ 5 levels "BRONX","BROOKLYN",..: 3 1 2 2 2 2 2 2 2 2 ...</code></pre>
+</div>
+</div>
+</section>
+<section id="look-at-level-counts" class="level1">
+<h1>Look at level counts</h1>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>factor_levels <span class="ot">&lt;-</span> <span class="fu">sapply</span>(data, <span class="cf">function</span>(x) <span class="cf">if</span> (<span class="fu">is.factor</span>(x)) <span class="fu">nlevels</span>(x) <span class="cf">else</span> <span class="cn">NA</span>)</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Display results</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>factor_info <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">Predictor =</span> <span class="fu">names</span>(factor_levels),</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">Levels =</span> factor_levels</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Show predictors that are factors with their number of levels</span></span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>factor_info <span class="ot">&lt;-</span> factor_info[<span class="sc">!</span><span class="fu">is.na</span>(factor_info<span class="sc">$</span>Levels), ]</span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(factor_info)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] Predictor Levels   
+&lt;0 rows&gt; (or 0-length row.names)</code></pre>
+</div>
+</div>
+</section>
+<section id="drop-record_status_code" class="level1">
+<h1>Drop RECORD_STATUS_CODE</h1>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>working_dataset <span class="ot">&lt;-</span> working_dataset <span class="sc">%&gt;%</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>RECORD_STATUS_CODE)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="response-variable" class="level1">
+<h1>Response Variable</h1>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(working_dataset<span class="sc">$</span>SUSPECT_RACE_DESCRIPTION)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+     AMERICAN.INDIAN.ALASKAN.N AMERICAN.INDIAN.ALASKAN.NATIVE       ASIAN...PACIFIC.ISLANDER 
+                            10                             53                           1117 
+                         BLACK                 BLACK.HISPANIC       MIDDLE.EASTERN.SOUTHWEST 
+                         30757                           4716                             65 
+MIDDLE.EASTERN.SOUTHWEST.ASIAN                          WHITE                 WHITE.HISPANIC 
+                           269                           4346                          10964 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>working_dataset <span class="ot">&lt;-</span> working_dataset <span class="sc">%&gt;%</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Convert to character to avoid factor level issues</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">SUSPECT_RACE_DESCRIPTION =</span> <span class="fu">as.character</span>(SUSPECT_RACE_DESCRIPTION)) <span class="sc">%&gt;%</span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Consolidate levels using case_when</span></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">SUSPECT_RACE_DESCRIPTION =</span> <span class="fu">case_when</span>(</span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>    SUSPECT_RACE_DESCRIPTION <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"AMERICAN.INDIAN.ALASKAN.N"</span>, <span class="st">"AMERICAN.INDIAN.ALASKAN.NATIVE"</span>) <span class="sc">~</span> <span class="st">"Other"</span>,</span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>    SUSPECT_RACE_DESCRIPTION <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"MIDDLE.EASTERN.SOUTHWEST"</span>, <span class="st">"MIDDLE.EASTERN.SOUTHWEST.ASIAN"</span>) <span class="sc">~</span> <span class="st">"Other"</span>,</span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>    SUSPECT_RACE_DESCRIPTION <span class="sc">==</span> <span class="st">"ASIAN...PACIFIC.ISLANDER"</span> <span class="sc">~</span> <span class="st">"Asian"</span>,</span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>    SUSPECT_RACE_DESCRIPTION <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"BLACK.HISPANIC"</span>, <span class="st">"WHITE.HISPANIC"</span>) <span class="sc">~</span> <span class="st">"Hispanic"</span>,</span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>    <span class="cn">TRUE</span> <span class="sc">~</span> SUSPECT_RACE_DESCRIPTION</span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>  )) <span class="sc">%&gt;%</span></span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Convert back to factor to remove unused levels</span></span>
+<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">SUSPECT_RACE_DESCRIPTION =</span> <span class="fu">factor</span>(SUSPECT_RACE_DESCRIPTION, <span class="at">levels =</span> <span class="fu">unique</span>(SUSPECT_RACE_DESCRIPTION)))</span>
+<span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-17"><a href="#cb20-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Verify the result</span></span>
+<span id="cb20-18"><a href="#cb20-18" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(working_dataset<span class="sc">$</span>SUSPECT_RACE_DESCRIPTION)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Hispanic    Other    WHITE    BLACK    Asian 
+   15680      397     4346    30757     1117 </code></pre>
+</div>
+</div>
+</section>
+<section id="flag-counts" class="level1">
+<h1>Flag Counts</h1>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>working_dataset <span class="ot">&lt;-</span> working_dataset <span class="sc">|&gt;</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">PHYSICAL_FORCE_COUNT =</span> <span class="fu">rowSums</span>(<span class="fu">across</span>(<span class="fu">contains</span>(<span class="st">"PHYSICAL_FORCE"</span>), </span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>                                               <span class="sc">~</span> . <span class="sc">==</span> <span class="st">"Y"</span>)))</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Consolidate suspect actions flags into a single predictor</span></span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>working_dataset <span class="ot">&lt;-</span> working_dataset <span class="sc">|&gt;</span></span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">SUSPECT_ACTIONS_COUNT =</span> <span class="fu">rowSums</span>(<span class="fu">across</span>(<span class="fu">contains</span>(<span class="st">"SUSPECTS_ACTIONS"</span>), </span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>                                                <span class="sc">~</span> . <span class="sc">==</span> <span class="st">"Y"</span>)))</span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Consolidate weapon flags into a single predictor</span></span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>weapon_flags <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"FIREARM_FLAG"</span>, </span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>                  <span class="st">"KNIFE_CUTTER_FLAG"</span>, </span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a>                  <span class="st">"OTHER_WEAPON_FLAG"</span>,</span>
+<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a>                  <span class="st">"WEAPON_FOUND_FLAG"</span>)</span>
+<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a>working_dataset <span class="ot">&lt;-</span> working_dataset <span class="sc">|&gt;</span></span>
+<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">WEAPON_FLAG_COUNT =</span> <span class="fu">rowSums</span>(<span class="fu">across</span>(weapon_flags, <span class="sc">~</span> . <span class="sc">==</span> <span class="st">"Y"</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: There was 1 warning in `mutate()`.
+ℹ In argument: `WEAPON_FLAG_COUNT = rowSums(across(weapon_flags, ~. == "Y"))`.
+Caused by warning:
+! Using an external vector in selections was deprecated in tidyselect 1.1.0.
+ℹ Please use `all_of()` or `any_of()` instead.
+  # Was:
+  data %&gt;% select(weapon_flags)
+
+  # Now:
+  data %&gt;% select(all_of(weapon_flags))
+
+See &lt;https://tidyselect.r-lib.org/reference/faq-external-vector.html&gt;.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(working_dataset)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>tibble [52,297 × 60] (S3: tbl_df/tbl/data.frame)
+ $ SUSPECT_REPORTED_AGE                                      : num [1:52297] 26 40 38 36 20 46 36 29 41 22 ...
+ $ SUSPECT_WEIGHT                                            : num [1:52297] 250 150 160 230 150 215 170 185 190 220 ...
+ $ SUSPECTS_ACTIONS_PROXIMITY_TO_SCENE_FLAG                  : Factor w/ 2 levels "N","Y": 1 2 1 1 2 1 1 1 1 1 ...
+ $ SUSPECT_HEIGHT                                            : num [1:52297] 6.1 5.5 5.1 5.11 5.1 5.7 5.8 6.1 6.1 6.1 ...
+ $ SUSPECT_EYE_COLOR                                         : Factor w/ 11 levels "BLK","BLU","BRO",..: 3 3 3 3 3 3 3 3 3 3 ...
+ $ SUSPECT_BODY_BUILD_TYPE                                   : Factor w/ 5 levels "HEA","MED","THN",..: 1 3 2 2 3 1 5 5 5 2 ...
+ $ SUSPECT_HAIR_COLOR                                        : Factor w/ 15 levels "BLD","BLK","BLN",..: 2 1 2 2 2 2 2 2 2 2 ...
+ $ PHYSICAL_FORCE_VERBAL_INSTRUCTION_FLAG                    : Factor w/ 2 levels "N","Y": 1 2 2 2 2 2 2 2 2 2 ...
+ $ SUPERVISING_OFFICER_RANK                                  : Factor w/ 14 levels "CPT","DI","DT3",..: 13 13 13 13 13 14 14 14 14 8 ...
+ $ SUPERVISING_OFFICER_COMMAND_CODE                          : Factor w/ 310 levels "X001","X005",..: 163 272 239 239 248 182 182 182 182 182 ...
+ $ SUSPECT_RACE_DESCRIPTION                                  : Factor w/ 5 levels "Hispanic","Other",..: 1 1 2 3 4 4 4 4 4 4 ...
+ $ SUSPECT_SEX                                               : Factor w/ 2 levels "FEMALE","MALE": 2 2 2 2 2 2 2 2 2 2 ...
+ $ STOP_LOCATION_SECTOR_CODE                                 : Factor w/ 15 levels "A","B","C","D",..: 3 2 2 2 3 2 2 2 2 4 ...
+ $ STOP_LOCATION_STREET_NAME                                 : Factor w/ 5655 levels "ABERDEEN.STREET",..: 1183 3316 1601 1601 3415 1605 1605 1605 1605 146 ...
+ $ ISSUING_OFFICER_RANK                                      : Factor w/ 16 levels "CPT","DI","DT1",..: 13 13 13 13 13 13 13 13 13 6 ...
+ $ STOP_WAS_INITIATED                                        : Factor w/ 3 levels "Based.on.C.W.on.Scene",..: 2 2 2 2 3 3 3 3 3 3 ...
+ $ ISSUING_OFFICER_COMMAND_CODE                              : Factor w/ 327 levels "X001","X005",..: 171 288 255 255 266 192 192 192 192 192 ...
+ $ OBSERVED_DURATION_MINUTES                                 : num [1:52297] 1 0 2 2 1 1 1 1 1 1 ...
+ $ SUSPECTED_CRIME_DESCRIPTION                               : Factor w/ 27 levels "ASSAULT","AUTO.STRIPPIG",..: 5 14 24 24 27 5 5 5 5 5 ...
+ $ STOP_DURATION_MINUTES                                     : num [1:52297] 15 10 15 15 15 10 10 10 10 2 ...
+ $ OFFICER_EXPLAINED_STOP_FLAG                               : Factor w/ 2 levels "N","Y": 2 2 2 2 2 2 2 2 2 2 ...
+ $ OTHER_PERSON_STOPPED_FLAG                                 : Factor w/ 2 levels "N","Y": 1 1 2 2 1 2 2 2 2 1 ...
+ $ SUSPECT_ARRESTED_FLAG                                     : Factor w/ 2 levels "N","Y": 1 1 2 2 1 2 2 2 2 2 ...
+ $ SUMMONS_ISSUED_FLAG                                       : Factor w/ 2 levels "N","Y": 1 1 1 1 1 1 1 1 1 1 ...
+ $ OFFICER_IN_UNIFORM_FLAG                                   : Factor w/ 2 levels "N","Y": 2 2 2 2 2 2 2 2 2 2 ...
+ $ FRISKED_FLAG                                              : Factor w/ 2 levels "N","Y": 2 2 2 2 2 2 2 2 2 2 ...
+ $ SEARCHED_FLAG                                             : Factor w/ 2 levels "N","Y": 2 1 2 2 1 2 2 2 2 1 ...
+ $ OTHER_CONTRABAND_FLAG                                     : Factor w/ 2 levels "N","Y": 1 1 1 1 2 2 1 1 1 2 ...
+ $ FIREARM_FLAG                                              : Factor w/ 2 levels "N","Y": 1 1 1 1 1 2 2 2 2 2 ...
+ $ KNIFE_CUTTER_FLAG                                         : Factor w/ 2 levels "N","Y": 1 1 1 1 1 1 1 1 1 1 ...
+ $ OTHER_WEAPON_FLAG                                         : Factor w/ 2 levels "N","Y": 1 1 1 1 1 1 1 1 1 1 ...
+ $ WEAPON_FOUND_FLAG                                         : Factor w/ 2 levels "N","Y": 1 1 1 1 1 2 2 2 2 2 ...
+ $ PHYSICAL_FORCE_CEW_FLAG                                   : Factor w/ 2 levels "N","Y": 1 1 1 1 1 1 1 1 1 1 ...
+ $ PHYSICAL_FORCE_DRAW_POINT_FIREARM_FLAG                    : Factor w/ 2 levels "N","Y": 2 1 1 1 1 1 1 1 1 1 ...
+ $ PHYSICAL_FORCE_HANDCUFF_SUSPECT_FLAG                      : Factor w/ 2 levels "N","Y": 1 1 1 1 1 1 1 1 1 1 ...
+ $ PHYSICAL_FORCE_OC_SPRAY_USED_FLAG                         : Factor w/ 2 levels "N","Y": 1 1 1 1 1 1 1 1 1 1 ...
+ $ PHYSICAL_FORCE_OTHER_FLAG                                 : Factor w/ 2 levels "N","Y": 1 1 1 1 1 1 1 1 1 1 ...
+ $ PHYSICAL_FORCE_RESTRAINT_USED_FLAG                        : Factor w/ 2 levels "N","Y": 1 1 2 2 1 1 1 1 1 1 ...
+ $ PHYSICAL_FORCE_WEAPON_IMPACT_FLAG                         : Factor w/ 2 levels "N","Y": 1 1 1 1 1 1 1 1 1 1 ...
+ $ BACKROUND_CIRCUMSTANCES_VIOLENT_CRIME_FLAG                : Factor w/ 2 levels "N","Y": 1 2 2 2 1 1 1 1 1 1 ...
+ $ BACKROUND_CIRCUMSTANCES_SUSPECT_KNOWN_TO_CARRY_WEAPON_FLAG: Factor w/ 2 levels "N","Y": 1 1 1 1 1 1 1 1 1 1 ...
+ $ SUSPECTS_ACTIONS_CASING_FLAG                              : Factor w/ 2 levels "N","Y": 1 1 1 1 1 1 1 1 1 1 ...
+ $ SUSPECTS_ACTIONS_CONCEALED_POSSESSION_WEAPON_FLAG         : Factor w/ 2 levels "N","Y": 1 1 1 1 1 1 2 2 2 1 ...
+ $ SUSPECTS_ACTIONS_DECRIPTION_FLAG                          : Factor w/ 2 levels "N","Y": 2 2 2 2 2 1 1 1 1 1 ...
+ $ SUSPECTS_ACTIONS_DRUG_TRANSACTIONS_FLAG                   : Factor w/ 2 levels "N","Y": 1 1 1 1 1 1 1 1 1 1 ...
+ $ SUSPECTS_ACTIONS_IDENTIFY_CRIME_PATTERN_FLAG              : Factor w/ 2 levels "N","Y": 1 1 1 1 1 1 1 1 1 1 ...
+ $ SUSPECTS_ACTIONS_LOOKOUT_FLAG                             : Factor w/ 2 levels "N","Y": 1 1 1 1 1 1 1 1 1 1 ...
+ $ SUSPECTS_ACTIONS_OTHER_FLAG                               : Factor w/ 2 levels "N","Y": 1 1 2 2 1 2 2 1 1 2 ...
+ $ SEARCH_BASIS_ADMISSION_FLAG                               : Factor w/ 2 levels "N","Y": 1 1 1 1 1 1 1 1 1 1 ...
+ $ SEARCH_BASIS_CONSENT_FLAG                                 : Factor w/ 2 levels "N","Y": 1 1 1 1 1 1 1 1 1 1 ...
+ $ SEARCH_BASIS_HARD_OBJECT_FLAG                             : Factor w/ 2 levels "N","Y": 1 1 1 1 1 1 1 1 1 1 ...
+ $ SEARCH_BASIS_INCIDENTAL_TO_ARREST_FLAG                    : Factor w/ 2 levels "N","Y": 1 1 1 1 1 2 2 2 2 1 ...
+ $ SEARCH_BASIS_OTHER_FLAG                                   : Factor w/ 2 levels "N","Y": 2 1 2 2 1 1 1 1 1 1 ...
+ $ SEARCH_BASIS_OUTLINE_FLAG                                 : Factor w/ 2 levels "N","Y": 1 1 1 1 1 1 1 1 1 1 ...
+ $ STOP_LOCATION_PRECINCT                                    : Factor w/ 134 levels "X001","X005",..: 95 99 113 113 115 115 115 115 115 115 ...
+ $ STOP_LOCATION_PATROL_BORO_NAME                            : Factor w/ 8 levels "PBBN","PBBS",..: 4 3 2 2 2 2 2 2 2 2 ...
+ $ STOP_LOCATION_BORO_NAME                                   : Factor w/ 5 levels "BRONX","BROOKLYN",..: 3 1 2 2 2 2 2 2 2 2 ...
+ $ PHYSICAL_FORCE_COUNT                                      : num [1:52297] 1 1 2 2 1 1 1 1 1 1 ...
+ $ SUSPECT_ACTIONS_COUNT                                     : num [1:52297] 1 2 2 2 2 1 2 1 1 1 ...
+ $ WEAPON_FLAG_COUNT                                         : num [1:52297] 0 0 0 0 0 2 2 2 2 2 ...</code></pre>
+</div>
+</div>
+</section>
+<section id="save-dataset" class="level1">
+<h1>Save dataset</h1>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">write_xlsx</span>(working_dataset, <span class="st">'working_dataset.xlsx'</span>)</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(working_dataset, <span class="st">"working_dataset.rds"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 <section id="different-variables-on-race" class="level2">
 <h2 class="anchored" data-anchor-id="different-variables-on-race">Different Variables on Race</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Suspected crime vs. race</span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(working_dataset, <span class="fu">aes</span>(<span class="at">x =</span> SUSPECTED_CRIME_DESCRIPTION,</span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>                            <span class="at">fill =</span> SUSPECT_RACE_DESCRIPTION)) <span class="sc">+</span> </span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>() <span class="sc">+</span></span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">90</span>, <span class="at">vjust =</span> <span class="fl">0.5</span>, <span class="at">hjust=</span><span class="dv">1</span>)) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Suspected crime vs. race</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> working_dataset</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>stacked_bar <span class="ot">&lt;-</span> <span class="cf">function</span>(var) {</span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(data, <span class="fu">aes</span>(<span class="at">x =</span> .data[[var]], <span class="at">fill =</span> SUSPECT_RACE_DESCRIPTION)) <span class="sc">+</span></span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_bar</span>(<span class="at">position =</span> <span class="st">'fill'</span>) <span class="sc">+</span></span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(</span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>      <span class="at">title =</span> var,</span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>      <span class="at">x =</span> var,</span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>      <span class="at">y =</span> <span class="st">''</span></span>
+<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(</span>
+<span id="cb27-14"><a href="#cb27-14" aria-hidden="true" tabindex="-1"></a>      <span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">90</span>, <span class="at">hjust =</span> <span class="dv">1</span>)</span>
+<span id="cb27-15"><a href="#cb27-15" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb27-16"><a href="#cb27-16" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb27-17"><a href="#cb27-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-18"><a href="#cb27-18" aria-hidden="true" tabindex="-1"></a>variables <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">'SUSPECT_EYE_COLOR'</span>,</span>
+<span id="cb27-19"><a href="#cb27-19" aria-hidden="true" tabindex="-1"></a>            <span class="st">'SUSPECT_BODY_BUILD_TYPE'</span>,</span>
+<span id="cb27-20"><a href="#cb27-20" aria-hidden="true" tabindex="-1"></a>            <span class="st">'SUSPECT_HAIR_COLOR'</span>,</span>
+<span id="cb27-21"><a href="#cb27-21" aria-hidden="true" tabindex="-1"></a>            <span class="st">'SUSPECT_SEX'</span>,</span>
+<span id="cb27-22"><a href="#cb27-22" aria-hidden="true" tabindex="-1"></a>            <span class="st">'ISSUING_OFFICER_RANK'</span>,</span>
+<span id="cb27-23"><a href="#cb27-23" aria-hidden="true" tabindex="-1"></a>            <span class="st">'STOP_WAS_INITIATED'</span>,</span>
+<span id="cb27-24"><a href="#cb27-24" aria-hidden="true" tabindex="-1"></a>            <span class="st">'STOP_LOCATION_BORO_NAME'</span>,</span>
+<span id="cb27-25"><a href="#cb27-25" aria-hidden="true" tabindex="-1"></a>            <span class="st">'SEARCHED_FLAG'</span>,</span>
+<span id="cb27-26"><a href="#cb27-26" aria-hidden="true" tabindex="-1"></a>            <span class="st">'FRISKED_FLAG'</span>,</span>
+<span id="cb27-27"><a href="#cb27-27" aria-hidden="true" tabindex="-1"></a>            <span class="st">'SUSPECT_ARRESTED_FLAG'</span>,</span>
+<span id="cb27-28"><a href="#cb27-28" aria-hidden="true" tabindex="-1"></a>            <span class="st">'WEAPON_FOUND_FLAG'</span>,</span>
+<span id="cb27-29"><a href="#cb27-29" aria-hidden="true" tabindex="-1"></a>            <span class="st">'KNIFE_CUTTER_FLAG'</span>,</span>
+<span id="cb27-30"><a href="#cb27-30" aria-hidden="true" tabindex="-1"></a>            <span class="st">'FIREARM_FLAG'</span>,</span>
+<span id="cb27-31"><a href="#cb27-31" aria-hidden="true" tabindex="-1"></a>            <span class="st">'OTHER_CONTRABAND_FLAG'</span>,</span>
+<span id="cb27-32"><a href="#cb27-32" aria-hidden="true" tabindex="-1"></a>            <span class="st">'BACKROUND_CIRCUMSTANCES_VIOLENT_CRIME_FLAG'</span>,</span>
+<span id="cb27-33"><a href="#cb27-33" aria-hidden="true" tabindex="-1"></a>            <span class="st">'BACKROUND_CIRCUMSTANCES_SUSPECT_KNOWN_TO_CARRY_WEAPON_FLAG'</span>,</span>
+<span id="cb27-34"><a href="#cb27-34" aria-hidden="true" tabindex="-1"></a>            <span class="st">'PHYSICAL_FORCE_VERBAL_INSTRUCTION_FLAG'</span>,</span>
+<span id="cb27-35"><a href="#cb27-35" aria-hidden="true" tabindex="-1"></a>            <span class="st">'PHYSICAL_FORCE_WEAPON_IMPACT_FLAG'</span>,</span>
+<span id="cb27-36"><a href="#cb27-36" aria-hidden="true" tabindex="-1"></a>            <span class="st">'PHYSICAL_FORCE_RESTRAINT_USED_FLAG'</span>, </span>
+<span id="cb27-37"><a href="#cb27-37" aria-hidden="true" tabindex="-1"></a>            <span class="st">'PHYSICAL_FORCE_OTHER_FLAG'</span>,</span>
+<span id="cb27-38"><a href="#cb27-38" aria-hidden="true" tabindex="-1"></a>            <span class="st">'PHYSICAL_FORCE_OC_SPRAY_USED_FLAG'</span>,</span>
+<span id="cb27-39"><a href="#cb27-39" aria-hidden="true" tabindex="-1"></a>            <span class="st">'PHYSICAL_FORCE_HANDCUFF_SUSPECT_FLAG'</span>,</span>
+<span id="cb27-40"><a href="#cb27-40" aria-hidden="true" tabindex="-1"></a>            <span class="st">'PHYSICAL_FORCE_DRAW_POINT_FIREARM_FLAG'</span>,</span>
+<span id="cb27-41"><a href="#cb27-41" aria-hidden="true" tabindex="-1"></a>            <span class="st">'PHYSICAL_FORCE_CEW_FLAG'</span>)</span>
+<span id="cb27-42"><a href="#cb27-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-43"><a href="#cb27-43" aria-hidden="true" tabindex="-1"></a><span class="co"># Apply the function to each variable</span></span>
+<span id="cb27-44"><a href="#cb27-44" aria-hidden="true" tabindex="-1"></a>plots <span class="ot">&lt;-</span> <span class="fu">lapply</span>(variables, stacked_bar)</span>
+<span id="cb27-45"><a href="#cb27-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-46"><a href="#cb27-46" aria-hidden="true" tabindex="-1"></a><span class="co"># Display the plots (e.g., in a grid)</span></span>
+<span id="cb27-47"><a href="#cb27-47" aria-hidden="true" tabindex="-1"></a><span class="fu">ggarrange</span>(</span>
+<span id="cb27-48"><a href="#cb27-48" aria-hidden="true" tabindex="-1"></a>  <span class="at">plotlist =</span> plots,</span>
+<span id="cb27-49"><a href="#cb27-49" aria-hidden="true" tabindex="-1"></a>  <span class="at">ncol =</span> <span class="dv">2</span></span>
+<span id="cb27-50"><a href="#cb27-50" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$`1`</code></pre>
+</div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="eda_for_563_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="eda_for_563_files/figure-html/unnamed-chunk-21-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+$`2`</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="eda_for_563_files/figure-html/unnamed-chunk-21-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+$`3`</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="eda_for_563_files/figure-html/unnamed-chunk-21-3.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+$`4`</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="eda_for_563_files/figure-html/unnamed-chunk-21-4.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+$`5`</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="eda_for_563_files/figure-html/unnamed-chunk-21-5.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+$`6`</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="eda_for_563_files/figure-html/unnamed-chunk-21-6.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+$`7`</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="eda_for_563_files/figure-html/unnamed-chunk-21-7.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+$`8`</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="eda_for_563_files/figure-html/unnamed-chunk-21-8.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+$`9`</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="eda_for_563_files/figure-html/unnamed-chunk-21-9.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+$`10`</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="eda_for_563_files/figure-html/unnamed-chunk-21-10.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+$`11`</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="eda_for_563_files/figure-html/unnamed-chunk-21-11.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+$`12`</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="eda_for_563_files/figure-html/unnamed-chunk-21-12.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+attr(,"class")
+[1] "list"      "ggarrange"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">stacked_bar</span>(<span class="st">'SUSPECTED_CRIME_DESCRIPTION'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="eda_for_563_files/figure-html/unnamed-chunk-21-13.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Suspected Arrested Flag vs. Race</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(working_dataset, <span class="fu">aes</span>(<span class="at">x =</span> SUSPECT_ARRESTED_FLAG,</span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>                            <span class="at">fill =</span> SUSPECT_RACE_DESCRIPTION)) <span class="sc">+</span></span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_bar</span>() <span class="sc">+</span></span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">90</span>, </span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>                                     <span class="at">vjust =</span> <span class="fl">0.5</span>, <span class="at">hjust=</span><span class="dv">1</span>)) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>boxplots <span class="ot">&lt;-</span> <span class="cf">function</span>(var) {</span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>  n <span class="ot">&lt;-</span> <span class="fu">max</span>(data[[var]], <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(data, <span class="fu">aes</span>(<span class="at">x=</span>.data[[var]], <span class="at">color=</span>SUSPECT_RACE_DESCRIPTION, </span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>              <span class="at">fill=</span>SUSPECT_RACE_DESCRIPTION)) <span class="sc">+</span></span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
+<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(</span>
+<span id="cb42-7"><a href="#cb42-7" aria-hidden="true" tabindex="-1"></a>      <span class="at">legend.position=</span><span class="st">"none"</span>,</span>
+<span id="cb42-8"><a href="#cb42-8" aria-hidden="true" tabindex="-1"></a>      <span class="at">panel.spacing =</span> <span class="fu">unit</span>(<span class="fl">0.1</span>, <span class="st">"lines"</span>),</span>
+<span id="cb42-9"><a href="#cb42-9" aria-hidden="true" tabindex="-1"></a>      <span class="at">strip.text.x =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">8</span>)</span>
+<span id="cb42-10"><a href="#cb42-10" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb42-11"><a href="#cb42-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(</span>
+<span id="cb42-12"><a href="#cb42-12" aria-hidden="true" tabindex="-1"></a>      <span class="at">title =</span> var,</span>
+<span id="cb42-13"><a href="#cb42-13" aria-hidden="true" tabindex="-1"></a>      <span class="at">x =</span> var) <span class="sc">+</span></span>
+<span id="cb42-14"><a href="#cb42-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">xlim</span>(<span class="dv">0</span>, n) <span class="sc">+</span></span>
+<span id="cb42-15"><a href="#cb42-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">facet_wrap</span>(<span class="sc">~</span>SUSPECT_RACE_DESCRIPTION)</span>
+<span id="cb42-16"><a href="#cb42-16" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb42-17"><a href="#cb42-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-18"><a href="#cb42-18" aria-hidden="true" tabindex="-1"></a>variables <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">'SUSPECT_REPORTED_AGE'</span>,</span>
+<span id="cb42-19"><a href="#cb42-19" aria-hidden="true" tabindex="-1"></a>               <span class="st">'SUSPECT_WEIGHT'</span>,</span>
+<span id="cb42-20"><a href="#cb42-20" aria-hidden="true" tabindex="-1"></a>               <span class="st">'SUSPECT_HEIGHT'</span>,</span>
+<span id="cb42-21"><a href="#cb42-21" aria-hidden="true" tabindex="-1"></a>               <span class="st">'OBSERVED_DURATION_MINUTES'</span>,</span>
+<span id="cb42-22"><a href="#cb42-22" aria-hidden="true" tabindex="-1"></a>               <span class="st">'STOP_DURATION_MINUTES'</span></span>
+<span id="cb42-23"><a href="#cb42-23" aria-hidden="true" tabindex="-1"></a>               )</span>
+<span id="cb42-24"><a href="#cb42-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-25"><a href="#cb42-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Apply the function to each variable</span></span>
+<span id="cb42-26"><a href="#cb42-26" aria-hidden="true" tabindex="-1"></a>plots <span class="ot">&lt;-</span> <span class="fu">lapply</span>(variables, boxplots)</span>
+<span id="cb42-27"><a href="#cb42-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-28"><a href="#cb42-28" aria-hidden="true" tabindex="-1"></a>plots</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[[1]]</code></pre>
+</div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="eda_for_563_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="eda_for_563_files/figure-html/unnamed-chunk-22-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+[[2]]</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="eda_for_563_files/figure-html/unnamed-chunk-22-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+[[3]]</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="eda_for_563_files/figure-html/unnamed-chunk-22-3.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+[[4]]</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="eda_for_563_files/figure-html/unnamed-chunk-22-4.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+[[5]]</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="eda_for_563_files/figure-html/unnamed-chunk-22-5.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 </div>
+</section>
 </section>
 
 </main>

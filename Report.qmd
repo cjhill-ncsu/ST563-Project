@@ -9,7 +9,9 @@ format:
     toc-depth: 3 
 editor: visual
 execute:
-  echo: false    
+  echo: false
+  message: false
+  warning: false    
 editor_options: 
   chunk_output_type: console
 ---
@@ -99,6 +101,16 @@ test_metrics <- lapply(seq_along(models), function(i) {
 
 ## Performance Investigation and Criteria
 
+### Metrics Used for Model Evaluation
+
+- **AUC** (Area Under the *Receiver Operating Characteristic* Curve) - was used as our training metric of choice during model tuning. See [Figures C: Trained Model Summaries](#trained-model-summaries). AUC measures how correctly a model distinguishes between true outcomes and false outcomes across all possible boundaries between classes. A model with a larger AUC value can be said to better distinguish between true and false outcomes across all boundaries between classes.
+
+- LogLoss - quantifies how uncertain a model is about its predictions, penalizing incorrect predictions with greater uncertainty. A model with a smaller LogLoss value can be said to make more confident and accurate predictions because it assigns higher probabilities to correct outcomes and lower probabilities to incorrect ones, minimizing uncertainty.
+
+- Kappa - measures how correct a model's predictions are compared to actual outcomes, while accounting for correctness expected by random chance. A model with a larger Kappa value can be said to make predictions that are more correct relative to chance alone.
+
+- Accuracy - is the proportion of correctly predicted outcomes out of all predictions made.
+
 ## Limitations of Methods
 
 ---
@@ -154,7 +166,7 @@ lapply(names(models), function(model_name) {
 })
 ```
 
-### C. Trained model summaries
+### C. Trained model summaries  {#trained-model-summaries}
 
 ```{r}
 resamples <- resamples(models)

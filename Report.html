@@ -69,7 +69,10 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#model-comparisons" id="toc-model-comparisons" class="nav-link" data-scroll-target="#model-comparisons">Model Comparisons</a></li>
   <li><a href="#scientific-questions-and-results-interpretation" id="toc-scientific-questions-and-results-interpretation" class="nav-link" data-scroll-target="#scientific-questions-and-results-interpretation">Scientific Questions and Results Interpretation</a></li>
   </ul></li>
-  <li><a href="#performance-investigation-and-criteria" id="toc-performance-investigation-and-criteria" class="nav-link" data-scroll-target="#performance-investigation-and-criteria">Performance Investigation and Criteria</a></li>
+  <li><a href="#performance-investigation-and-criteria" id="toc-performance-investigation-and-criteria" class="nav-link" data-scroll-target="#performance-investigation-and-criteria">Performance Investigation and Criteria</a>
+  <ul class="collapse">
+  <li><a href="#metrics-used-for-model-evaluation" id="toc-metrics-used-for-model-evaluation" class="nav-link" data-scroll-target="#metrics-used-for-model-evaluation">Metrics Used for Model Evaluation</a></li>
+  </ul></li>
   <li><a href="#limitations-of-methods" id="toc-limitations-of-methods" class="nav-link" data-scroll-target="#limitations-of-methods">Limitations of Methods</a></li>
   </ul></li>
   <li><a href="#conclusions" id="toc-conclusions" class="nav-link" data-scroll-target="#conclusions">Conclusions</a>
@@ -85,7 +88,7 @@ ul.task-list li input[type="checkbox"] {
   <ul class="collapse">
   <li><a href="#a.-variable-importance-plots" id="toc-a.-variable-importance-plots" class="nav-link" data-scroll-target="#a.-variable-importance-plots">A. Variable Importance Plots</a></li>
   <li><a href="#b.-tuning-parameter-plots" id="toc-b.-tuning-parameter-plots" class="nav-link" data-scroll-target="#b.-tuning-parameter-plots">B. Tuning Parameter Plots</a></li>
-  <li><a href="#c.-trained-model-summaries" id="toc-c.-trained-model-summaries" class="nav-link" data-scroll-target="#c.-trained-model-summaries">C. Trained model summaries</a></li>
+  <li><a href="#trained-model-summaries" id="toc-trained-model-summaries" class="nav-link" data-scroll-target="#trained-model-summaries">C. Trained model summaries</a></li>
   <li><a href="#d.-test-metrics" id="toc-d.-test-metrics" class="nav-link" data-scroll-target="#d.-test-metrics">D. Test Metrics</a></li>
   </ul></li>
   </ul></li>
@@ -121,43 +124,6 @@ ul.task-list li input[type="checkbox"] {
 
 
 <div style="page-break-after: always;"></div>
-<div class="cell">
-<div class="cell-output cell-output-stderr">
-<pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
-✔ dplyr     1.1.4     ✔ readr     2.1.5
-✔ forcats   1.0.0     ✔ stringr   1.5.1
-✔ ggplot2   3.5.1     ✔ tibble    3.2.1
-✔ lubridate 1.9.3     ✔ tidyr     1.3.1
-✔ purrr     1.0.2     
-── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
-✖ dplyr::filter() masks stats::filter()
-✖ dplyr::lag()    masks stats::lag()
-ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors
-Loading required package: lattice
-
-
-Attaching package: 'caret'
-
-
-The following object is masked from 'package:purrr':
-
-    lift
-
-
-
-Attaching package: 'MLmetrics'
-
-
-The following objects are masked from 'package:caret':
-
-    MAE, RMSE
-
-
-The following object is masked from 'package:base':
-
-    Recall</code></pre>
-</div>
-</div>
 <section id="introduction" class="level1">
 <h1>Introduction</h1>
 <section id="problem-description" class="level2">
@@ -206,6 +172,15 @@ The following object is masked from 'package:base':
 </section>
 <section id="performance-investigation-and-criteria" class="level2">
 <h2 class="anchored" data-anchor-id="performance-investigation-and-criteria">Performance Investigation and Criteria</h2>
+<section id="metrics-used-for-model-evaluation" class="level3">
+<h3 class="anchored" data-anchor-id="metrics-used-for-model-evaluation">Metrics Used for Model Evaluation</h3>
+<ul>
+<li><p><strong>AUC</strong> (Area Under the <em>Receiver Operating Characteristic</em> Curve) - was used as our training metric of choice during model tuning. See <a href="#trained-model-summaries">Figures C: Trained Model Summaries</a>. AUC measures how correctly a model distinguishes between true outcomes and false outcomes across all possible boundaries between classes. A model with a larger AUC value can be said to better distinguish between true and false outcomes across all boundaries between classes.</p></li>
+<li><p>LogLoss - quantifies how uncertain a model is about its predictions, penalizing incorrect predictions with greater uncertainty. A model with a smaller LogLoss value can be said to make more confident and accurate predictions because it assigns higher probabilities to correct outcomes and lower probabilities to incorrect ones, minimizing uncertainty.</p></li>
+<li><p>Kappa - measures how correct a model’s predictions are compared to actual outcomes, while accounting for correctness expected by random chance. A model with a larger Kappa value can be said to make predictions that are more correct relative to chance alone.</p></li>
+<li><p>Accuracy - is the proportion of correctly predicted outcomes out of all predictions made.</p></li>
+</ul>
+</section>
 </section>
 <section id="limitations-of-methods" class="level2">
 <h2 class="anchored" data-anchor-id="limitations-of-methods">Limitations of Methods</h2>
@@ -307,8 +282,8 @@ NULL</code></pre>
 </div>
 </div>
 </section>
-<section id="c.-trained-model-summaries" class="level3">
-<h3 class="anchored" data-anchor-id="c.-trained-model-summaries">C. Trained model summaries</h3>
+<section id="trained-model-summaries" class="level3">
+<h3 class="anchored" data-anchor-id="trained-model-summaries">C. Trained model summaries</h3>
 <div class="cell">
 <div class="cell-output-display">
 <div>
