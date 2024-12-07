@@ -88,7 +88,7 @@ Here, we also address the scientific questions identified in the Introduction. T
 
 The [Conclusions](#conclusions) section summarizes the study objectives, the findings from the analysis, and how they relate to the overall project goals. Additional observations and limitations of the analysis are also discussed.
 
-The [Appendix](#appendix) will house tables, source code, and supplementary plots for reference.
+The [Appendix](#appendix) houses tables, source code, and supplementary plots for reference.
 
 ## Data Source Reference
 
@@ -98,49 +98,61 @@ The [Appendix](#appendix) will house tables, source code, and supplementary plot
 
 # Methods {#methods}
 
-## Data Summaries and Preprocessing
-
-### Visual and Numeric Summaries
-
-```{r}
-# Display Race levels and their proportions of Arrested
-proportions_table <- train_data |>
-  group_by(SUSPECT_RACE_DESCRIPTION) |>
-  summarise(
-    Total = n(),
-    Arrested = sum(SUSPECT_ARRESTED_FLAG == "Y"),
-    Proportion = Arrested / Total
-  ) |>
-  arrange(desc(Proportion))
-
-kable(proportions_table)
-
-# Display proportion of arrested by race level as a stacked bar plot
-train_data |>
-  mutate(SUSPECT_RACE_DESCRIPTION = factor(
-    SUSPECT_RACE_DESCRIPTION, 
-    levels = proportions_table$SUSPECT_RACE_DESCRIPTION
-  )) |>
-  ggplot(aes(x = SUSPECT_RACE_DESCRIPTION, 
-             fill = SUSPECT_ARRESTED_FLAG)) + 
-  geom_bar(position = "fill") +
-  labs(
-    title = "Proportion Arrested",
-    x = "Race Description",
-    y = "Proportion"
-  ) +
-  theme_minimal() + 
-  theme(
-    legend.position = "none",
-    axis.text.x = element_text(angle = 45, hjust = 1)
-  )
-
-```
-
+## 1. Before Modeling
 
 ### Data Preprocessing Steps
 
-## Statistical Models and Methods
+### Data Summaries
+
+```{r}
+library(dplyr)
+library(knitr)
+
+summarize_data <- function(data) {
+  # Handle numeric variables
+  numeric_summary <- data |>
+    select(where(is.numeric)) |>
+    summarise(across(everything(), ~ {
+      stats <- summary(.)
+      stats <- round(stats, 2)
+      paste(names(stats), stats, 
+            sep = "\t", collapse = "<br>") 
+    })) |>
+    pivot_longer(cols = everything(), 
+                 names_to = "Variable", 
+                 values_to = "Summary")
+  
+  # Handle factor variables
+  factor_summary <- data |>
+    select(where(is.factor)) |>
+    summarise(across(everything(), ~ {
+      tbl <- table(.)
+      prop <- prop.table(tbl)
+      # Combine counts and proportions
+      paste(names(tbl), tbl, 
+            sprintf("(%.2f%%)", 
+                    prop * 100), 
+            sep = ":  ", collapse = "<br>")
+    })) |>
+    pivot_longer(cols = everything(), 
+                 names_to = "Variable", 
+                 values_to = "Summary")
+  
+  # Combine and display
+  bind_rows(numeric_summary, 
+            factor_summary) |>
+    select(Variable, Summary) |>
+    kable(format = "html", 
+          col.names = c("Variable", "Summary"), 
+          escape = FALSE)
+}
+
+summarize_data(train_data)
+```
+
+
+
+## 2. Statistical Models and Methods
 
 We follow the guidelines for statistical modeling laid out in the Model Building and Data Splitting lecture notes.
 
@@ -224,7 +236,43 @@ We evaluate several metrics to compare the performance of the models as they gen
 
 ## Figures
 
-### A. Variable Importance Plots {#variable-importance-plots}
+### A. Data Visualizations
+
+```{r}
+# Display Race levels and their proportions of Arrested
+proportions_table <- train_data |>
+  group_by(SUSPECT_RACE_DESCRIPTION) |>
+  summarise(
+    Total = n(),
+    Arrested = sum(SUSPECT_ARRESTED_FLAG == "Y"),
+    Proportion = Arrested / Total
+  ) |>
+  arrange(desc(Proportion))
+
+# Display proportion of arrested by race level as a stacked bar plot
+train_data |>
+  mutate(SUSPECT_RACE_DESCRIPTION = factor(
+    SUSPECT_RACE_DESCRIPTION, 
+    levels = proportions_table$SUSPECT_RACE_DESCRIPTION
+  )) |>
+  ggplot(aes(x = SUSPECT_RACE_DESCRIPTION, 
+             fill = SUSPECT_ARRESTED_FLAG)) + 
+  geom_bar(position = "fill") +
+  labs(
+    title = "Proportion Arrested",
+    x = "Race Description",
+    y = "Proportion"
+  ) +
+  theme_minimal() + 
+  theme(
+    legend.position = "none",
+    axis.text.x = element_text(angle = 45, hjust = 1)
+  )
+
+```
+
+
+### B. Variable Importance Plots {#variable-importance-plots}
 
 ```{r}
 lapply(names(models), function(model_name) {
@@ -250,7 +298,7 @@ lapply(names(models), function(model_name) {
 
 ```
 
-### B. Tuning Parameter Plots {#tuning-parameter-plots}
+### C. Tuning Parameter Plots {#tuning-parameter-plots}
 
 ```{r}
 lapply(names(models), function(model_name) {
@@ -262,7 +310,7 @@ lapply(names(models), function(model_name) {
 })
 ```
 
-### C. Trained model summaries  {#trained-model-summaries}
+### D. Trained model summaries  {#trained-model-summaries}
 
 ```{r}
 resamples <- resamples(models)
@@ -277,7 +325,7 @@ bwplot(resamples, metric = "Sens")
 bwplot(resamples, metric = "Spec")
 ```
 
-### D. Test Metrics {#test-metrics}
+### E. Test Metrics {#test-metrics}
 
 ```{r}
 test_metrics_df <- bind_rows(test_metrics)

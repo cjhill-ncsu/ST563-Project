@@ -62,12 +62,12 @@ ul.task-list li input[type="checkbox"] {
   </ul></li>
   <li><a href="#methods" id="toc-methods" class="nav-link" data-scroll-target="#methods">Methods</a>
   <ul class="collapse">
-  <li><a href="#data-summaries-and-preprocessing" id="toc-data-summaries-and-preprocessing" class="nav-link" data-scroll-target="#data-summaries-and-preprocessing">Data Summaries and Preprocessing</a>
+  <li><a href="#before-modeling" id="toc-before-modeling" class="nav-link" data-scroll-target="#before-modeling">1. Before Modeling</a>
   <ul class="collapse">
-  <li><a href="#visual-and-numeric-summaries" id="toc-visual-and-numeric-summaries" class="nav-link" data-scroll-target="#visual-and-numeric-summaries">Visual and Numeric Summaries</a></li>
   <li><a href="#data-preprocessing-steps" id="toc-data-preprocessing-steps" class="nav-link" data-scroll-target="#data-preprocessing-steps">Data Preprocessing Steps</a></li>
+  <li><a href="#data-summaries" id="toc-data-summaries" class="nav-link" data-scroll-target="#data-summaries">Data Summaries</a></li>
   </ul></li>
-  <li><a href="#statistical-models-and-methods" id="toc-statistical-models-and-methods" class="nav-link" data-scroll-target="#statistical-models-and-methods">Statistical Models and Methods</a>
+  <li><a href="#statistical-models-and-methods" id="toc-statistical-models-and-methods" class="nav-link" data-scroll-target="#statistical-models-and-methods">2. Statistical Models and Methods</a>
   <ul class="collapse">
   <li><a href="#model-descriptions-and-assumptions" id="toc-model-descriptions-and-assumptions" class="nav-link" data-scroll-target="#model-descriptions-and-assumptions">Model Descriptions and Assumptions</a></li>
   <li><a href="#model-comparisons" id="toc-model-comparisons" class="nav-link" data-scroll-target="#model-comparisons">Model Comparisons</a></li>
@@ -90,10 +90,11 @@ ul.task-list li input[type="checkbox"] {
   <ul class="collapse">
   <li><a href="#figures" id="toc-figures" class="nav-link" data-scroll-target="#figures">Figures</a>
   <ul class="collapse">
-  <li><a href="#variable-importance-plots" id="toc-variable-importance-plots" class="nav-link" data-scroll-target="#variable-importance-plots">A. Variable Importance Plots</a></li>
-  <li><a href="#tuning-parameter-plots" id="toc-tuning-parameter-plots" class="nav-link" data-scroll-target="#tuning-parameter-plots">B. Tuning Parameter Plots</a></li>
-  <li><a href="#trained-model-summaries" id="toc-trained-model-summaries" class="nav-link" data-scroll-target="#trained-model-summaries">C. Trained model summaries</a></li>
-  <li><a href="#test-metrics" id="toc-test-metrics" class="nav-link" data-scroll-target="#test-metrics">D. Test Metrics</a></li>
+  <li><a href="#a.-data-visualizations" id="toc-a.-data-visualizations" class="nav-link" data-scroll-target="#a.-data-visualizations">A. Data Visualizations</a></li>
+  <li><a href="#variable-importance-plots" id="toc-variable-importance-plots" class="nav-link" data-scroll-target="#variable-importance-plots">B. Variable Importance Plots</a></li>
+  <li><a href="#tuning-parameter-plots" id="toc-tuning-parameter-plots" class="nav-link" data-scroll-target="#tuning-parameter-plots">C. Tuning Parameter Plots</a></li>
+  <li><a href="#trained-model-summaries" id="toc-trained-model-summaries" class="nav-link" data-scroll-target="#trained-model-summaries">D. Trained model summaries</a></li>
+  <li><a href="#test-metrics" id="toc-test-metrics" class="nav-link" data-scroll-target="#test-metrics">E. Test Metrics</a></li>
   </ul></li>
   </ul></li>
   </ul>
@@ -153,7 +154,7 @@ ul.task-list li input[type="checkbox"] {
 <p>The <a href="#methods">Methods</a> section describes the statistical models used, the steps of data preprocessing, and the procedures for hyperparameter tuning. Additionally, visual and numeric summaries of the data are discussed to set the context for the analysis. The modeling methodology is presented in detail, with a comparison of multiple models and their performance criteria.</p>
 <p>Here, we also address the scientific questions identified in the Introduction. The results from the models are presented and interpreted, highlighting key findings and their implications.</p>
 <p>The <a href="#conclusions">Conclusions</a> section summarizes the study objectives, the findings from the analysis, and how they relate to the overall project goals. Additional observations and limitations of the analysis are also discussed.</p>
-<p>The <a href="#appendix">Appendix</a> will house tables, source code, and supplementary plots for reference.</p>
+<p>The <a href="#appendix">Appendix</a> houses tables, source code, and supplementary plots for reference.</p>
 </section>
 <section id="data-source-reference" class="level2">
 <h2 class="anchored" data-anchor-id="data-source-reference">Data Source Reference</h2>
@@ -163,70 +164,117 @@ ul.task-list li input[type="checkbox"] {
 </section>
 <section id="methods" class="level1">
 <h1>Methods</h1>
-<section id="data-summaries-and-preprocessing" class="level2">
-<h2 class="anchored" data-anchor-id="data-summaries-and-preprocessing">Data Summaries and Preprocessing</h2>
-<section id="visual-and-numeric-summaries" class="level3">
-<h3 class="anchored" data-anchor-id="visual-and-numeric-summaries">Visual and Numeric Summaries</h3>
+<section id="before-modeling" class="level2">
+<h2 class="anchored" data-anchor-id="before-modeling">1. Before Modeling</h2>
+<section id="data-preprocessing-steps" class="level3">
+<h3 class="anchored" data-anchor-id="data-preprocessing-steps">Data Preprocessing Steps</h3>
+</section>
+<section id="data-summaries" class="level3">
+<h3 class="anchored" data-anchor-id="data-summaries">Data Summaries</h3>
 <div class="cell">
 <div class="cell-output-display">
-<table class="caption-top table table-sm table-striped small">
+<table class="caption-top table table-sm table-striped small" data-quarto-postprocess="true">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
 <thead>
 <tr class="header">
-<th style="text-align: left;">SUSPECT_RACE_DESCRIPTION</th>
-<th style="text-align: right;">Total</th>
-<th style="text-align: right;">Arrested</th>
-<th style="text-align: right;">Proportion</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">Variable</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">Summary</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;">WHITE</td>
-<td style="text-align: right;">4346</td>
-<td style="text-align: right;">1609</td>
-<td style="text-align: right;">0.3702255</td>
+<td style="text-align: left;">WEAPON_FLAG_COUNT</td>
+<td style="text-align: left;">Min. -0.4<br>
+1st Qu. -0.4<br>
+Median -0.4<br>
+Mean 0<br>
+3rd Qu. -0.4<br>
+Max. 5.4</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">Hispanic</td>
-<td style="text-align: right;">15680</td>
-<td style="text-align: right;">5321</td>
-<td style="text-align: right;">0.3393495</td>
+<td style="text-align: left;">STOP_DURATION_MINUTES</td>
+<td style="text-align: left;">Min. -0.66<br>
+1st Qu. -0.4<br>
+Median -0.26<br>
+Mean 0<br>
+3rd Qu. 0.13<br>
+Max. 65.35</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">BLACK</td>
-<td style="text-align: right;">30757</td>
-<td style="text-align: right;">10371</td>
-<td style="text-align: right;">0.3371915</td>
+<td style="text-align: left;">SUSPECT_ACTIONS_COUNT</td>
+<td style="text-align: left;">Min. -0.88<br>
+1st Qu. -0.88<br>
+Median 0.55<br>
+Mean 0<br>
+3rd Qu. 0.55<br>
+Max. 6.3</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">Asian</td>
-<td style="text-align: right;">1117</td>
-<td style="text-align: right;">369</td>
-<td style="text-align: right;">0.3303491</td>
+<td style="text-align: left;">SUSPECT_RACE_DESCRIPTION</td>
+<td style="text-align: left;">Hispanic: 15680: (29.98%)<br>
+Other: 397: (0.76%)<br>
+WHITE: 4346: (8.31%)<br>
+BLACK: 30757: (58.81%)<br>
+Asian: 1117: (2.14%)</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">Other</td>
-<td style="text-align: right;">397</td>
-<td style="text-align: right;">114</td>
-<td style="text-align: right;">0.2871537</td>
+<td style="text-align: left;">PHYSICAL_FORCE_CEW_FLAG</td>
+<td style="text-align: left;">N: 52043: (99.51%)<br>
+Y: 254: (0.49%)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">PHYSICAL_FORCE_DRAW_POINT_FIREARM_FLAG</td>
+<td style="text-align: left;">N: 49961: (95.53%)<br>
+Y: 2336: (4.47%)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">PHYSICAL_FORCE_HANDCUFF_SUSPECT_FLAG</td>
+<td style="text-align: left;">N: 43132: (82.48%)<br>
+Y: 9165: (17.52%)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">PHYSICAL_FORCE_OC_SPRAY_USED_FLAG</td>
+<td style="text-align: left;">N: 52289: (99.98%)<br>
+Y: 8: (0.02%)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">PHYSICAL_FORCE_OTHER_FLAG</td>
+<td style="text-align: left;">N: 51165: (97.84%)<br>
+Y: 1132: (2.16%)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">PHYSICAL_FORCE_RESTRAINT_USED_FLAG</td>
+<td style="text-align: left;">N: 51034: (97.58%)<br>
+Y: 1263: (2.42%)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">PHYSICAL_FORCE_VERBAL_INSTRUCTION_FLAG</td>
+<td style="text-align: left;">N: 3186: (6.09%)<br>
+Y: 49111: (93.91%)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">PHYSICAL_FORCE_WEAPON_IMPACT_FLAG</td>
+<td style="text-align: left;">N: 52283: (99.97%)<br>
+Y: 14: (0.03%)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">SUSPECT_ARRESTED_FLAG</td>
+<td style="text-align: left;">N: 34513: (65.99%)<br>
+Y: 17784: (34.01%)</td>
 </tr>
 </tbody>
 </table>
-</div>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="Report_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
+
+
 </div>
 </div>
-</div>
-</section>
-<section id="data-preprocessing-steps" class="level3">
-<h3 class="anchored" data-anchor-id="data-preprocessing-steps">Data Preprocessing Steps</h3>
 </section>
 </section>
 <section id="statistical-models-and-methods" class="level2">
-<h2 class="anchored" data-anchor-id="statistical-models-and-methods">Statistical Models and Methods</h2>
+<h2 class="anchored" data-anchor-id="statistical-models-and-methods">2. Statistical Models and Methods</h2>
 <p>We follow the guidelines for statistical modeling laid out in the Model Building and Data Splitting lecture notes.</p>
 <ol type="1">
 <li><p><em>Split the data into a training set and a test set.</em></p></li>
@@ -310,12 +358,9 @@ ul.task-list li input[type="checkbox"] {
 <h1>Appendix</h1>
 <section id="figures" class="level2">
 <h2 class="anchored" data-anchor-id="figures">Figures</h2>
-<section id="variable-importance-plots" class="level3">
-<h3 class="anchored" data-anchor-id="variable-importance-plots">A. Variable Importance Plots</h3>
+<section id="a.-data-visualizations" class="level3">
+<h3 class="anchored" data-anchor-id="a.-data-visualizations">A. Data Visualizations</h3>
 <div class="cell">
-<div class="cell-output cell-output-stdout">
-<pre><code>[[1]]</code></pre>
-</div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -323,43 +368,10 @@ ul.task-list li input[type="checkbox"] {
 </figure>
 </div>
 </div>
-<div class="cell-output cell-output-stdout">
-<pre><code>
-[[2]]</code></pre>
-</div>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="Report_files/figure-html/unnamed-chunk-4-2.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>
-[[3]]</code></pre>
-</div>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="Report_files/figure-html/unnamed-chunk-4-3.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>
-[[4]]</code></pre>
-</div>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="Report_files/figure-html/unnamed-chunk-4-4.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
-</div>
 </div>
 </section>
-<section id="tuning-parameter-plots" class="level3">
-<h3 class="anchored" data-anchor-id="tuning-parameter-plots">B. Tuning Parameter Plots</h3>
+<section id="variable-importance-plots" class="level3">
+<h3 class="anchored" data-anchor-id="variable-importance-plots">B. Variable Importance Plots</h3>
 <div class="cell">
 <div class="cell-output cell-output-stdout">
 <pre><code>[[1]]</code></pre>
@@ -371,6 +383,10 @@ ul.task-list li input[type="checkbox"] {
 </figure>
 </div>
 </div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+[[2]]</code></pre>
+</div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -380,7 +396,7 @@ ul.task-list li input[type="checkbox"] {
 </div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
-[[2]]</code></pre>
+[[3]]</code></pre>
 </div>
 <div class="cell-output-display">
 <div>
@@ -391,9 +407,6 @@ ul.task-list li input[type="checkbox"] {
 </div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
-[[3]]
-NULL
-
 [[4]]</code></pre>
 </div>
 <div class="cell-output-display">
@@ -405,9 +418,12 @@ NULL
 </div>
 </div>
 </section>
-<section id="trained-model-summaries" class="level3">
-<h3 class="anchored" data-anchor-id="trained-model-summaries">C. Trained model summaries</h3>
+<section id="tuning-parameter-plots" class="level3">
+<h3 class="anchored" data-anchor-id="tuning-parameter-plots">C. Tuning Parameter Plots</h3>
 <div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>[[1]]</code></pre>
+</div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -422,6 +438,10 @@ NULL
 </figure>
 </div>
 </div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+[[2]]</code></pre>
+</div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -429,15 +449,55 @@ NULL
 </figure>
 </div>
 </div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+[[3]]
+NULL
+
+[[4]]</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Report_files/figure-html/unnamed-chunk-6-4.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
 </div>
 </section>
-<section id="test-metrics" class="level3">
-<h3 class="anchored" data-anchor-id="test-metrics">D. Test Metrics</h3>
+<section id="trained-model-summaries" class="level3">
+<h3 class="anchored" data-anchor-id="trained-model-summaries">D. Trained model summaries</h3>
 <div class="cell">
 <div class="cell-output-display">
 <div>
 <figure class="figure">
 <p><img src="Report_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Report_files/figure-html/unnamed-chunk-7-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Report_files/figure-html/unnamed-chunk-7-3.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="test-metrics" class="level3">
+<h3 class="anchored" data-anchor-id="test-metrics">E. Test Metrics</h3>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Report_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
