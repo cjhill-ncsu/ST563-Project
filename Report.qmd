@@ -130,23 +130,59 @@ train_data %>%
 
 ## Statistical Models and Methods
 
+We follow the guidelines for statistical modeling laid out in the Model Building and Data Splitting lecture notes.
+
+1. *Split the data into a training set and a test set.*
+
+2. *Tune hyperparameters (of all the models under consideration) using the training set:*
+   a. *Split the training set further into two sets: one for fitting the model (a new training set), and the other for evaluating model performance (known as validation set or holdout set).*
+   b. *For each candidate value of hyperparameter(s), fit the model using the new training set, and evaluate the fitted model using the validation set using a metric of our choice.*
+   c. *Typically, we repeat steps a. and b. a few times so that we get repeated measurements of model performance for each value of hyperparameters. The final model performance is taken to be the average of these multiple measurements.*
+   d. *Choose the best value of hyperparameters by optimizing the model performance measure obtained in step c.*
+
+3. *Using the best value of hyperparameters, fit the model(s) on the entire training set and estimate the model parameters. This is (are) the final model(s) chosen using the training set.*
+
+4. *Use the test set to estimate the model performance of the final model(s) from step 3.*
+
+5. *Again, we may want to repeat steps 1–4 a few times to get a reliable estimate of model performance of the final models. For example, we can use cross-validation here to incorporate the uncertainty due to hyperparameter tuning as well.*
+
+By leveraging the `caret` package in R, we can efficiently implement the above steps for a variety of models. The `train()` function in `caret` will handle steps 2 and 3 for us. This can be termed the "inner loop". After tuning hyperparameters and fitting the final trained model, we can then evaluate the various models on the test set. This can be termed the "outer loop". 
+
+To evaluate the models in the outer loop and the very first step when modeling began, we used a 70/30 split, where 70% of the data was used for training and 30% for testing. This is known as the holdout method. For training in the inner loop, 5-fold cross validation was used on the training data split. The test data was never used in the inner loop, only for evaluating the final model performance.
+
 ### Model Descriptions and Assumptions
 
+- **Random Forest** - Improves prediction accuracy by combining multiple decision trees. Each tree is trained on a random bootstrap sample of the data, and at every split, only a random subset of predictors is considered. This medigates the correlation between trees when a certain predictor may be present in all trees, reducing their variance and improving the robustness of the predictions.
+
+- **Extreme Gradient Boosting (XGBoost)** - Builds models sequentially, each new tree correcting errors made by previous ones, and optimizes a loss function. XGBoost also uses regularization, meaning it penalizes complex models to prevent overfitting.
+
+- **Logistic Regression** - Models the relationship between a set of predictor variables and a binary outcome by estimating the probability of the outcome occurring, using the logistic function to ensure probabilities fall between 0 and 1. The method identifies linear relationships between predictors and the log-odds of the outcome
+
+- **Elastic Net** - A regularized regression method that combines the penalties of Lasso and Ridge regression. It balances variable selection and shrinkage by minimizing prediction error while preventing overfitting.
+
 ### Model Comparisons
+
+[Variables of Importance](#variable-importance-plots)
+
+[Trained Model Summaries](#trained-model-summaries)
 
 ### Scientific Questions and Results Interpretation
 
 ## Performance Investigation and Criteria
 
+We evaluate several metrics to compare the performance of the models as they generilize to our test set. These metrics include: AUC, LogLoss, Kappa, and Accuracy. 
+
+[Test Metrics Results](#test-metrics)
+
 ### Metrics Used for Model Evaluation
 
-- **AUC** (Area Under the *Receiver Operating Characteristic* Curve) - was used as our training metric of choice during model tuning. See [Figures C: Trained Model Summaries](#trained-model-summaries). AUC measures how correctly a model distinguishes between true outcomes and false outcomes across all possible boundaries between classes. A model with a larger AUC value can be said to better distinguish between true and false outcomes across all boundaries between classes.
+- **AUC** (Area Under the *Receiver Operating Characteristic* Curve) - was used as our training metric of choice during model tuning. AUC measures how correctly a model distinguishes between true outcomes and false outcomes across all possible boundaries between classes. A model with a larger AUC value can be said to better distinguish between true and false outcomes across all boundaries between classes.
 
-- LogLoss - quantifies how uncertain a model is about its predictions, penalizing incorrect predictions with greater uncertainty. A model with a smaller LogLoss value can be said to make more confident and accurate predictions because it assigns higher probabilities to correct outcomes and lower probabilities to incorrect ones, minimizing uncertainty.
+- **LogLoss** - quantifies how uncertain a model is about its predictions, penalizing incorrect predictions with greater uncertainty. A model with a smaller LogLoss value can be said to make more confident and accurate predictions because it assigns higher probabilities to correct outcomes and lower probabilities to incorrect ones, minimizing uncertainty.
 
-- Kappa - measures how correct a model's predictions are compared to actual outcomes, while accounting for correctness expected by random chance. A model with a larger Kappa value can be said to make predictions that are more correct relative to chance alone.
+- **Kappa** - measures how correct a model's predictions are compared to actual outcomes, while accounting for correctness expected by random chance. A model with a larger Kappa value can be said to make predictions that are more correct relative to chance alone.
 
-- Accuracy - is the proportion of correctly predicted outcomes out of all predictions made.
+- **Accuracy** - is the proportion of correctly predicted outcomes out of all predictions made. Included for its simplicity and interpretability.
 
 ## Limitations of Methods
 
@@ -168,30 +204,33 @@ train_data %>%
 
 ## Figures
 
-### A. Variable Importance Plots
+### A. Variable Importance Plots {#variable-importance-plots}
 
 ```{r}
 lapply(names(models), function(model_name) {
-
+  
   var_imp_df <- as.data.frame(varImp(models[[model_name]])$importance)
   var_imp_df$Variable <- rownames(var_imp_df)
   
-  ggplot(var_imp_df, aes(x = reorder(Variable, 
-                                     Overall), 
-                         y = Overall)) +
-    geom_bar(stat = "identity", 
-             fill = "steelblue") +
+  # Select the top 5 variables based on importance
+  top_vars <- var_imp_df %>%
+    arrange(desc(Overall)) %>%
+    slice_head(n = 10)
+  
+  ggplot(top_vars, aes(x = reorder(Variable, Overall), y = Overall)) +
+    geom_bar(stat = "identity", fill = "steelblue") +
     coord_flip() +
     labs(
-      title = paste(model_name),
+      title = paste("Top 10 Variables for", model_name),
       y = "Importance",
-      caption = "This plot shows the relative contribution of each variable to the model's predictive performance."
+      caption = "This plot shows the top variables contributing to the model's predictive performance."
     ) +
     theme_minimal()
 })
+
 ```
 
-### B. Tuning Parameter Plots
+### B. Tuning Parameter Plots {#tuning-parameter-plots}
 
 ```{r}
 lapply(names(models), function(model_name) {
@@ -218,7 +257,7 @@ bwplot(resamples, metric = "Sens")
 bwplot(resamples, metric = "Spec")
 ```
 
-### D. Test Metrics
+### D. Test Metrics {#test-metrics}
 
 ```{r}
 test_metrics_df <- bind_rows(test_metrics)

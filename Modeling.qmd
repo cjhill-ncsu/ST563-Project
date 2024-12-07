@@ -130,8 +130,8 @@ plot(log_reg_imp)
 
 ```{r}
 elastic_net_grid <- expand.grid(
-  alpha = seq(0, 1, by = 0.1),  
-  lambda = 10^seq(-4, 0, length = 20)  
+  alpha = seq(0, 1, by = 0.05),  
+  lambda = 10^seq(-5, 0, length = 20)  
 )
 
 elastic_net_model <- train(
@@ -152,31 +152,34 @@ plot(elastic_imp)
 # Random Forest
 
 ```{r}
-# rf_grid <- expand.grid(mtry = seq(1, ncol(train_data) - 1, by = 1))
-
-# rf_model <- train(
-#   formula,
-#   data = train_data,
-#   method = "rf",
-#   trControl = ctrl,
-#   tuneGrid = rf_grid
-#   metric = "ROC"
-# )
-
-# rf_model$bestTune
-
-rf_grid <- expand.grid(mtry = 8)
+rf_grid <- expand.grid(mtry = seq(1, ncol(train_data) - 1, 
+                                  by = 1))
 
 rf_model <- train(
-  formula,
-  data = train_data,
-  method = "rf",
-  trControl = ctrl,
-  tuneGrid = rf_grid,
-  ntree = 500,
-  metric = "ROC"
+ formula,
+ data = train_data,
+ method = "rf",
+ trControl = ctrl,
+ tuneGrid = rf_grid,
+ metric = "ROC"
 )
 
+rf_model$bestTune
+
+#rf_grid <- expand.grid(mtry = 8)
+
+#rf_model <- train(
+#  formula,
+#  data = train_data,
+#  method = "rf",
+#  trControl = ctrl,
+#  tuneGrid = rf_grid,
+#  ntree = 500,
+#  metric = "ROC"
+#)
+#
+
+plot(rf_model)
 rf_imp <- varImp(rf_model)
 plot(rf_imp)
 ```
@@ -190,7 +193,7 @@ xgb_model <- train(
   method = "xgbTree",
   trControl = ctrl,
   metric = "ROC",
-  tuneLength = 5
+  tuneLength = 10
 )
 
 plot(xgb_model)
@@ -289,7 +292,7 @@ print(test_metrics_df)
 ```
 
 ```{r}
-test_metrics_df_long <- test_metrics_df %>%
+test_metrics_df_long <- test_metrics_df |>
   pivot_longer(cols = -Model, 
                names_to = "Metric", 
                values_to = "Value")
