@@ -102,12 +102,40 @@ The [Appendix](#appendix) houses tables, source code, and supplementary plots fo
 
 ### Data Preprocessing Steps
 
+The data was cleaned, transformed, and structured to suit the requirements of the statistical machine learning algorithms for our predictive models. The following steps were taken:
+
+1. Data from multiple years (2018–2023) was read and combined into a single dataset. Column names were standardized by converting them to uppercase and replacing spaces with underscores for consistency. An additional column was added to indicate the year each record belonged to.
+
+2. Strings such as "(null)" were identified as placeholders for missing data and replaced with proper `NA` values to facilitate further processing.
+
+3. Several columns, particularly those representing numeric data like suspect height, weight, and stop durations, were converted from character strings to numeric.
+
+4. Time and Date columns were converted to the appropriate data types for analysis.
+
+5. Binary flag variables, containing values such as `Y`, `N`, `NA`, and occasionally invalid entries like `(`, were handled with special consideration to ensure usability in modeling. This process involved the following rules:
+   a. *Columns with Only Y and`NA`Values*: If a column contained only `Y` and NA, the`NA`values were imputed with N. This assumption was made based on the interpretation that the absence of a `Y` flag implied the event did not occur.
+   b. *Columns with `Y`, `NA`, and `(` Values*: First, all `NA` values were replaced with `N`. Then, invalid entries represented by `(` were converted to `NA`. This ensured no invalid characters remained in the dataset.
+   c. *Columns with `Y`, `N`, `NA`, and `(` Values*: Invalid entries (`(`) were replaced with `NA`. Existing `Y`, `N`, and `NA` values were left unchanged, maintaining the integrity of the valid binary flags.
+   d. *Other Scenarios*: For Flag columns not fitting the above patterns, the values were left as-is, as they did not conform to predefined rules or patterns for binary flags.
+
+6. The extent of missingness across columns was evaluated. Variables with excessive missing data (more than 10,000 missing values) were excluded from further consideration. Remaining rows with missing values were removed to create a complete dataset.
+
+7. Remaining character variables were converted into factors to enable categorical analyses. Some factors, like SUSPECT_RACE_DESCRIPTION, were consolidated by merging specific levels (e.g., "Black Hispanic" and "White Hispanic" were grouped under "Hispanic").
+
+8. New predictors were created by aggregating related binary flag variables:
+   a. *Physical Force Count*: Summed all physical force-related flags to capture the intensity of force used.
+   b. *Suspect Actions Count*: Consolidated actions taken by suspects into a single predictor.
+   c. *Weapon Flag Count*: Combined multiple weapon-related flags into one variable representing the presence of any weapon.
+ 
+ 9. All numeric columns were standardized by centering and scaling. This ensured that variables with different units or scales were treated equitably by the models.
+ 
+ 10. Variables deemed irrelevant or redundant, such as geographic coordinates (STOP_LOCATION_X, STOP_LOCATION_Y) were excluded. The final dataset was saved for use in modeling.
+
 ### Data Summaries
 
-```{r}
-library(dplyr)
-library(knitr)
+*Note: The summary statistics below are based on the training data only. Numeric vairables have been standardized.*
 
+```{r}
 summarize_data <- function(data) {
   # Handle numeric variables
   numeric_summary <- data |>
