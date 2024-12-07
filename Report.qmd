@@ -76,7 +76,19 @@ test_metrics <- lapply(seq_along(models), function(i) {
 
 ## Overview of Conclusions
 
-## Roadmap for the Report
+### Chosen Model
+
+### Key Findings
+
+## Roadmap to Follow
+
+The [Methods](#methods) section describes the statistical models used, the steps of data preprocessing, and the procedures for hyperparameter tuning. Additionally, visual and numeric summaries of the data are discussed to set the context for the analysis. The modeling methodology is presented in detail, with a comparison of multiple models and their performance criteria.
+
+Here, we also address the scientific questions identified in the Introduction. The results from the models are presented and interpreted, highlighting key findings and their implications.
+
+The [Conclusions](#conclusions) section summarizes the study objectives, the findings from the analysis, and how they relate to the overall project goals. Additional observations and limitations of the analysis are also discussed.
+
+The [Appendix](#appendix) will house tables, source code, and supplementary plots for reference.
 
 ## Data Source Reference
 
@@ -84,7 +96,7 @@ test_metrics <- lapply(seq_along(models), function(i) {
 
 \newpage
 
-# Methods
+# Methods {#methods}
 
 ## Data Summaries and Preprocessing
 
@@ -92,23 +104,23 @@ test_metrics <- lapply(seq_along(models), function(i) {
 
 ```{r}
 # Display Race levels and their proportions of Arrested
-proportions_table <- train_data %>%
-  group_by(SUSPECT_RACE_DESCRIPTION) %>%
+proportions_table <- train_data |>
+  group_by(SUSPECT_RACE_DESCRIPTION) |>
   summarise(
     Total = n(),
     Arrested = sum(SUSPECT_ARRESTED_FLAG == "Y"),
     Proportion = Arrested / Total
-  ) %>%
+  ) |>
   arrange(desc(Proportion))
 
 kable(proportions_table)
 
 # Display proportion of arrested by race level as a stacked bar plot
-train_data %>%
+train_data |>
   mutate(SUSPECT_RACE_DESCRIPTION = factor(
     SUSPECT_RACE_DESCRIPTION, 
     levels = proportions_table$SUSPECT_RACE_DESCRIPTION
-  )) %>%
+  )) |>
   ggplot(aes(x = SUSPECT_RACE_DESCRIPTION, 
              fill = SUSPECT_ARRESTED_FLAG)) + 
   geom_bar(position = "fill") +
@@ -162,7 +174,15 @@ To evaluate the models in the outer loop and the very first step when modeling b
 
 ### Model Comparisons
 
+#### Variables of Importance
+
 [Variables of Importance](#variable-importance-plots)
+
+#### Tuning Parameters
+
+[Hyperparameter Tuning](#tuning-parameter-plots)
+
+#### Trained Model Summaries
 
 [Trained Model Summaries](#trained-model-summaries)
 
@@ -188,7 +208,7 @@ We evaluate several metrics to compare the performance of the models as they gen
 
 \newpage
 
-# Conclusions
+# Conclusions {#conclusions}
 
 ## Study Objectives Summary
 
@@ -200,7 +220,7 @@ We evaluate several metrics to compare the performance of the models as they gen
 
 \newpage
 
-# Appendix
+# Appendix {#appendix}
 
 ## Figures
 
@@ -213,8 +233,8 @@ lapply(names(models), function(model_name) {
   var_imp_df$Variable <- rownames(var_imp_df)
   
   # Select the top 5 variables based on importance
-  top_vars <- var_imp_df %>%
-    arrange(desc(Overall)) %>%
+  top_vars <- var_imp_df |>
+    arrange(desc(Overall)) |>
     slice_head(n = 10)
   
   ggplot(top_vars, aes(x = reorder(Variable, Overall), y = Overall)) +

@@ -52,8 +52,12 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#problem-description" id="toc-problem-description" class="nav-link" data-scroll-target="#problem-description">Problem Description</a></li>
   <li><a href="#study-design-and-sampling-methods" id="toc-study-design-and-sampling-methods" class="nav-link" data-scroll-target="#study-design-and-sampling-methods">Study Design and Sampling Methods</a></li>
   <li><a href="#scientific-questions-to-investigate" id="toc-scientific-questions-to-investigate" class="nav-link" data-scroll-target="#scientific-questions-to-investigate">Scientific Questions to Investigate</a></li>
-  <li><a href="#overview-of-conclusions" id="toc-overview-of-conclusions" class="nav-link" data-scroll-target="#overview-of-conclusions">Overview of Conclusions</a></li>
-  <li><a href="#roadmap-for-the-report" id="toc-roadmap-for-the-report" class="nav-link" data-scroll-target="#roadmap-for-the-report">Roadmap for the Report</a></li>
+  <li><a href="#overview-of-conclusions" id="toc-overview-of-conclusions" class="nav-link" data-scroll-target="#overview-of-conclusions">Overview of Conclusions</a>
+  <ul class="collapse">
+  <li><a href="#chosen-model" id="toc-chosen-model" class="nav-link" data-scroll-target="#chosen-model">Chosen Model</a></li>
+  <li><a href="#key-findings" id="toc-key-findings" class="nav-link" data-scroll-target="#key-findings">Key Findings</a></li>
+  </ul></li>
+  <li><a href="#roadmap-to-follow" id="toc-roadmap-to-follow" class="nav-link" data-scroll-target="#roadmap-to-follow">Roadmap to Follow</a></li>
   <li><a href="#data-source-reference" id="toc-data-source-reference" class="nav-link" data-scroll-target="#data-source-reference">Data Source Reference</a></li>
   </ul></li>
   <li><a href="#methods" id="toc-methods" class="nav-link" data-scroll-target="#methods">Methods</a>
@@ -137,9 +141,19 @@ ul.task-list li input[type="checkbox"] {
 </section>
 <section id="overview-of-conclusions" class="level2">
 <h2 class="anchored" data-anchor-id="overview-of-conclusions">Overview of Conclusions</h2>
+<section id="chosen-model" class="level3">
+<h3 class="anchored" data-anchor-id="chosen-model">Chosen Model</h3>
 </section>
-<section id="roadmap-for-the-report" class="level2">
-<h2 class="anchored" data-anchor-id="roadmap-for-the-report">Roadmap for the Report</h2>
+<section id="key-findings" class="level3">
+<h3 class="anchored" data-anchor-id="key-findings">Key Findings</h3>
+</section>
+</section>
+<section id="roadmap-to-follow" class="level2">
+<h2 class="anchored" data-anchor-id="roadmap-to-follow">Roadmap to Follow</h2>
+<p>The <a href="#methods">Methods</a> section describes the statistical models used, the steps of data preprocessing, and the procedures for hyperparameter tuning. Additionally, visual and numeric summaries of the data are discussed to set the context for the analysis. The modeling methodology is presented in detail, with a comparison of multiple models and their performance criteria.</p>
+<p>Here, we also address the scientific questions identified in the Introduction. The results from the models are presented and interpreted, highlighting key findings and their implications.</p>
+<p>The <a href="#conclusions">Conclusions</a> section summarizes the study objectives, the findings from the analysis, and how they relate to the overall project goals. Additional observations and limitations of the analysis are also discussed.</p>
+<p>The <a href="#appendix">Appendix</a> will house tables, source code, and supplementary plots for reference.</p>
 </section>
 <section id="data-source-reference" class="level2">
 <h2 class="anchored" data-anchor-id="data-source-reference">Data Source Reference</h2>
@@ -240,8 +254,18 @@ ul.task-list li input[type="checkbox"] {
 </section>
 <section id="model-comparisons" class="level3">
 <h3 class="anchored" data-anchor-id="model-comparisons">Model Comparisons</h3>
+<section id="variables-of-importance" class="level4">
+<h4 class="anchored" data-anchor-id="variables-of-importance">Variables of Importance</h4>
 <p><a href="#variable-importance-plots">Variables of Importance</a></p>
+</section>
+<section id="tuning-parameters" class="level4">
+<h4 class="anchored" data-anchor-id="tuning-parameters">Tuning Parameters</h4>
+<p><a href="#tuning-parameter-plots">Hyperparameter Tuning</a></p>
+</section>
+<section id="trained-model-summaries" class="level4">
+<h4 class="anchored" data-anchor-id="trained-model-summaries">Trained Model Summaries</h4>
 <p><a href="#trained-model-summaries">Trained Model Summaries</a></p>
+</section>
 </section>
 <section id="scientific-questions-and-results-interpretation" class="level3">
 <h3 class="anchored" data-anchor-id="scientific-questions-and-results-interpretation">Scientific Questions and Results Interpretation</h3>
