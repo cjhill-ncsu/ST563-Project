@@ -47,7 +47,7 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a>
+  <li><a href="#introduction-katrina" id="toc-introduction-katrina" class="nav-link active" data-scroll-target="#introduction-katrina">Introduction (Katrina)</a>
   <ul class="collapse">
   <li><a href="#problem-description" id="toc-problem-description" class="nav-link" data-scroll-target="#problem-description">Problem Description</a></li>
   <li><a href="#study-design-and-sampling-methods" id="toc-study-design-and-sampling-methods" class="nav-link" data-scroll-target="#study-design-and-sampling-methods">Study Design and Sampling Methods</a></li>
@@ -65,21 +65,21 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#prior-to-modeling" id="toc-prior-to-modeling" class="nav-link" data-scroll-target="#prior-to-modeling">1. Prior to Modeling</a>
   <ul class="collapse">
   <li><a href="#data-preprocessing-steps" id="toc-data-preprocessing-steps" class="nav-link" data-scroll-target="#data-preprocessing-steps">Data Preprocessing Steps</a></li>
-  <li><a href="#data-summaries" id="toc-data-summaries" class="nav-link" data-scroll-target="#data-summaries">Data Summaries</a></li>
+  <li><a href="#data-summaries-chris" id="toc-data-summaries-chris" class="nav-link" data-scroll-target="#data-summaries-chris">Data Summaries (Chris)</a></li>
   </ul></li>
   <li><a href="#statistical-models-and-methods" id="toc-statistical-models-and-methods" class="nav-link" data-scroll-target="#statistical-models-and-methods">2. Statistical Models and Methods</a>
   <ul class="collapse">
   <li><a href="#model-descriptions-and-assumptions" id="toc-model-descriptions-and-assumptions" class="nav-link" data-scroll-target="#model-descriptions-and-assumptions">Model Descriptions and Assumptions</a></li>
-  <li><a href="#model-comparisons" id="toc-model-comparisons" class="nav-link" data-scroll-target="#model-comparisons">Model Comparisons</a></li>
-  <li><a href="#scientific-questions-and-results-interpretation" id="toc-scientific-questions-and-results-interpretation" class="nav-link" data-scroll-target="#scientific-questions-and-results-interpretation">Scientific Questions and Results Interpretation</a></li>
+  <li><a href="#model-comparisons-chris" id="toc-model-comparisons-chris" class="nav-link" data-scroll-target="#model-comparisons-chris">Model Comparisons (Chris)</a></li>
+  <li><a href="#scientific-questions-and-results-interpretation-katrina" id="toc-scientific-questions-and-results-interpretation-katrina" class="nav-link" data-scroll-target="#scientific-questions-and-results-interpretation-katrina">Scientific Questions and Results Interpretation (Katrina)</a></li>
   </ul></li>
-  <li><a href="#performance-investigation-and-criteria" id="toc-performance-investigation-and-criteria" class="nav-link" data-scroll-target="#performance-investigation-and-criteria">Performance Investigation and Criteria</a>
+  <li><a href="#performance-investigation-and-criteria-chris" id="toc-performance-investigation-and-criteria-chris" class="nav-link" data-scroll-target="#performance-investigation-and-criteria-chris">Performance Investigation and Criteria (Chris)</a>
   <ul class="collapse">
   <li><a href="#metrics-used-for-model-evaluation" id="toc-metrics-used-for-model-evaluation" class="nav-link" data-scroll-target="#metrics-used-for-model-evaluation">Metrics Used for Model Evaluation</a></li>
   </ul></li>
-  <li><a href="#limitations-of-methods" id="toc-limitations-of-methods" class="nav-link" data-scroll-target="#limitations-of-methods">Limitations of Methods</a></li>
+  <li><a href="#limitations-of-methods-chris" id="toc-limitations-of-methods-chris" class="nav-link" data-scroll-target="#limitations-of-methods-chris">Limitations of Methods (Chris)</a></li>
   </ul></li>
-  <li><a href="#conclusions" id="toc-conclusions" class="nav-link" data-scroll-target="#conclusions">Conclusions</a>
+  <li><a href="#conclusions" id="toc-conclusions" class="nav-link" data-scroll-target="#conclusions">Conclusions (Katrina)</a>
   <ul class="collapse">
   <li><a href="#study-objectives-summary" id="toc-study-objectives-summary" class="nav-link" data-scroll-target="#study-objectives-summary">Study Objectives Summary</a></li>
   <li><a href="#findings-and-interpretation" id="toc-findings-and-interpretation" class="nav-link" data-scroll-target="#findings-and-interpretation">Findings and Interpretation</a></li>
@@ -129,8 +129,8 @@ ul.task-list li input[type="checkbox"] {
 
 
 <div style="page-break-after: always;"></div>
-<section id="introduction" class="level1">
-<h1>Introduction</h1>
+<section id="introduction-katrina" class="level1">
+<h1>Introduction (Katrina)</h1>
 <section id="problem-description" class="level2">
 <h2 class="anchored" data-anchor-id="problem-description">Problem Description</h2>
 </section>
@@ -199,8 +199,9 @@ ul.task-list li input[type="checkbox"] {
 <li><p>Variables deemed irrelevant or redundant, such as geographic coordinates (STOP_LOCATION_X, STOP_LOCATION_Y) were excluded. The final dataset was saved for use in modeling.</p></li>
 </ol>
 </section>
-<section id="data-summaries" class="level3">
-<h3 class="anchored" data-anchor-id="data-summaries">Data Summaries</h3>
+<section id="data-summaries-chris" class="level3">
+<h3 class="anchored" data-anchor-id="data-summaries-chris">Data Summaries (Chris)</h3>
+<p>TODO: how chosen variable may impact response</p>
 <p><em>Note: The summary statistics below are based on the training data only. Numeric vairables have been standardized.</em></p>
 <div class="cell">
 <div class="cell-output-display">
@@ -331,29 +332,29 @@ Y: 17784: (34.01%)</td>
 <li><p><strong>Elastic Net</strong> - A regularized regression method that combines the penalties of Lasso and Ridge regression. It balances variable selection and shrinkage by minimizing prediction error while preventing overfitting.</p></li>
 </ul>
 </section>
-<section id="model-comparisons" class="level3">
-<h3 class="anchored" data-anchor-id="model-comparisons">Model Comparisons</h3>
+<section id="model-comparisons-chris" class="level3">
+<h3 class="anchored" data-anchor-id="model-comparisons-chris">Model Comparisons (Chris)</h3>
 <section id="variables-of-importance" class="level4">
 <h4 class="anchored" data-anchor-id="variables-of-importance">Variables of Importance</h4>
 <p>WEAPON_FLAG_COUNT and PHYSICAL_FORCE_HANDCUFF_SUSPECT were consistently amongst the top 3 variables of importance across all models. This suggests that the presence of a weapon and the use of handcuffs are strong predictors of whether a suspect will be arrested.</p>
 <p>The suspect’s Race description is found to be somewhat important (5th) in the Random Forest. This was it’s highest showing across the tested models.</p>
 <p><a href="#variable-importance-plots">Variables of Importance</a></p>
 </section>
-<section id="tuning-parameters" class="level4">
-<h4 class="anchored" data-anchor-id="tuning-parameters">Tuning Parameters</h4>
+<section id="tuning-parameters-chris" class="level4">
+<h4 class="anchored" data-anchor-id="tuning-parameters-chris">Tuning Parameters (Chris)</h4>
 <p><a href="#tuning-parameter-plots">Hyperparameter Tuning</a></p>
 </section>
-<section id="trained-model-summaries" class="level4">
-<h4 class="anchored" data-anchor-id="trained-model-summaries">Trained Model Summaries</h4>
+<section id="trained-model-summaries-chris" class="level4">
+<h4 class="anchored" data-anchor-id="trained-model-summaries-chris">Trained Model Summaries (Chris)</h4>
 <p><a href="#trained-model-summaries">Trained Model Summaries</a></p>
 </section>
 </section>
-<section id="scientific-questions-and-results-interpretation" class="level3">
-<h3 class="anchored" data-anchor-id="scientific-questions-and-results-interpretation">Scientific Questions and Results Interpretation</h3>
+<section id="scientific-questions-and-results-interpretation-katrina" class="level3">
+<h3 class="anchored" data-anchor-id="scientific-questions-and-results-interpretation-katrina">Scientific Questions and Results Interpretation (Katrina)</h3>
 </section>
 </section>
-<section id="performance-investigation-and-criteria" class="level2">
-<h2 class="anchored" data-anchor-id="performance-investigation-and-criteria">Performance Investigation and Criteria</h2>
+<section id="performance-investigation-and-criteria-chris" class="level2">
+<h2 class="anchored" data-anchor-id="performance-investigation-and-criteria-chris">Performance Investigation and Criteria (Chris)</h2>
 <p>We evaluate several metrics to compare the performance of the models as they generilize to our test set. These metrics include: AUC, LogLoss, Kappa, and Accuracy.</p>
 <p><a href="#test-metrics">Test Metrics Results</a></p>
 <section id="metrics-used-for-model-evaluation" class="level3">
@@ -366,13 +367,13 @@ Y: 17784: (34.01%)</td>
 </ul>
 </section>
 </section>
-<section id="limitations-of-methods" class="level2">
-<h2 class="anchored" data-anchor-id="limitations-of-methods">Limitations of Methods</h2>
+<section id="limitations-of-methods-chris" class="level2">
+<h2 class="anchored" data-anchor-id="limitations-of-methods-chris">Limitations of Methods (Chris)</h2>
 <div style="page-break-after: always;"></div>
 </section>
 </section>
 <section id="conclusions" class="level1">
-<h1>Conclusions</h1>
+<h1>Conclusions (Katrina)</h1>
 <section id="study-objectives-summary" class="level2">
 <h2 class="anchored" data-anchor-id="study-objectives-summary">Study Objectives Summary</h2>
 </section>
@@ -505,20 +506,6 @@ NULL
 <div>
 <figure class="figure">
 <p><img src="Report_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
-</div>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="Report_files/figure-html/unnamed-chunk-7-2.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
-</div>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="Report_files/figure-html/unnamed-chunk-7-3.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>

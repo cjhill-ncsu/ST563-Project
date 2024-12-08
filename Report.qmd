@@ -66,7 +66,7 @@ test_metrics <- lapply(seq_along(models), function(i) {
 ```
 
 
-# Introduction
+# Introduction (Kristina)
 
 ## Problem Description
 
@@ -135,7 +135,9 @@ The data was cleaned, transformed, and structured to suit the requirements of th
  
  10. Variables deemed irrelevant or redundant, such as geographic coordinates (STOP_LOCATION_X, STOP_LOCATION_Y) were excluded. The final dataset was saved for use in modeling.
 
-### Data Summaries
+### Data Summaries (Chris)
+
+TODO: how chosen variable may impact response
 
 *Note: The summary statistics below are based on the training data only. Numeric vairables have been standardized.*
 
@@ -216,7 +218,7 @@ To evaluate the models in the outer loop and the very first step when modeling b
 
 - **Elastic Net** - A regularized regression method that combines the penalties of Lasso and Ridge regression. It balances variable selection and shrinkage by minimizing prediction error while preventing overfitting.
 
-### Model Comparisons
+### Model Comparisons (Chris)
 
 #### Variables of Importance
 
@@ -226,17 +228,17 @@ The suspect's Race description is found to be somewhat important (5th) in the Ra
 
 [Variables of Importance](#variable-importance-plots)
 
-#### Tuning Parameters
+#### Tuning Parameters (Chris)
 
 [Hyperparameter Tuning](#tuning-parameter-plots)
 
-#### Trained Model Summaries
+#### Trained Model Summaries (Chris)
 
 [Trained Model Summaries](#trained-model-summaries)
 
-### Scientific Questions and Results Interpretation
+### Scientific Questions and Results Interpretation (Kristina)
 
-## Performance Investigation and Criteria
+## Performance Investigation and Criteria (Chris)
 
 We evaluate several metrics to compare the performance of the models as they generilize to our test set. These metrics include: AUC, LogLoss, Kappa, and Accuracy. 
 
@@ -252,11 +254,11 @@ We evaluate several metrics to compare the performance of the models as they gen
 
 - **Accuracy** - is the proportion of correctly predicted outcomes out of all predictions made. Included for its simplicity and interpretability.
 
-## Limitations of Methods
+## Limitations of Methods (Chris)
 
 \newpage
 
-# Conclusions {#conclusions}
+# Conclusions (Kristina) {#conclusions} 
 
 ## Study Objectives Summary
 
@@ -272,7 +274,7 @@ We evaluate several metrics to compare the performance of the models as they gen
 
 ## Figures
 
-### A. Data Visualizations
+### A. Data Visualizations (Chris)
 
 ```{r}
 # Display Race levels and their proportions of Arrested
@@ -357,8 +359,6 @@ trellis.par.set(
 )
 
 bwplot(resamples, metric = "ROC")
-bwplot(resamples, metric = "Sens")
-bwplot(resamples, metric = "Spec")
 ```
 
 ### E. Test Metrics {#test-metrics}
