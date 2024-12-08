@@ -128,11 +128,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </ul></li>
   <li><a href="#appendix" id="toc-appendix" class="nav-link" data-scroll-target="#appendix">Appendix</a>
   <ul class="collapse">
-  <li><a href="#figures" id="toc-figures" class="nav-link" data-scroll-target="#figures">Figures</a>
+  <li><a href="#figures-and-tables" id="toc-figures-and-tables" class="nav-link" data-scroll-target="#figures-and-tables">Figures and Tables</a>
   <ul class="collapse">
-  <li><a href="#a.-data-visualizations-chris" id="toc-a.-data-visualizations-chris" class="nav-link" data-scroll-target="#a.-data-visualizations-chris">A. Data Visualizations (Chris)</a></li>
+  <li><a href="#data-summaries" id="toc-data-summaries" class="nav-link" data-scroll-target="#data-summaries">A. Data Summaries</a></li>
   <li><a href="#variable-importance-plots" id="toc-variable-importance-plots" class="nav-link" data-scroll-target="#variable-importance-plots">B. Variable Importance Plots</a></li>
-  <li><a href="#tuning-parameter-plots" id="toc-tuning-parameter-plots" class="nav-link" data-scroll-target="#tuning-parameter-plots">C. Tuning Parameter Plots</a></li>
+  <li><a href="#tuning-parameter-plots" id="toc-tuning-parameter-plots" class="nav-link" data-scroll-target="#tuning-parameter-plots">C. Tuning Parameters</a></li>
   <li><a href="#trained-model-summaries" id="toc-trained-model-summaries" class="nav-link" data-scroll-target="#trained-model-summaries">D. Trained model summaries</a></li>
   <li><a href="#test-metrics" id="toc-test-metrics" class="nav-link" data-scroll-target="#test-metrics">E. Test Metrics</a></li>
   <li><a href="#f.-source-code" id="toc-f.-source-code" class="nav-link" data-scroll-target="#f.-source-code">F. Source Code</a></li>
@@ -249,6 +249,127 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><p>Weapon involvement naturally heightens the intensity of the encounter and would likely increase arrest likelihood.</p></li>
 <li><p>STOP_DURATION_MINUTES provides a measure of the stop’s complexity or escalation over time, with longer stops potentially indicating more contentious or involved interactions.</p></li>
 </ul>
+<p><a href="#data-summaries">Summary Table and Plots</a></p>
+</section>
+</section>
+<section id="statistical-models-and-methods" class="level2">
+<h2 class="anchored" data-anchor-id="statistical-models-and-methods">2. Statistical Models and Methods</h2>
+<p>We follow the guidelines for statistical modeling laid out in the Model Building and Data Splitting lecture notes.</p>
+<ol type="1">
+<li><p><em>Split the data into a training set and a test set.</em></p></li>
+<li><p><em>Tune hyperparameters (of all the models under consideration) using the training set:</em></p>
+<ol type="a">
+<li><em>Split the training set further into two sets: one for fitting the model (a new training set), and the other for evaluating model performance (known as validation set or holdout set).</em></li>
+<li><em>For each candidate value of hyperparameter(s), fit the model using the new training set, and evaluate the fitted model using the validation set using a metric of our choice.</em></li>
+<li><em>Typically, we repeat steps a. and b. a few times so that we get repeated measurements of model performance for each value of hyperparameters. The final model performance is taken to be the average of these multiple measurements.</em></li>
+<li><em>Choose the best value of hyperparameters by optimizing the model performance measure obtained in step c.</em></li>
+</ol></li>
+<li><p><em>Using the best value of hyperparameters, fit the model(s) on the entire training set and estimate the model parameters. This is (are) the final model(s) chosen using the training set.</em></p></li>
+<li><p><em>Use the test set to estimate the model performance of the final model(s) from step 3.</em></p></li>
+<li><p><em>Again, we may want to repeat steps 1–4 a few times to get a reliable estimate of model performance of the final models. For example, we can use cross-validation here to incorporate the uncertainty due to hyperparameter tuning as well.</em></p></li>
+</ol>
+<p>By leveraging the <code>caret</code> package in R, we can efficiently implement the above steps for a variety of models. The <code>train()</code> function in <code>caret</code> will handle steps 2 and 3 for us. This can be termed the “inner loop”. After tuning hyperparameters and fitting the final trained model, we can then evaluate the various models on the test set. This can be termed the “outer loop”.</p>
+<p>To evaluate the models in the outer loop and the very first step when modeling began, we used a 70/30 split, where 70% of the data was used for training and 30% for testing. This is known as the holdout method. For training in the inner loop, 5-fold cross validation was used on the training data split. The test data was never used in the inner loop, only for evaluating the final model performance.</p>
+<section id="model-descriptions-and-assumptions" class="level3">
+<h3 class="anchored" data-anchor-id="model-descriptions-and-assumptions">Model Descriptions and Assumptions</h3>
+<ul>
+<li><p><strong>Random Forest</strong> - Improves prediction accuracy by combining multiple decision trees. Each tree is trained on a random bootstrap sample of the data, and at every split, only a random subset of predictors is considered. This medigates the correlation between trees when a certain predictor may be present in all trees, reducing their variance and improving the robustness of the predictions.</p></li>
+<li><p><strong>Extreme Gradient Boosting (XGBoost)</strong> - Builds models sequentially, each new tree correcting errors made by previous ones, and optimizes a loss function. XGBoost also uses regularization, meaning it penalizes complex models to prevent overfitting.</p></li>
+<li><p><strong>Logistic Regression</strong> - Models the relationship between a set of predictor variables and a binary outcome by estimating the probability of the outcome occurring, using the logistic function to ensure probabilities fall between 0 and 1. The method identifies linear relationships between predictors and the log-odds of the outcome</p></li>
+<li><p><strong>Elastic Net</strong> - A regularized regression method that combines the penalties of Lasso and Ridge regression. It balances variable selection and shrinkage by minimizing prediction error while preventing overfitting.</p></li>
+</ul>
+</section>
+<section id="model-comparisons" class="level3">
+<h3 class="anchored" data-anchor-id="model-comparisons">Model Comparisons</h3>
+<p>In training and tuning the models, we instructed <code>caret</code> to use the <a href="#metrics">AUC</a> metric as described further below. This metric was chosen because it is a robust measure of model performance compared to accuracy.</p>
+<p>We will also consider AUC in our comparisons between models, as well as other metrics such as LogLoss, Kappa, and Accuracy. These metrics will help us evaluate the models’ performance on the test set and determine which model is best suited for our predicting our response and generalizing to new data.</p>
+<section id="trained-model-summaries" class="level4">
+<h4 class="anchored" data-anchor-id="trained-model-summaries">Trained Model Summaries</h4>
+<p>The following plots summarize the performance of the models on the training data. The boxplots show the distribution of the AUC metric during cross-validation and model tuning. This provides a convenient visual comparison of their performance.</p>
+<p>We see in our model tuning that the XGBoost model appears to have a better metric distribution compared to the other models. This suggests that XGBoost may be the best model for our data. And indeed, this similar performance is confirmed by the test metrics results that will be discussed in the next section.</p>
+<p><a href="#trained-model-summaries">Trained Model Summaries</a></p>
+</section>
+<section id="variables-of-importance" class="level4">
+<h4 class="anchored" data-anchor-id="variables-of-importance">Variables of Importance</h4>
+<p>WEAPON_FLAG_COUNT and PHYSICAL_FORCE_HANDCUFF_SUSPECT were consistently amongst the top 3 variables of importance across all models. This suggests that the presence of a weapon and the use of handcuffs are strong predictors of whether a suspect will be arrested.</p>
+<p>The suspect’s Race description is found to be somewhat important (5th) in the Random Forest. This was it’s highest showing across the tested models in ranked order of importance.</p>
+<p><a href="#variable-importance-plots">Variables of Importance Plots</a></p>
+</section>
+<section id="tuning-parameters" class="level4">
+<h4 class="anchored" data-anchor-id="tuning-parameters">Tuning Parameters</h4>
+<p>The <a href="#tuning-parameter-plots">Hyperparameter Tuning Plots</a> show the manner in which the hyperparameters were chosen for each model. These plots provide insight into the tuning process and the values selected for the final models. A summary table is also provided with the best tuning parameters for each model.</p>
+</section>
+</section>
+<section id="scientific-questions-and-results-interpretation-kristina" class="level3">
+<h3 class="anchored" data-anchor-id="scientific-questions-and-results-interpretation-kristina">Scientific Questions and Results Interpretation (Kristina)</h3>
+</section>
+</section>
+<section id="performance-investigation-and-criteria" class="level2">
+<h2 class="anchored" data-anchor-id="performance-investigation-and-criteria">Performance Investigation and Criteria</h2>
+<p>We evaluate several metrics to compare the performance of the models as they generalize to our test set. These metrics include: AUC, LogLoss, Kappa, and Accuracy.</p>
+<section id="metrics" class="level3">
+<h3 class="anchored" data-anchor-id="metrics">Metrics Used for Model Evaluation</h3>
+<ul>
+<li><p><strong>AUC</strong> (Area Under the <em>Receiver Operating Characteristic</em> Curve) - was used as our training metric of choice during model tuning. AUC measures how correctly a model distinguishes between true outcomes and false outcomes across all possible boundaries between classes. A model with a larger AUC value can be said to better distinguish between true and false outcomes across all boundaries between classes.</p></li>
+<li><p><strong>LogLoss</strong> - quantifies how uncertain a model is about its predictions, penalizing incorrect predictions with greater uncertainty. A model with a smaller LogLoss value can be said to make more confident and accurate predictions because it assigns higher probabilities to correct outcomes and lower probabilities to incorrect ones, minimizing uncertainty.</p></li>
+<li><p><strong>Kappa</strong> - measures how correct a model’s predictions are compared to actual outcomes, while accounting for correctness expected by random chance. A model with a larger Kappa value can be said to make predictions that are more correct relative to chance alone.</p></li>
+<li><p><strong>Accuracy</strong> - is the proportion of correctly predicted outcomes out of all predictions made. Included for its simplicity and interpretability.</p></li>
+</ul>
+</section>
+<section id="test-metrics-results-summary" class="level3">
+<h3 class="anchored" data-anchor-id="test-metrics-results-summary">Test Metrics Results Summary</h3>
+<p>A visual perspective of model performance can be found in <a href="#test-metrics">Test Metrics Results</a>. The accompanying table summarizes the test metrics for each model, providing a comparison of their performance on the test set.</p>
+<p>The best model will be determined based on the combination of these metrics, with a focus on AUC, LogLoss, and Kappa. The model that consistently performs well across these metrics will be considered the best model for our predictive purposes.</p>
+</section>
+</section>
+<section id="limitations-of-methods" class="level2">
+<h2 class="anchored" data-anchor-id="limitations-of-methods">Limitations of Methods</h2>
+<section id="data-preprocessing" class="level3">
+<h3 class="anchored" data-anchor-id="data-preprocessing">1. Data Preprocessing:</h3>
+<ul>
+<li>Binary Flags: Simplified handling of missing or invalid entries (e.g., replacing <code>NA</code> with <code>N</code>) was an assumption and may have introduced bias.</li>
+<li>Aggregating multiple binary flags into predictors (e.g., Suspect Action Count) simplifies the data but may lose nuanced information about individual variables.</li>
+</ul>
+</section>
+<section id="modeling-limitations" class="level3">
+<h3 class="anchored" data-anchor-id="modeling-limitations">2. Modeling Limitations:</h3>
+<ul>
+<li>Hyperparameter Tuning: Though the Tuning was given a fair range to explore, it was primarily left to default behavior in <code>caret</code>. More rigorous tuning may have produced better models with more exacting hyperparameters.</li>
+<li>Evaluation Metrics: The models were primarily evaluated using metrics like AUC, LogLoss, Kappa, and Accuracy. (AUC explicitely in training.) While these metrics provide a robust comparison, they focus on different aspects of model performance, and prioritizing one metric over another could bias tuning or model selection.</li>
+<li>Holdout Method: The 70/30 split used testing may not be optimal. Cross-validation in the outer loop could provide a more robust estimate of model performance.</li>
+</ul>
+</section>
+<section id="contextual-factors" class="level3">
+<h3 class="anchored" data-anchor-id="contextual-factors">3. Contextual Factors:</h3>
+<ul>
+<li>Ethical Concerns: Systemic and situational biases in the dataset may influence predictions and reinforce existing inequities. Predictive models trained on such data may inadvertently reinforce these biases.</li>
+</ul>
+<div style="page-break-after: always;"></div>
+</section>
+</section>
+</section>
+<section id="conclusions" class="level1">
+<h1>Conclusions (Kristina)</h1>
+<section id="study-objectives-summary" class="level2">
+<h2 class="anchored" data-anchor-id="study-objectives-summary">Study Objectives Summary</h2>
+</section>
+<section id="findings-and-interpretation" class="level2">
+<h2 class="anchored" data-anchor-id="findings-and-interpretation">Findings and Interpretation</h2>
+</section>
+<section id="project-goals-and-outcomes" class="level2">
+<h2 class="anchored" data-anchor-id="project-goals-and-outcomes">Project Goals and Outcomes</h2>
+</section>
+<section id="additional-observations" class="level2">
+<h2 class="anchored" data-anchor-id="additional-observations">Additional Observations</h2>
+<div style="page-break-after: always;"></div>
+</section>
+</section>
+<section id="appendix" class="level1">
+<h1>Appendix</h1>
+<section id="figures-and-tables" class="level2">
+<h2 class="anchored" data-anchor-id="figures-and-tables">Figures and Tables</h2>
+<section id="data-summaries" class="level3">
+<h3 class="anchored" data-anchor-id="data-summaries">A. Data Summaries</h3>
 <p><em>Note: The summary statistics below are based on the training data only. Numeric vairables have been standardized.</em></p>
 <div class="cell">
 <div class="cell-output-display">
@@ -320,54 +441,67 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </table>
 </div>
 </div>
+<p>Table of modeled variables and their summaries.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Report_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
 </section>
+<section id="variable-importance-plots" class="level3">
+<h3 class="anchored" data-anchor-id="variable-importance-plots">B. Variable Importance Plots</h3>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>[[1]]</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Report_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+[[2]]</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Report_files/figure-html/unnamed-chunk-5-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+[[3]]</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Report_files/figure-html/unnamed-chunk-5-3.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+[[4]]</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Report_files/figure-html/unnamed-chunk-5-4.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
 </section>
-<section id="statistical-models-and-methods" class="level2">
-<h2 class="anchored" data-anchor-id="statistical-models-and-methods">2. Statistical Models and Methods</h2>
-<p>We follow the guidelines for statistical modeling laid out in the Model Building and Data Splitting lecture notes.</p>
-<ol type="1">
-<li><p><em>Split the data into a training set and a test set.</em></p></li>
-<li><p><em>Tune hyperparameters (of all the models under consideration) using the training set:</em></p>
-<ol type="a">
-<li><em>Split the training set further into two sets: one for fitting the model (a new training set), and the other for evaluating model performance (known as validation set or holdout set).</em></li>
-<li><em>For each candidate value of hyperparameter(s), fit the model using the new training set, and evaluate the fitted model using the validation set using a metric of our choice.</em></li>
-<li><em>Typically, we repeat steps a. and b. a few times so that we get repeated measurements of model performance for each value of hyperparameters. The final model performance is taken to be the average of these multiple measurements.</em></li>
-<li><em>Choose the best value of hyperparameters by optimizing the model performance measure obtained in step c.</em></li>
-</ol></li>
-<li><p><em>Using the best value of hyperparameters, fit the model(s) on the entire training set and estimate the model parameters. This is (are) the final model(s) chosen using the training set.</em></p></li>
-<li><p><em>Use the test set to estimate the model performance of the final model(s) from step 3.</em></p></li>
-<li><p><em>Again, we may want to repeat steps 1–4 a few times to get a reliable estimate of model performance of the final models. For example, we can use cross-validation here to incorporate the uncertainty due to hyperparameter tuning as well.</em></p></li>
-</ol>
-<p>By leveraging the <code>caret</code> package in R, we can efficiently implement the above steps for a variety of models. The <code>train()</code> function in <code>caret</code> will handle steps 2 and 3 for us. This can be termed the “inner loop”. After tuning hyperparameters and fitting the final trained model, we can then evaluate the various models on the test set. This can be termed the “outer loop”.</p>
-<p>To evaluate the models in the outer loop and the very first step when modeling began, we used a 70/30 split, where 70% of the data was used for training and 30% for testing. This is known as the holdout method. For training in the inner loop, 5-fold cross validation was used on the training data split. The test data was never used in the inner loop, only for evaluating the final model performance.</p>
-<section id="model-descriptions-and-assumptions" class="level3">
-<h3 class="anchored" data-anchor-id="model-descriptions-and-assumptions">Model Descriptions and Assumptions</h3>
-<ul>
-<li><p><strong>Random Forest</strong> - Improves prediction accuracy by combining multiple decision trees. Each tree is trained on a random bootstrap sample of the data, and at every split, only a random subset of predictors is considered. This medigates the correlation between trees when a certain predictor may be present in all trees, reducing their variance and improving the robustness of the predictions.</p></li>
-<li><p><strong>Extreme Gradient Boosting (XGBoost)</strong> - Builds models sequentially, each new tree correcting errors made by previous ones, and optimizes a loss function. XGBoost also uses regularization, meaning it penalizes complex models to prevent overfitting.</p></li>
-<li><p><strong>Logistic Regression</strong> - Models the relationship between a set of predictor variables and a binary outcome by estimating the probability of the outcome occurring, using the logistic function to ensure probabilities fall between 0 and 1. The method identifies linear relationships between predictors and the log-odds of the outcome</p></li>
-<li><p><strong>Elastic Net</strong> - A regularized regression method that combines the penalties of Lasso and Ridge regression. It balances variable selection and shrinkage by minimizing prediction error while preventing overfitting.</p></li>
-</ul>
-</section>
-<section id="model-comparisons" class="level3">
-<h3 class="anchored" data-anchor-id="model-comparisons">Model Comparisons</h3>
-<p>In training and tuning the models, we instructed <code>caret</code> to use the <a href="#metrics">AUC</a> metric as described further below. This metric was chosen because it is a robust measure of model performance compared to accuracy.</p>
-<p>We will also consider AUC in our comparisons between models, as well as other metrics such as LogLoss, Kappa, and Accuracy. These metrics will help us evaluate the models’ performance on the test set and determine which model is best suited for our predicting our response and generalizing to new data.</p>
-<section id="trained-model-summaries" class="level4">
-<h4 class="anchored" data-anchor-id="trained-model-summaries">Trained Model Summaries</h4>
-<p>The following plots summarize the performance of the models on the training data. The boxplots show the distribution of the AUC metric during cross-validation and model tuning. This provides a convenient visual comparison of their performance.</p>
-<p>We see in our model tuning that the XGBoost model appears to have a better metric distribution compared to the other models. This suggests that XGBoost may be the best model for our data. And indeed, this similar performance is confirmed by the <a href="#test-metrics">test metrics</a> that will be discussed in the next section.</p>
-<p><a href="#trained-model-summaries">Trained Model Summaries</a></p>
-</section>
-<section id="variables-of-importance" class="level4">
-<h4 class="anchored" data-anchor-id="variables-of-importance">Variables of Importance</h4>
-<p>WEAPON_FLAG_COUNT and PHYSICAL_FORCE_HANDCUFF_SUSPECT were consistently amongst the top 3 variables of importance across all models. This suggests that the presence of a weapon and the use of handcuffs are strong predictors of whether a suspect will be arrested.</p>
-<p>The suspect’s Race description is found to be somewhat important (5th) in the Random Forest. This was it’s highest showing across the tested models in ranked order of importance.</p>
-<p><a href="#variable-importance-plots">Variables of Importance Plots</a></p>
-</section>
-<section id="tuning-parameters" class="level4">
-<h4 class="anchored" data-anchor-id="tuning-parameters">Tuning Parameters</h4>
-<p>The <a href="#tuning-parameter-plots">Hyperparameter Tuning Plots</a> show the manner in which the hyperparameters were chosen for each model. These plots provide insight into the tuning process and the values selected for the final models.</p>
+<section id="tuning-parameter-plots" class="level3">
+<h3 class="anchored" data-anchor-id="tuning-parameter-plots">C. Tuning Parameters</h3>
 <div class="cell">
 <div class="cell-output-display">
 <table class="caption-top table table-sm table-striped small">
@@ -402,27 +536,66 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </table>
 </div>
 </div>
+<p>Table of best tuning parameters for each model.</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>[[1]]</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Report_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Report_files/figure-html/unnamed-chunk-7-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+[[2]]</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Report_files/figure-html/unnamed-chunk-7-3.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+[[3]]
+NULL
+
+[[4]]</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Report_files/figure-html/unnamed-chunk-7-4.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
 </section>
+<section id="trained-model-summaries" class="level3">
+<h3 class="anchored" data-anchor-id="trained-model-summaries">D. Trained model summaries</h3>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Report_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
 </section>
-<section id="scientific-questions-and-results-interpretation-kristina" class="level3">
-<h3 class="anchored" data-anchor-id="scientific-questions-and-results-interpretation-kristina">Scientific Questions and Results Interpretation (Kristina)</h3>
-</section>
-</section>
-<section id="performance-investigation-and-criteria" class="level2">
-<h2 class="anchored" data-anchor-id="performance-investigation-and-criteria">Performance Investigation and Criteria</h2>
-<p>We evaluate several metrics to compare the performance of the models as they generalize to our test set. These metrics include: AUC, LogLoss, Kappa, and Accuracy.</p>
-<section id="metrics" class="level3">
-<h3 class="anchored" data-anchor-id="metrics">Metrics Used for Model Evaluation</h3>
-<ul>
-<li><p><strong>AUC</strong> (Area Under the <em>Receiver Operating Characteristic</em> Curve) - was used as our training metric of choice during model tuning. AUC measures how correctly a model distinguishes between true outcomes and false outcomes across all possible boundaries between classes. A model with a larger AUC value can be said to better distinguish between true and false outcomes across all boundaries between classes.</p></li>
-<li><p><strong>LogLoss</strong> - quantifies how uncertain a model is about its predictions, penalizing incorrect predictions with greater uncertainty. A model with a smaller LogLoss value can be said to make more confident and accurate predictions because it assigns higher probabilities to correct outcomes and lower probabilities to incorrect ones, minimizing uncertainty.</p></li>
-<li><p><strong>Kappa</strong> - measures how correct a model’s predictions are compared to actual outcomes, while accounting for correctness expected by random chance. A model with a larger Kappa value can be said to make predictions that are more correct relative to chance alone.</p></li>
-<li><p><strong>Accuracy</strong> - is the proportion of correctly predicted outcomes out of all predictions made. Included for its simplicity and interpretability.</p></li>
-</ul>
-</section>
-<section id="test-metrics-results-summary" class="level3">
-<h3 class="anchored" data-anchor-id="test-metrics-results-summary">Test Metrics Results Summary</h3>
-<p>A visual perspective of model performance can be found in <a href="#test-metrics">Test Metrics Results</a>. This table summarizes the test metrics for each model, providing a comparison of their performance on the test set.</p>
+<section id="test-metrics" class="level3">
+<h3 class="anchored" data-anchor-id="test-metrics">E. Test Metrics</h3>
 <div class="cell">
 <div class="cell-output-display">
 <table class="caption-top table table-sm table-striped small">
@@ -457,175 +630,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </table>
 </div>
 </div>
-</section>
-</section>
-<section id="limitations-of-methods" class="level2">
-<h2 class="anchored" data-anchor-id="limitations-of-methods">Limitations of Methods</h2>
-<section id="data-preprocessing" class="level3">
-<h3 class="anchored" data-anchor-id="data-preprocessing">1. Data Preprocessing:</h3>
-<ul>
-<li>Binary Flags: Simplified handling of missing or invalid entries (e.g., replacing <code>NA</code> with <code>N</code>) was an assumption and may have introduced bias.</li>
-<li>Aggregating multiple binary flags into predictors (e.g., Suspect Action Count) simplifies the data but may lose nuanced information about individual variables.</li>
-</ul>
-</section>
-<section id="modeling-limitations" class="level3">
-<h3 class="anchored" data-anchor-id="modeling-limitations">2. Modeling Limitations:</h3>
-<ul>
-<li>Hyperparameter Tuning: Though the Tuning was given a fair range to explore, it was primarily left to default behavior in <code>caret</code>. More rigorous tuning may have produced better models with more exacting hyperparameters.</li>
-<li>Evaluation Metrics: The models were primarily evaluated using metrics like AUC, LogLoss, Kappa, and Accuracy. (AUC explicitely in training.) While these metrics provide a robust comparison, they focus on different aspects of model performance, and prioritizing one metric over another could bias tuning or model selection.</li>
-<li>Holdout Method: The 70/30 split used testing may not be optimal. Cross-validation in the outer loop could provide a more robust estimate of model performance.</li>
-</ul>
-</section>
-<section id="contextual-factors" class="level3">
-<h3 class="anchored" data-anchor-id="contextual-factors">3. Contextual Factors:</h3>
-<ul>
-<li>Ethical Concerns: Systemic and situational biases in the dataset may influence predictions and reinforce existing inequities. Predictive models trained on such data may inadvertently reinforce these biases.</li>
-</ul>
-<div style="page-break-after: always;"></div>
-</section>
-</section>
-</section>
-<section id="conclusions" class="level1">
-<h1>Conclusions (Kristina)</h1>
-<section id="study-objectives-summary" class="level2">
-<h2 class="anchored" data-anchor-id="study-objectives-summary">Study Objectives Summary</h2>
-</section>
-<section id="findings-and-interpretation" class="level2">
-<h2 class="anchored" data-anchor-id="findings-and-interpretation">Findings and Interpretation</h2>
-</section>
-<section id="project-goals-and-outcomes" class="level2">
-<h2 class="anchored" data-anchor-id="project-goals-and-outcomes">Project Goals and Outcomes</h2>
-</section>
-<section id="additional-observations" class="level2">
-<h2 class="anchored" data-anchor-id="additional-observations">Additional Observations</h2>
-<div style="page-break-after: always;"></div>
-</section>
-</section>
-<section id="appendix" class="level1">
-<h1>Appendix</h1>
-<section id="figures" class="level2">
-<h2 class="anchored" data-anchor-id="figures">Figures</h2>
-<section id="a.-data-visualizations-chris" class="level3">
-<h3 class="anchored" data-anchor-id="a.-data-visualizations-chris">A. Data Visualizations (Chris)</h3>
-<div class="cell">
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="Report_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
-</div>
-</div>
-</section>
-<section id="variable-importance-plots" class="level3">
-<h3 class="anchored" data-anchor-id="variable-importance-plots">B. Variable Importance Plots</h3>
-<div class="cell">
-<div class="cell-output cell-output-stdout">
-<pre><code>[[1]]</code></pre>
-</div>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="Report_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>
-[[2]]</code></pre>
-</div>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="Report_files/figure-html/unnamed-chunk-7-2.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>
-[[3]]</code></pre>
-</div>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="Report_files/figure-html/unnamed-chunk-7-3.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>
-[[4]]</code></pre>
-</div>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="Report_files/figure-html/unnamed-chunk-7-4.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
-</div>
-</div>
-</section>
-<section id="tuning-parameter-plots" class="level3">
-<h3 class="anchored" data-anchor-id="tuning-parameter-plots">C. Tuning Parameter Plots</h3>
-<div class="cell">
-<div class="cell-output cell-output-stdout">
-<pre><code>[[1]]</code></pre>
-</div>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="Report_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
-</div>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="Report_files/figure-html/unnamed-chunk-8-2.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>
-[[2]]</code></pre>
-</div>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="Report_files/figure-html/unnamed-chunk-8-3.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>
-[[3]]
-NULL
-
-[[4]]</code></pre>
-</div>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="Report_files/figure-html/unnamed-chunk-8-4.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
-</div>
-</div>
-</section>
-<section id="trained-model-summaries" class="level3">
-<h3 class="anchored" data-anchor-id="trained-model-summaries">D. Trained model summaries</h3>
-<div class="cell">
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="Report_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
-</div>
-</div>
-</section>
-<section id="test-metrics" class="level3">
-<h3 class="anchored" data-anchor-id="test-metrics">E. Test Metrics</h3>
+<p>Table of test metrics summary for each model.</p>
 <div class="cell">
 <div class="cell-output-display">
 <div>

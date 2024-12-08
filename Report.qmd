@@ -146,6 +146,125 @@ The data was cleaned, transformed, and structured to suit the requirements of th
  - Weapon involvement naturally heightens the intensity of the encounter and would likely increase arrest likelihood.
  
  - STOP_DURATION_MINUTES provides a measure of the stop’s complexity or escalation over time, with longer stops potentially indicating more contentious or involved interactions.
+ 
+[Summary Table and Plots](#data-summaries)
+
+## 2. Statistical Models and Methods
+
+We follow the guidelines for statistical modeling laid out in the Model Building and Data Splitting lecture notes.
+
+1. *Split the data into a training set and a test set.*
+
+2. *Tune hyperparameters (of all the models under consideration) using the training set:*
+   a. *Split the training set further into two sets: one for fitting the model (a new training set), and the other for evaluating model performance (known as validation set or holdout set).*
+   b. *For each candidate value of hyperparameter(s), fit the model using the new training set, and evaluate the fitted model using the validation set using a metric of our choice.*
+   c. *Typically, we repeat steps a. and b. a few times so that we get repeated measurements of model performance for each value of hyperparameters. The final model performance is taken to be the average of these multiple measurements.*
+   d. *Choose the best value of hyperparameters by optimizing the model performance measure obtained in step c.*
+
+3. *Using the best value of hyperparameters, fit the model(s) on the entire training set and estimate the model parameters. This is (are) the final model(s) chosen using the training set.*
+
+4. *Use the test set to estimate the model performance of the final model(s) from step 3.*
+
+5. *Again, we may want to repeat steps 1–4 a few times to get a reliable estimate of model performance of the final models. For example, we can use cross-validation here to incorporate the uncertainty due to hyperparameter tuning as well.*
+
+By leveraging the `caret` package in R, we can efficiently implement the above steps for a variety of models. The `train()` function in `caret` will handle steps 2 and 3 for us. This can be termed the "inner loop". After tuning hyperparameters and fitting the final trained model, we can then evaluate the various models on the test set. This can be termed the "outer loop". 
+
+To evaluate the models in the outer loop and the very first step when modeling began, we used a 70/30 split, where 70% of the data was used for training and 30% for testing. This is known as the holdout method. For training in the inner loop, 5-fold cross validation was used on the training data split. The test data was never used in the inner loop, only for evaluating the final model performance.
+
+### Model Descriptions and Assumptions
+
+- **Random Forest** - Improves prediction accuracy by combining multiple decision trees. Each tree is trained on a random bootstrap sample of the data, and at every split, only a random subset of predictors is considered. This medigates the correlation between trees when a certain predictor may be present in all trees, reducing their variance and improving the robustness of the predictions.
+
+- **Extreme Gradient Boosting (XGBoost)** - Builds models sequentially, each new tree correcting errors made by previous ones, and optimizes a loss function. XGBoost also uses regularization, meaning it penalizes complex models to prevent overfitting.
+
+- **Logistic Regression** - Models the relationship between a set of predictor variables and a binary outcome by estimating the probability of the outcome occurring, using the logistic function to ensure probabilities fall between 0 and 1. The method identifies linear relationships between predictors and the log-odds of the outcome
+
+- **Elastic Net** - A regularized regression method that combines the penalties of Lasso and Ridge regression. It balances variable selection and shrinkage by minimizing prediction error while preventing overfitting.
+
+### Model Comparisons 
+
+In training and tuning the models, we instructed `caret` to use the [AUC](#metrics) metric as described further below. This metric was chosen because it is a robust measure of model performance compared to accuracy.
+
+We will also consider AUC in our comparisons between models, as well as other metrics such as LogLoss, Kappa, and Accuracy. These metrics will help us evaluate the models' performance on the test set and determine which model is best suited for our predicting our response and generalizing to new data.
+
+#### Trained Model Summaries
+
+The following plots summarize the performance of the models on the training data. The boxplots show the distribution of the AUC metric during cross-validation and model tuning. This provides a convenient visual comparison of their performance.
+
+We see in our model tuning that the XGBoost model appears to have a better metric distribution compared to the other models. This suggests that XGBoost may be the best model for our data. And indeed, this similar performance is confirmed by the test metrics results that will be discussed in the next section.
+
+[Trained Model Summaries](#trained-model-summaries)
+
+#### Variables of Importance
+
+WEAPON_FLAG_COUNT and PHYSICAL_FORCE_HANDCUFF_SUSPECT were consistently amongst the top 3 variables of importance across all models. This suggests that the presence of a weapon and the use of handcuffs are strong predictors of whether a suspect will be arrested.
+
+The suspect's Race description is found to be somewhat important (5th) in the Random Forest. This was it's highest showing across the tested models in ranked order of importance. 
+
+[Variables of Importance Plots](#variable-importance-plots)
+
+#### Tuning Parameters
+
+The [Hyperparameter Tuning Plots](#tuning-parameter-plots) show the manner in which the hyperparameters were chosen for each model. These plots provide insight into the tuning process and the values selected for the final models. A summary table is also provided with the best tuning parameters for each model.
+
+### Scientific Questions and Results Interpretation (Kristina)
+
+## Performance Investigation and Criteria
+
+We evaluate several metrics to compare the performance of the models as they generalize to our test set. These metrics include: AUC, LogLoss, Kappa, and Accuracy. 
+
+### Metrics Used for Model Evaluation {#metrics}
+
+- **AUC** (Area Under the *Receiver Operating Characteristic* Curve) - was used as our training metric of choice during model tuning. AUC measures how correctly a model distinguishes between true outcomes and false outcomes across all possible boundaries between classes. A model with a larger AUC value can be said to better distinguish between true and false outcomes across all boundaries between classes.
+
+- **LogLoss** - quantifies how uncertain a model is about its predictions, penalizing incorrect predictions with greater uncertainty. A model with a smaller LogLoss value can be said to make more confident and accurate predictions because it assigns higher probabilities to correct outcomes and lower probabilities to incorrect ones, minimizing uncertainty.
+
+- **Kappa** - measures how correct a model's predictions are compared to actual outcomes, while accounting for correctness expected by random chance. A model with a larger Kappa value can be said to make predictions that are more correct relative to chance alone.
+
+- **Accuracy** - is the proportion of correctly predicted outcomes out of all predictions made. Included for its simplicity and interpretability.
+
+### Test Metrics Results Summary
+
+A visual perspective of model performance can be found in [Test Metrics Results](#test-metrics). The accompanying table summarizes the test metrics for each model, providing a comparison of their performance on the test set.
+
+The best model will be determined based on the combination of these metrics, with a focus on AUC, LogLoss, and Kappa. The model that consistently performs well across these metrics will be considered the best model for our predictive purposes.
+
+## Limitations of Methods
+
+### 1. Data Preprocessing:
+
+ - Binary Flags: Simplified handling of missing or invalid entries (e.g., replacing `NA` with `N`) was an assumption and may have introduced bias.
+ - Aggregating multiple binary flags into predictors (e.g., Suspect Action Count) simplifies the data but may lose nuanced information about individual variables.
+
+### 2. Modeling Limitations:
+
+ - Hyperparameter Tuning: Though the Tuning was given a fair range to explore, it was primarily left to default behavior in `caret`. More rigorous tuning may have produced better models with more exacting hyperparameters.
+ - Evaluation Metrics: The models were primarily evaluated using metrics like AUC, LogLoss, Kappa, and Accuracy. (AUC explicitely in training.) While these metrics provide a robust comparison, they focus on different aspects of model performance, and prioritizing one metric over another could bias tuning or model selection.
+ - Holdout Method: The 70/30 split used testing may not be optimal. Cross-validation in the outer loop could provide a more robust estimate of model performance.
+
+### 3. Contextual Factors:
+
+ - Ethical Concerns: Systemic and situational biases in the dataset may influence predictions and reinforce existing inequities. Predictive models trained on such data may inadvertently reinforce these biases.
+
+\newpage
+
+# Conclusions (Kristina) {#conclusions} 
+
+## Study Objectives Summary
+
+## Findings and Interpretation
+
+## Project Goals and Outcomes
+
+## Additional Observations
+
+\newpage
+
+# Appendix {#appendix}
+
+## Figures and Tables
+
+### A. Data Summaries {#data-summaries}
 
 *Note: The summary statistics below are based on the training data only. Numeric vairables have been standardized.*
 
@@ -192,63 +311,68 @@ summarize_data <- function(data) {
 summarize_data(train_data)
 ```
 
-## 2. Statistical Models and Methods
+Table of modeled variables and their summaries.
 
-We follow the guidelines for statistical modeling laid out in the Model Building and Data Splitting lecture notes.
+```{r}
+# Display Race levels and their proportions of Arrested
+proportions_table <- train_data |>
+  group_by(SUSPECT_RACE_DESCRIPTION) |>
+  summarise(
+    Total = n(),
+    Arrested = sum(SUSPECT_ARRESTED_FLAG == "Y"),
+    Proportion = Arrested / Total
+  ) |>
+  arrange(desc(Proportion))
 
-1. *Split the data into a training set and a test set.*
+# Display proportion of arrested by race level as a stacked bar plot
+train_data |>
+  mutate(SUSPECT_RACE_DESCRIPTION = factor(
+    SUSPECT_RACE_DESCRIPTION, 
+    levels = proportions_table$SUSPECT_RACE_DESCRIPTION
+  )) |>
+  ggplot(aes(x = SUSPECT_RACE_DESCRIPTION, 
+             fill = SUSPECT_ARRESTED_FLAG)) + 
+  geom_bar(position = "fill") +
+  labs(
+    title = "Proportion Arrested",
+    x = "Race Description",
+    y = "Proportion"
+  ) +
+  theme_minimal() + 
+  theme(
+    legend.position = "none",
+    axis.text.x = element_text(angle = 45, hjust = 1)
+  )
 
-2. *Tune hyperparameters (of all the models under consideration) using the training set:*
-   a. *Split the training set further into two sets: one for fitting the model (a new training set), and the other for evaluating model performance (known as validation set or holdout set).*
-   b. *For each candidate value of hyperparameter(s), fit the model using the new training set, and evaluate the fitted model using the validation set using a metric of our choice.*
-   c. *Typically, we repeat steps a. and b. a few times so that we get repeated measurements of model performance for each value of hyperparameters. The final model performance is taken to be the average of these multiple measurements.*
-   d. *Choose the best value of hyperparameters by optimizing the model performance measure obtained in step c.*
+```
 
-3. *Using the best value of hyperparameters, fit the model(s) on the entire training set and estimate the model parameters. This is (are) the final model(s) chosen using the training set.*
+### B. Variable Importance Plots {#variable-importance-plots}
 
-4. *Use the test set to estimate the model performance of the final model(s) from step 3.*
+```{r}
+lapply(names(models), function(model_name) {
+  
+  var_imp_df <- as.data.frame(varImp(models[[model_name]])$importance)
+  var_imp_df$Variable <- rownames(var_imp_df)
+  
+  # Select the top 5 variables based on importance
+  top_vars <- var_imp_df |>
+    arrange(desc(Overall)) |>
+    slice_head(n = 10)
+  
+  ggplot(top_vars, aes(x = reorder(Variable, Overall), y = Overall)) +
+    geom_bar(stat = "identity", fill = "steelblue") +
+    coord_flip() +
+    labs(
+      title = paste("Top 10 Variables for", model_name),
+      y = "Importance",
+      caption = "This plot shows the top variables contributing to the model's predictive performance."
+    ) +
+    theme_minimal()
+})
 
-5. *Again, we may want to repeat steps 1–4 a few times to get a reliable estimate of model performance of the final models. For example, we can use cross-validation here to incorporate the uncertainty due to hyperparameter tuning as well.*
+```
 
-By leveraging the `caret` package in R, we can efficiently implement the above steps for a variety of models. The `train()` function in `caret` will handle steps 2 and 3 for us. This can be termed the "inner loop". After tuning hyperparameters and fitting the final trained model, we can then evaluate the various models on the test set. This can be termed the "outer loop". 
-
-To evaluate the models in the outer loop and the very first step when modeling began, we used a 70/30 split, where 70% of the data was used for training and 30% for testing. This is known as the holdout method. For training in the inner loop, 5-fold cross validation was used on the training data split. The test data was never used in the inner loop, only for evaluating the final model performance.
-
-### Model Descriptions and Assumptions
-
-- **Random Forest** - Improves prediction accuracy by combining multiple decision trees. Each tree is trained on a random bootstrap sample of the data, and at every split, only a random subset of predictors is considered. This medigates the correlation between trees when a certain predictor may be present in all trees, reducing their variance and improving the robustness of the predictions.
-
-- **Extreme Gradient Boosting (XGBoost)** - Builds models sequentially, each new tree correcting errors made by previous ones, and optimizes a loss function. XGBoost also uses regularization, meaning it penalizes complex models to prevent overfitting.
-
-- **Logistic Regression** - Models the relationship between a set of predictor variables and a binary outcome by estimating the probability of the outcome occurring, using the logistic function to ensure probabilities fall between 0 and 1. The method identifies linear relationships between predictors and the log-odds of the outcome
-
-- **Elastic Net** - A regularized regression method that combines the penalties of Lasso and Ridge regression. It balances variable selection and shrinkage by minimizing prediction error while preventing overfitting.
-
-### Model Comparisons 
-
-In training and tuning the models, we instructed `caret` to use the [AUC](#metrics) metric as described further below. This metric was chosen because it is a robust measure of model performance compared to accuracy.
-
-We will also consider AUC in our comparisons between models, as well as other metrics such as LogLoss, Kappa, and Accuracy. These metrics will help us evaluate the models' performance on the test set and determine which model is best suited for our predicting our response and generalizing to new data.
-
-#### Trained Model Summaries
-
-The following plots summarize the performance of the models on the training data. The boxplots show the distribution of the AUC metric during cross-validation and model tuning. This provides a convenient visual comparison of their performance.
-
-We see in our model tuning that the XGBoost model appears to have a better metric distribution compared to the other models. This suggests that XGBoost may be the best model for our data. And indeed, this similar performance is confirmed by the [test metrics](#test-metrics) that will be discussed in the next section.
-
-[Trained Model Summaries](#trained-model-summaries)
-
-#### Variables of Importance
-
-WEAPON_FLAG_COUNT and PHYSICAL_FORCE_HANDCUFF_SUSPECT were consistently amongst the top 3 variables of importance across all models. This suggests that the presence of a weapon and the use of handcuffs are strong predictors of whether a suspect will be arrested.
-
-The suspect's Race description is found to be somewhat important (5th) in the Random Forest. This was it's highest showing across the tested models in ranked order of importance. 
-
-[Variables of Importance Plots](#variable-importance-plots)
-
-#### Tuning Parameters
-
-The [Hyperparameter Tuning Plots](#tuning-parameter-plots) show the manner in which the hyperparameters were chosen for each model. These plots provide insight into the tuning process and the values selected for the final models.
+### C. Tuning Parameters {#tuning-parameter-plots}
 
 ```{r}
 summarize_tuning <- function(models) {
@@ -296,28 +420,34 @@ summarize_tuning <- function(models) {
 
 # Use the function to summarize tuning parameters
 summarize_tuning(models)
-
 ```
 
-### Scientific Questions and Results Interpretation (Kristina)
+Table of best tuning parameters for each model.
 
-## Performance Investigation and Criteria
+```{r}
+lapply(names(models), function(model_name) {
+  model <- models[[model_name]]
+  
+  if (model$bestTune[[1]] != "none") {
+    plot(model, main = paste(model_name))
+  }
+})
+```
 
-We evaluate several metrics to compare the performance of the models as they generalize to our test set. These metrics include: AUC, LogLoss, Kappa, and Accuracy. 
+### D. Trained model summaries  {#trained-model-summaries}
 
-### Metrics Used for Model Evaluation {#metrics}
+```{r}
+resamples <- resamples(models)
 
-- **AUC** (Area Under the *Receiver Operating Characteristic* Curve) - was used as our training metric of choice during model tuning. AUC measures how correctly a model distinguishes between true outcomes and false outcomes across all possible boundaries between classes. A model with a larger AUC value can be said to better distinguish between true and false outcomes across all boundaries between classes.
+# Customize boxplot settings for consistency
+trellis.par.set(
+  box.rectangle = list(fill = "steelblue", col = "black"), 
+)
 
-- **LogLoss** - quantifies how uncertain a model is about its predictions, penalizing incorrect predictions with greater uncertainty. A model with a smaller LogLoss value can be said to make more confident and accurate predictions because it assigns higher probabilities to correct outcomes and lower probabilities to incorrect ones, minimizing uncertainty.
+bwplot(resamples, metric = "ROC")
+```
 
-- **Kappa** - measures how correct a model's predictions are compared to actual outcomes, while accounting for correctness expected by random chance. A model with a larger Kappa value can be said to make predictions that are more correct relative to chance alone.
-
-- **Accuracy** - is the proportion of correctly predicted outcomes out of all predictions made. Included for its simplicity and interpretability.
-
-### Test Metrics Results Summary
-
-A visual perspective of model performance can be found in [Test Metrics Results](#test-metrics). This table summarizes the test metrics for each model, providing a comparison of their performance on the test set.
+### E. Test Metrics {#test-metrics}
 
 ```{r}
 summarize_test_metrics <- function(test_metrics) {
@@ -374,129 +504,7 @@ summarize_test_metrics <- function(test_metrics) {
 summarize_test_metrics(test_metrics)
 ```
 
-## Limitations of Methods
-
-### 1. Data Preprocessing:
-
- - Binary Flags: Simplified handling of missing or invalid entries (e.g., replacing `NA` with `N`) was an assumption and may have introduced bias.
- - Aggregating multiple binary flags into predictors (e.g., Suspect Action Count) simplifies the data but may lose nuanced information about individual variables.
-
-### 2. Modeling Limitations:
-
- - Hyperparameter Tuning: Though the Tuning was given a fair range to explore, it was primarily left to default behavior in `caret`. More rigorous tuning may have produced better models with more exacting hyperparameters.
- - Evaluation Metrics: The models were primarily evaluated using metrics like AUC, LogLoss, Kappa, and Accuracy. (AUC explicitely in training.) While these metrics provide a robust comparison, they focus on different aspects of model performance, and prioritizing one metric over another could bias tuning or model selection.
- - Holdout Method: The 70/30 split used testing may not be optimal. Cross-validation in the outer loop could provide a more robust estimate of model performance.
-
-### 3. Contextual Factors:
-
- - Ethical Concerns: Systemic and situational biases in the dataset may influence predictions and reinforce existing inequities. Predictive models trained on such data may inadvertently reinforce these biases.
-
-\newpage
-
-# Conclusions (Kristina) {#conclusions} 
-
-## Study Objectives Summary
-
-## Findings and Interpretation
-
-## Project Goals and Outcomes
-
-## Additional Observations
-
-\newpage
-
-# Appendix {#appendix}
-
-## Figures
-
-### A. Data Visualizations
-
-```{r}
-# Display Race levels and their proportions of Arrested
-proportions_table <- train_data |>
-  group_by(SUSPECT_RACE_DESCRIPTION) |>
-  summarise(
-    Total = n(),
-    Arrested = sum(SUSPECT_ARRESTED_FLAG == "Y"),
-    Proportion = Arrested / Total
-  ) |>
-  arrange(desc(Proportion))
-
-# Display proportion of arrested by race level as a stacked bar plot
-train_data |>
-  mutate(SUSPECT_RACE_DESCRIPTION = factor(
-    SUSPECT_RACE_DESCRIPTION, 
-    levels = proportions_table$SUSPECT_RACE_DESCRIPTION
-  )) |>
-  ggplot(aes(x = SUSPECT_RACE_DESCRIPTION, 
-             fill = SUSPECT_ARRESTED_FLAG)) + 
-  geom_bar(position = "fill") +
-  labs(
-    title = "Proportion Arrested",
-    x = "Race Description",
-    y = "Proportion"
-  ) +
-  theme_minimal() + 
-  theme(
-    legend.position = "none",
-    axis.text.x = element_text(angle = 45, hjust = 1)
-  )
-
-```
-
-
-### B. Variable Importance Plots {#variable-importance-plots}
-
-```{r}
-lapply(names(models), function(model_name) {
-  
-  var_imp_df <- as.data.frame(varImp(models[[model_name]])$importance)
-  var_imp_df$Variable <- rownames(var_imp_df)
-  
-  # Select the top 5 variables based on importance
-  top_vars <- var_imp_df |>
-    arrange(desc(Overall)) |>
-    slice_head(n = 10)
-  
-  ggplot(top_vars, aes(x = reorder(Variable, Overall), y = Overall)) +
-    geom_bar(stat = "identity", fill = "steelblue") +
-    coord_flip() +
-    labs(
-      title = paste("Top 10 Variables for", model_name),
-      y = "Importance",
-      caption = "This plot shows the top variables contributing to the model's predictive performance."
-    ) +
-    theme_minimal()
-})
-
-```
-
-### C. Tuning Parameter Plots {#tuning-parameter-plots}
-
-```{r}
-lapply(names(models), function(model_name) {
-  model <- models[[model_name]]
-  
-  if (model$bestTune[[1]] != "none") {
-    plot(model, main = paste(model_name))
-  }
-})
-```
-
-### D. Trained model summaries  {#trained-model-summaries}
-
-```{r}
-resamples <- resamples(models)
-
-# Customize boxplot settings for consistency
-trellis.par.set(
-  box.rectangle = list(fill = "steelblue", col = "black"), 
-)
-
-bwplot(resamples, metric = "ROC")
-```
-
-### E. Test Metrics {#test-metrics}
+Table of test metrics summary for each model.
 
 ```{r}
 test_metrics_df <- bind_rows(test_metrics)
