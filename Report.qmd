@@ -78,7 +78,11 @@ test_metrics <- lapply(seq_along(models), function(i) {
 
 ### Chosen Model
 
+ - XGBoost: The best performing model based on the test metrics of AUC, Kappa, and Accuracy.
+
 ### Key Findings
+
+ - Though Blacks account for ~59% of the Stop, Question, and Frisk data, the proportions of those arrested based on any given race do not serve as a good predictor of whether an arrest will be made.
 
 ## Roadmap to Follow
 
@@ -98,7 +102,7 @@ The [Appendix](#appendix) houses tables, source code, and supplementary plots fo
 
 # Methods {#methods}
 
-## 1. Before Modeling
+## 1. Prior to Modeling
 
 ### Data Preprocessing Steps
 
@@ -215,6 +219,10 @@ To evaluate the models in the outer loop and the very first step when modeling b
 ### Model Comparisons
 
 #### Variables of Importance
+
+WEAPON_FLAG_COUNT and PHYSICAL_FORCE_HANDCUFF_SUSPECT were consistently amongst the top 3 variables of importance across all models. This suggests that the presence of a weapon and the use of handcuffs are strong predictors of whether a suspect will be arrested. 
+
+The suspect's Race description is found to be somewhat important (5th) in the Random Forest. This was it's highest showing across the tested models. 
 
 [Variables of Importance](#variable-importance-plots)
 
