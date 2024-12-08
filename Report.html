@@ -22,6 +22,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -47,7 +81,7 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#introduction-katrina" id="toc-introduction-katrina" class="nav-link active" data-scroll-target="#introduction-katrina">Introduction (Katrina)</a>
+  <li><a href="#introduction-kristina" id="toc-introduction-kristina" class="nav-link active" data-scroll-target="#introduction-kristina">Introduction (Kristina)</a>
   <ul class="collapse">
   <li><a href="#problem-description" id="toc-problem-description" class="nav-link" data-scroll-target="#problem-description">Problem Description</a></li>
   <li><a href="#study-design-and-sampling-methods" id="toc-study-design-and-sampling-methods" class="nav-link" data-scroll-target="#study-design-and-sampling-methods">Study Design and Sampling Methods</a></li>
@@ -65,21 +99,27 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#prior-to-modeling" id="toc-prior-to-modeling" class="nav-link" data-scroll-target="#prior-to-modeling">1. Prior to Modeling</a>
   <ul class="collapse">
   <li><a href="#data-preprocessing-steps" id="toc-data-preprocessing-steps" class="nav-link" data-scroll-target="#data-preprocessing-steps">Data Preprocessing Steps</a></li>
-  <li><a href="#data-summaries-chris" id="toc-data-summaries-chris" class="nav-link" data-scroll-target="#data-summaries-chris">Data Summaries (Chris)</a></li>
+  <li><a href="#selected-variables-and-data-summaries" id="toc-selected-variables-and-data-summaries" class="nav-link" data-scroll-target="#selected-variables-and-data-summaries">Selected Variables and Data Summaries</a></li>
   </ul></li>
   <li><a href="#statistical-models-and-methods" id="toc-statistical-models-and-methods" class="nav-link" data-scroll-target="#statistical-models-and-methods">2. Statistical Models and Methods</a>
   <ul class="collapse">
   <li><a href="#model-descriptions-and-assumptions" id="toc-model-descriptions-and-assumptions" class="nav-link" data-scroll-target="#model-descriptions-and-assumptions">Model Descriptions and Assumptions</a></li>
-  <li><a href="#model-comparisons-chris" id="toc-model-comparisons-chris" class="nav-link" data-scroll-target="#model-comparisons-chris">Model Comparisons (Chris)</a></li>
-  <li><a href="#scientific-questions-and-results-interpretation-katrina" id="toc-scientific-questions-and-results-interpretation-katrina" class="nav-link" data-scroll-target="#scientific-questions-and-results-interpretation-katrina">Scientific Questions and Results Interpretation (Katrina)</a></li>
+  <li><a href="#model-comparisons" id="toc-model-comparisons" class="nav-link" data-scroll-target="#model-comparisons">Model Comparisons</a></li>
+  <li><a href="#scientific-questions-and-results-interpretation-kristina" id="toc-scientific-questions-and-results-interpretation-kristina" class="nav-link" data-scroll-target="#scientific-questions-and-results-interpretation-kristina">Scientific Questions and Results Interpretation (Kristina)</a></li>
   </ul></li>
-  <li><a href="#performance-investigation-and-criteria-chris" id="toc-performance-investigation-and-criteria-chris" class="nav-link" data-scroll-target="#performance-investigation-and-criteria-chris">Performance Investigation and Criteria (Chris)</a>
+  <li><a href="#performance-investigation-and-criteria" id="toc-performance-investigation-and-criteria" class="nav-link" data-scroll-target="#performance-investigation-and-criteria">Performance Investigation and Criteria</a>
   <ul class="collapse">
-  <li><a href="#metrics-used-for-model-evaluation" id="toc-metrics-used-for-model-evaluation" class="nav-link" data-scroll-target="#metrics-used-for-model-evaluation">Metrics Used for Model Evaluation</a></li>
+  <li><a href="#metrics" id="toc-metrics" class="nav-link" data-scroll-target="#metrics">Metrics Used for Model Evaluation</a></li>
+  <li><a href="#test-metrics-results-summary" id="toc-test-metrics-results-summary" class="nav-link" data-scroll-target="#test-metrics-results-summary">Test Metrics Results Summary</a></li>
   </ul></li>
-  <li><a href="#limitations-of-methods-chris" id="toc-limitations-of-methods-chris" class="nav-link" data-scroll-target="#limitations-of-methods-chris">Limitations of Methods (Chris)</a></li>
+  <li><a href="#limitations-of-methods" id="toc-limitations-of-methods" class="nav-link" data-scroll-target="#limitations-of-methods">Limitations of Methods</a>
+  <ul class="collapse">
+  <li><a href="#data-preprocessing" id="toc-data-preprocessing" class="nav-link" data-scroll-target="#data-preprocessing">1. Data Preprocessing:</a></li>
+  <li><a href="#modeling-limitations" id="toc-modeling-limitations" class="nav-link" data-scroll-target="#modeling-limitations">2. Modeling Limitations:</a></li>
+  <li><a href="#contextual-factors" id="toc-contextual-factors" class="nav-link" data-scroll-target="#contextual-factors">3. Contextual Factors:</a></li>
   </ul></li>
-  <li><a href="#conclusions" id="toc-conclusions" class="nav-link" data-scroll-target="#conclusions">Conclusions (Katrina)</a>
+  </ul></li>
+  <li><a href="#conclusions" id="toc-conclusions" class="nav-link" data-scroll-target="#conclusions">Conclusions (Kristina)</a>
   <ul class="collapse">
   <li><a href="#study-objectives-summary" id="toc-study-objectives-summary" class="nav-link" data-scroll-target="#study-objectives-summary">Study Objectives Summary</a></li>
   <li><a href="#findings-and-interpretation" id="toc-findings-and-interpretation" class="nav-link" data-scroll-target="#findings-and-interpretation">Findings and Interpretation</a></li>
@@ -90,11 +130,12 @@ ul.task-list li input[type="checkbox"] {
   <ul class="collapse">
   <li><a href="#figures" id="toc-figures" class="nav-link" data-scroll-target="#figures">Figures</a>
   <ul class="collapse">
-  <li><a href="#a.-data-visualizations" id="toc-a.-data-visualizations" class="nav-link" data-scroll-target="#a.-data-visualizations">A. Data Visualizations</a></li>
+  <li><a href="#a.-data-visualizations-chris" id="toc-a.-data-visualizations-chris" class="nav-link" data-scroll-target="#a.-data-visualizations-chris">A. Data Visualizations (Chris)</a></li>
   <li><a href="#variable-importance-plots" id="toc-variable-importance-plots" class="nav-link" data-scroll-target="#variable-importance-plots">B. Variable Importance Plots</a></li>
   <li><a href="#tuning-parameter-plots" id="toc-tuning-parameter-plots" class="nav-link" data-scroll-target="#tuning-parameter-plots">C. Tuning Parameter Plots</a></li>
   <li><a href="#trained-model-summaries" id="toc-trained-model-summaries" class="nav-link" data-scroll-target="#trained-model-summaries">D. Trained model summaries</a></li>
   <li><a href="#test-metrics" id="toc-test-metrics" class="nav-link" data-scroll-target="#test-metrics">E. Test Metrics</a></li>
+  <li><a href="#f.-source-code" id="toc-f.-source-code" class="nav-link" data-scroll-target="#f.-source-code">F. Source Code</a></li>
   </ul></li>
   </ul></li>
   </ul>
@@ -129,8 +170,8 @@ ul.task-list li input[type="checkbox"] {
 
 
 <div style="page-break-after: always;"></div>
-<section id="introduction-katrina" class="level1">
-<h1>Introduction (Katrina)</h1>
+<section id="introduction-kristina" class="level1">
+<h1>Introduction (Kristina)</h1>
 <section id="problem-description" class="level2">
 <h2 class="anchored" data-anchor-id="problem-description">Problem Description</h2>
 </section>
@@ -199,108 +240,84 @@ ul.task-list li input[type="checkbox"] {
 <li><p>Variables deemed irrelevant or redundant, such as geographic coordinates (STOP_LOCATION_X, STOP_LOCATION_Y) were excluded. The final dataset was saved for use in modeling.</p></li>
 </ol>
 </section>
-<section id="data-summaries-chris" class="level3">
-<h3 class="anchored" data-anchor-id="data-summaries-chris">Data Summaries (Chris)</h3>
-<p>TODO: how chosen variable may impact response</p>
+<section id="selected-variables-and-data-summaries" class="level3">
+<h3 class="anchored" data-anchor-id="selected-variables-and-data-summaries">Selected Variables and Data Summaries</h3>
+<ul>
+<li><p>SUSPECT_RACE_DESCRIPTION may capture systemic or situational biases, influencing how interactions escalate and the resulting arrest probabilities.</p></li>
+<li><p>Physical Force actions such as Handcuffs and OC Spray typically occur in escalated situations which can often lead to arrests.</p></li>
+<li><p>Verbal Commands and Observed Actions are more common and may not necessarily lead to arrests. These reflect observed behaviors that may contribute to escalation or suspicion however.</p></li>
+<li><p>Weapon involvement naturally heightens the intensity of the encounter and would likely increase arrest likelihood.</p></li>
+<li><p>STOP_DURATION_MINUTES provides a measure of the stop’s complexity or escalation over time, with longer stops potentially indicating more contentious or involved interactions.</p></li>
+</ul>
 <p><em>Note: The summary statistics below are based on the training data only. Numeric vairables have been standardized.</em></p>
 <div class="cell">
 <div class="cell-output-display">
-<table class="caption-top table table-sm table-striped small" data-quarto-postprocess="true">
+<table class="caption-top table table-sm table-striped small">
 <colgroup>
-<col style="width: 50%">
-<col style="width: 50%">
+<col style="width: 22%">
+<col style="width: 77%">
 </colgroup>
 <thead>
 <tr class="header">
-<th style="text-align: left;" data-quarto-table-cell-role="th">Variable</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th">Summary</th>
+<th style="text-align: right;">Variable</th>
+<th style="text-align: right;">Summary</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;">WEAPON_FLAG_COUNT</td>
-<td style="text-align: left;">Min. -0.4<br>
-1st Qu. -0.4<br>
-Median -0.4<br>
-Mean 0<br>
-3rd Qu. -0.4<br>
-Max. 5.4</td>
+<td style="text-align: right;">WEAPON_FLAG_COUNT</td>
+<td style="text-align: right;">Min. -0.4<br>1st Qu. -0.4<br>Median -0.4<br>Mean 0<br>3rd Qu. -0.4<br>Max. 5.4</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">STOP_DURATION_MINUTES</td>
-<td style="text-align: left;">Min. -0.66<br>
-1st Qu. -0.4<br>
-Median -0.26<br>
-Mean 0<br>
-3rd Qu. 0.13<br>
-Max. 65.35</td>
+<td style="text-align: right;">STOP_DURATION_MINUTES</td>
+<td style="text-align: right;">Min. -0.66<br>1st Qu. -0.4<br>Median -0.26<br>Mean 0<br>3rd Qu. 0.13<br>Max. 65.35</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">SUSPECT_ACTIONS_COUNT</td>
-<td style="text-align: left;">Min. -0.88<br>
-1st Qu. -0.88<br>
-Median 0.55<br>
-Mean 0<br>
-3rd Qu. 0.55<br>
-Max. 6.3</td>
+<td style="text-align: right;">SUSPECT_ACTIONS_COUNT</td>
+<td style="text-align: right;">Min. -0.88<br>1st Qu. -0.88<br>Median 0.55<br>Mean 0<br>3rd Qu. 0.55<br>Max. 6.3</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">SUSPECT_RACE_DESCRIPTION</td>
-<td style="text-align: left;">Hispanic: 15680: (29.98%)<br>
-Other: 397: (0.76%)<br>
-WHITE: 4346: (8.31%)<br>
-BLACK: 30757: (58.81%)<br>
-Asian: 1117: (2.14%)</td>
+<td style="text-align: right;">SUSPECT_RACE_DESCRIPTION</td>
+<td style="text-align: right;">Hispanic: 15680: (29.98%)<br>Other: 397: (0.76%)<br>WHITE: 4346: (8.31%)<br>BLACK: 30757: (58.81%)<br>Asian: 1117: (2.14%)</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">PHYSICAL_FORCE_CEW_FLAG</td>
-<td style="text-align: left;">N: 52043: (99.51%)<br>
-Y: 254: (0.49%)</td>
+<td style="text-align: right;">PHYSICAL_FORCE_CEW_FLAG</td>
+<td style="text-align: right;">N: 52043: (99.51%)<br>Y: 254: (0.49%)</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">PHYSICAL_FORCE_DRAW_POINT_FIREARM_FLAG</td>
-<td style="text-align: left;">N: 49961: (95.53%)<br>
-Y: 2336: (4.47%)</td>
+<td style="text-align: right;">PHYSICAL_FORCE_DRAW_POINT_FIREARM_FLAG</td>
+<td style="text-align: right;">N: 49961: (95.53%)<br>Y: 2336: (4.47%)</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">PHYSICAL_FORCE_HANDCUFF_SUSPECT_FLAG</td>
-<td style="text-align: left;">N: 43132: (82.48%)<br>
-Y: 9165: (17.52%)</td>
+<td style="text-align: right;">PHYSICAL_FORCE_HANDCUFF_SUSPECT_FLAG</td>
+<td style="text-align: right;">N: 43132: (82.48%)<br>Y: 9165: (17.52%)</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">PHYSICAL_FORCE_OC_SPRAY_USED_FLAG</td>
-<td style="text-align: left;">N: 52289: (99.98%)<br>
-Y: 8: (0.02%)</td>
+<td style="text-align: right;">PHYSICAL_FORCE_OC_SPRAY_USED_FLAG</td>
+<td style="text-align: right;">N: 52289: (99.98%)<br>Y: 8: (0.02%)</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">PHYSICAL_FORCE_OTHER_FLAG</td>
-<td style="text-align: left;">N: 51165: (97.84%)<br>
-Y: 1132: (2.16%)</td>
+<td style="text-align: right;">PHYSICAL_FORCE_OTHER_FLAG</td>
+<td style="text-align: right;">N: 51165: (97.84%)<br>Y: 1132: (2.16%)</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">PHYSICAL_FORCE_RESTRAINT_USED_FLAG</td>
-<td style="text-align: left;">N: 51034: (97.58%)<br>
-Y: 1263: (2.42%)</td>
+<td style="text-align: right;">PHYSICAL_FORCE_RESTRAINT_USED_FLAG</td>
+<td style="text-align: right;">N: 51034: (97.58%)<br>Y: 1263: (2.42%)</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">PHYSICAL_FORCE_VERBAL_INSTRUCTION_FLAG</td>
-<td style="text-align: left;">N: 3186: (6.09%)<br>
-Y: 49111: (93.91%)</td>
+<td style="text-align: right;">PHYSICAL_FORCE_VERBAL_INSTRUCTION_FLAG</td>
+<td style="text-align: right;">N: 3186: (6.09%)<br>Y: 49111: (93.91%)</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">PHYSICAL_FORCE_WEAPON_IMPACT_FLAG</td>
-<td style="text-align: left;">N: 52283: (99.97%)<br>
-Y: 14: (0.03%)</td>
+<td style="text-align: right;">PHYSICAL_FORCE_WEAPON_IMPACT_FLAG</td>
+<td style="text-align: right;">N: 52283: (99.97%)<br>Y: 14: (0.03%)</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">SUSPECT_ARRESTED_FLAG</td>
-<td style="text-align: left;">N: 34513: (65.99%)<br>
-Y: 17784: (34.01%)</td>
+<td style="text-align: right;">SUSPECT_ARRESTED_FLAG</td>
+<td style="text-align: right;">N: 34513: (65.99%)<br>Y: 17784: (34.01%)</td>
 </tr>
 </tbody>
 </table>
-
-
 </div>
 </div>
 </section>
@@ -332,33 +349,70 @@ Y: 17784: (34.01%)</td>
 <li><p><strong>Elastic Net</strong> - A regularized regression method that combines the penalties of Lasso and Ridge regression. It balances variable selection and shrinkage by minimizing prediction error while preventing overfitting.</p></li>
 </ul>
 </section>
-<section id="model-comparisons-chris" class="level3">
-<h3 class="anchored" data-anchor-id="model-comparisons-chris">Model Comparisons (Chris)</h3>
+<section id="model-comparisons" class="level3">
+<h3 class="anchored" data-anchor-id="model-comparisons">Model Comparisons</h3>
+<p>In training and tuning the models, we instructed <code>caret</code> to use the <a href="#metrics">AUC</a> metric as described further below. This metric was chosen because it is a robust measure of model performance compared to accuracy.</p>
+<p>We will also consider AUC in our comparisons between models, as well as other metrics such as LogLoss, Kappa, and Accuracy. These metrics will help us evaluate the models’ performance on the test set and determine which model is best suited for our predicting our response and generalizing to new data.</p>
+<section id="trained-model-summaries" class="level4">
+<h4 class="anchored" data-anchor-id="trained-model-summaries">Trained Model Summaries</h4>
+<p>The following plots summarize the performance of the models on the training data. The boxplots show the distribution of the AUC metric during cross-validation and model tuning. This provides a convenient visual comparison of their performance.</p>
+<p>We see in our model tuning that the XGBoost model appears to have a better metric distribution compared to the other models. This suggests that XGBoost may be the best model for our data. And indeed, this similar performance is confirmed by the <a href="#test-metrics">test metrics</a> that will be discussed in the next section.</p>
+<p><a href="#trained-model-summaries">Trained Model Summaries</a></p>
+</section>
 <section id="variables-of-importance" class="level4">
 <h4 class="anchored" data-anchor-id="variables-of-importance">Variables of Importance</h4>
 <p>WEAPON_FLAG_COUNT and PHYSICAL_FORCE_HANDCUFF_SUSPECT were consistently amongst the top 3 variables of importance across all models. This suggests that the presence of a weapon and the use of handcuffs are strong predictors of whether a suspect will be arrested.</p>
-<p>The suspect’s Race description is found to be somewhat important (5th) in the Random Forest. This was it’s highest showing across the tested models.</p>
-<p><a href="#variable-importance-plots">Variables of Importance</a></p>
+<p>The suspect’s Race description is found to be somewhat important (5th) in the Random Forest. This was it’s highest showing across the tested models in ranked order of importance.</p>
+<p><a href="#variable-importance-plots">Variables of Importance Plots</a></p>
 </section>
-<section id="tuning-parameters-chris" class="level4">
-<h4 class="anchored" data-anchor-id="tuning-parameters-chris">Tuning Parameters (Chris)</h4>
-<p><a href="#tuning-parameter-plots">Hyperparameter Tuning</a></p>
+<section id="tuning-parameters" class="level4">
+<h4 class="anchored" data-anchor-id="tuning-parameters">Tuning Parameters</h4>
+<p>The <a href="#tuning-parameter-plots">Hyperparameter Tuning Plots</a> show the manner in which the hyperparameters were chosen for each model. These plots provide insight into the tuning process and the values selected for the final models.</p>
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 13%">
+<col style="width: 86%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: right;">Model</th>
+<th style="text-align: right;">Best Tuning Parameters</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">XGBoost</td>
+<td style="text-align: right;">nrounds 350.000<br>max_depth 2.000<br>eta 0.300<br>gamma 0.000<br>colsample_bytree 0.800<br>min_child_weight 1.000<br>subsample 0.889</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">ElasticNet</td>
+<td style="text-align: right;">alpha 0.800<br>lambda 0.008</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">LogisticRegression</td>
+<td style="text-align: right;">No tuning parameters</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">RandomForest</td>
+<td style="text-align: right;">mtry 6.000</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </section>
-<section id="trained-model-summaries-chris" class="level4">
-<h4 class="anchored" data-anchor-id="trained-model-summaries-chris">Trained Model Summaries (Chris)</h4>
-<p><a href="#trained-model-summaries">Trained Model Summaries</a></p>
+</section>
+<section id="scientific-questions-and-results-interpretation-kristina" class="level3">
+<h3 class="anchored" data-anchor-id="scientific-questions-and-results-interpretation-kristina">Scientific Questions and Results Interpretation (Kristina)</h3>
 </section>
 </section>
-<section id="scientific-questions-and-results-interpretation-katrina" class="level3">
-<h3 class="anchored" data-anchor-id="scientific-questions-and-results-interpretation-katrina">Scientific Questions and Results Interpretation (Katrina)</h3>
-</section>
-</section>
-<section id="performance-investigation-and-criteria-chris" class="level2">
-<h2 class="anchored" data-anchor-id="performance-investigation-and-criteria-chris">Performance Investigation and Criteria (Chris)</h2>
-<p>We evaluate several metrics to compare the performance of the models as they generilize to our test set. These metrics include: AUC, LogLoss, Kappa, and Accuracy.</p>
-<p><a href="#test-metrics">Test Metrics Results</a></p>
-<section id="metrics-used-for-model-evaluation" class="level3">
-<h3 class="anchored" data-anchor-id="metrics-used-for-model-evaluation">Metrics Used for Model Evaluation</h3>
+<section id="performance-investigation-and-criteria" class="level2">
+<h2 class="anchored" data-anchor-id="performance-investigation-and-criteria">Performance Investigation and Criteria</h2>
+<p>We evaluate several metrics to compare the performance of the models as they generalize to our test set. These metrics include: AUC, LogLoss, Kappa, and Accuracy.</p>
+<section id="metrics" class="level3">
+<h3 class="anchored" data-anchor-id="metrics">Metrics Used for Model Evaluation</h3>
 <ul>
 <li><p><strong>AUC</strong> (Area Under the <em>Receiver Operating Characteristic</em> Curve) - was used as our training metric of choice during model tuning. AUC measures how correctly a model distinguishes between true outcomes and false outcomes across all possible boundaries between classes. A model with a larger AUC value can be said to better distinguish between true and false outcomes across all boundaries between classes.</p></li>
 <li><p><strong>LogLoss</strong> - quantifies how uncertain a model is about its predictions, penalizing incorrect predictions with greater uncertainty. A model with a smaller LogLoss value can be said to make more confident and accurate predictions because it assigns higher probabilities to correct outcomes and lower probabilities to incorrect ones, minimizing uncertainty.</p></li>
@@ -366,14 +420,73 @@ Y: 17784: (34.01%)</td>
 <li><p><strong>Accuracy</strong> - is the proportion of correctly predicted outcomes out of all predictions made. Included for its simplicity and interpretability.</p></li>
 </ul>
 </section>
+<section id="test-metrics-results-summary" class="level3">
+<h3 class="anchored" data-anchor-id="test-metrics-results-summary">Test Metrics Results Summary</h3>
+<p>A visual perspective of model performance can be found in <a href="#test-metrics">Test Metrics Results</a>. This table summarizes the test metrics for each model, providing a comparison of their performance on the test set.</p>
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 9%">
+<col style="width: 90%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: right;">Metric</th>
+<th style="text-align: right;">Models and Values</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">AUC</td>
+<td style="text-align: right;">XGBoost: 0.722<br>ElasticNet: 0.688<br>RandomForest: 0.683<br>LogisticRegression: 0.682</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">Accuracy</td>
+<td style="text-align: right;">XGBoost: 0.729<br>RandomForest: 0.725<br>LogisticRegression: 0.716<br>ElasticNet: 0.714</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">Kappa</td>
+<td style="text-align: right;">XGBoost: 0.327<br>RandomForest: 0.309<br>LogisticRegression: 0.276<br>ElasticNet: 0.266</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">LogLoss</td>
+<td style="text-align: right;">ElasticNet: 0.810<br>LogisticRegression: 0.822<br>XGBoost: 0.856<br>RandomForest: 10.768</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </section>
-<section id="limitations-of-methods-chris" class="level2">
-<h2 class="anchored" data-anchor-id="limitations-of-methods-chris">Limitations of Methods (Chris)</h2>
+</section>
+<section id="limitations-of-methods" class="level2">
+<h2 class="anchored" data-anchor-id="limitations-of-methods">Limitations of Methods</h2>
+<section id="data-preprocessing" class="level3">
+<h3 class="anchored" data-anchor-id="data-preprocessing">1. Data Preprocessing:</h3>
+<ul>
+<li>Binary Flags: Simplified handling of missing or invalid entries (e.g., replacing <code>NA</code> with <code>N</code>) was an assumption and may have introduced bias.</li>
+<li>Aggregating multiple binary flags into predictors (e.g., Suspect Action Count) simplifies the data but may lose nuanced information about individual variables.</li>
+</ul>
+</section>
+<section id="modeling-limitations" class="level3">
+<h3 class="anchored" data-anchor-id="modeling-limitations">2. Modeling Limitations:</h3>
+<ul>
+<li>Hyperparameter Tuning: Though the Tuning was given a fair range to explore, it was primarily left to default behavior in <code>caret</code>. More rigorous tuning may have produced better models with more exacting hyperparameters.</li>
+<li>Evaluation Metrics: The models were primarily evaluated using metrics like AUC, LogLoss, Kappa, and Accuracy. (AUC explicitely in training.) While these metrics provide a robust comparison, they focus on different aspects of model performance, and prioritizing one metric over another could bias tuning or model selection.</li>
+<li>Holdout Method: The 70/30 split used testing may not be optimal. Cross-validation in the outer loop could provide a more robust estimate of model performance.</li>
+</ul>
+</section>
+<section id="contextual-factors" class="level3">
+<h3 class="anchored" data-anchor-id="contextual-factors">3. Contextual Factors:</h3>
+<ul>
+<li>Ethical Concerns: Systemic and situational biases in the dataset may influence predictions and reinforce existing inequities. Predictive models trained on such data may inadvertently reinforce these biases.</li>
+</ul>
 <div style="page-break-after: always;"></div>
 </section>
 </section>
+</section>
 <section id="conclusions" class="level1">
-<h1>Conclusions (Katrina)</h1>
+<h1>Conclusions (Kristina)</h1>
 <section id="study-objectives-summary" class="level2">
 <h2 class="anchored" data-anchor-id="study-objectives-summary">Study Objectives Summary</h2>
 </section>
@@ -392,13 +505,13 @@ Y: 17784: (34.01%)</td>
 <h1>Appendix</h1>
 <section id="figures" class="level2">
 <h2 class="anchored" data-anchor-id="figures">Figures</h2>
-<section id="a.-data-visualizations" class="level3">
-<h3 class="anchored" data-anchor-id="a.-data-visualizations">A. Data Visualizations</h3>
+<section id="a.-data-visualizations-chris" class="level3">
+<h3 class="anchored" data-anchor-id="a.-data-visualizations-chris">A. Data Visualizations (Chris)</h3>
 <div class="cell">
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="Report_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="Report_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -413,7 +526,7 @@ Y: 17784: (34.01%)</td>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="Report_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="Report_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -424,7 +537,7 @@ Y: 17784: (34.01%)</td>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="Report_files/figure-html/unnamed-chunk-5-2.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="Report_files/figure-html/unnamed-chunk-7-2.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -435,7 +548,7 @@ Y: 17784: (34.01%)</td>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="Report_files/figure-html/unnamed-chunk-5-3.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="Report_files/figure-html/unnamed-chunk-7-3.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -446,7 +559,7 @@ Y: 17784: (34.01%)</td>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="Report_files/figure-html/unnamed-chunk-5-4.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="Report_files/figure-html/unnamed-chunk-7-4.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -461,14 +574,14 @@ Y: 17784: (34.01%)</td>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="Report_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="Report_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="Report_files/figure-html/unnamed-chunk-6-2.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="Report_files/figure-html/unnamed-chunk-8-2.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -479,7 +592,7 @@ Y: 17784: (34.01%)</td>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="Report_files/figure-html/unnamed-chunk-6-3.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="Report_files/figure-html/unnamed-chunk-8-3.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -493,7 +606,7 @@ NULL
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="Report_files/figure-html/unnamed-chunk-6-4.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="Report_files/figure-html/unnamed-chunk-8-4.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -505,7 +618,7 @@ NULL
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="Report_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="Report_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -517,11 +630,659 @@ NULL
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="Report_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="Report_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 </div>
+</section>
+<section id="f.-source-code" class="level3">
+<h3 class="anchored" data-anchor-id="f.-source-code">F. Source Code</h3>
+<section id="eda" class="level4">
+<h4 class="anchored" data-anchor-id="eda">EDA</h4>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readxl)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(writexl)</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gridExtra)</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggpubr)</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readxl)</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(caret)</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(glmnet)</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(Boruta)</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(randomForest)</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a><span class="do">## Read xlsx Files from 2018 to 2023</span></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a><span class="co"># File path and names</span></span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>file_names <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"sqf-2018"</span>, <span class="st">"sqf-2019"</span>, <span class="st">"sqf-2020"</span>, <span class="st">"sqf-2021"</span>, <span class="st">"sqf-2022"</span>, <span class="st">"sqf-2023"</span>)</span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Function to read and coerce all columns to character</span></span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>standardize_dataset <span class="ot">&lt;-</span> <span class="cf">function</span>(file_name) {</span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>  year <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">str_extract</span>(file_name, <span class="st">"</span><span class="sc">\\</span><span class="st">d{4}"</span>))</span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">read_excel</span>(<span class="fu">paste0</span>(file_name, <span class="st">".xlsx"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>    <span class="fu">set_names</span>(<span class="sc">~</span> <span class="fu">toupper</span>(<span class="fu">gsub</span>(<span class="st">" "</span>, <span class="st">"_"</span>, .))) <span class="sc">|&gt;</span> </span>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">everything</span>(), as.character)) <span class="sc">|&gt;</span> </span>
+<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">FILE_YEAR =</span> <span class="fu">as.character</span>(year))</span>
+<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a><span class="co"># Read and combine data</span></span>
+<span id="cb8-28"><a href="#cb8-28" aria-hidden="true" tabindex="-1"></a>sqf_combined <span class="ot">&lt;-</span> file_names <span class="sc">|&gt;</span></span>
+<span id="cb8-29"><a href="#cb8-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">map</span>(standardize_dataset) <span class="sc">|&gt;</span></span>
+<span id="cb8-30"><a href="#cb8-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">bind_rows</span>()</span>
+<span id="cb8-31"><a href="#cb8-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-32"><a href="#cb8-32" aria-hidden="true" tabindex="-1"></a>sqf_combined_sorted <span class="ot">&lt;-</span> sqf_combined <span class="sc">%&gt;%</span></span>
+<span id="cb8-33"><a href="#cb8-33" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="fu">all_of</span>(<span class="fu">sort</span>(<span class="fu">names</span>(sqf_combined))))</span>
+<span id="cb8-34"><a href="#cb8-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-35"><a href="#cb8-35" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">width =</span> <span class="dv">100</span>)</span>
+<span id="cb8-36"><a href="#cb8-36" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(sqf_combined_sorted) </span>
+<span id="cb8-37"><a href="#cb8-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-38"><a href="#cb8-38" aria-hidden="true" tabindex="-1"></a><span class="do">## Strange Null Values to NA</span></span>
+<span id="cb8-39"><a href="#cb8-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-40"><a href="#cb8-40" aria-hidden="true" tabindex="-1"></a>sqf_combined <span class="ot">&lt;-</span> sqf_combined <span class="sc">|&gt;</span></span>
+<span id="cb8-41"><a href="#cb8-41" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">everything</span>(), <span class="sc">~</span> <span class="fu">na_if</span>(., <span class="st">"(null)"</span>)))</span>
+<span id="cb8-42"><a href="#cb8-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-43"><a href="#cb8-43" aria-hidden="true" tabindex="-1"></a><span class="do">## Numeric Columns</span></span>
+<span id="cb8-44"><a href="#cb8-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-45"><a href="#cb8-45" aria-hidden="true" tabindex="-1"></a>sqf_combined <span class="ot">&lt;-</span> sqf_combined <span class="sc">|&gt;</span></span>
+<span id="cb8-46"><a href="#cb8-46" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb8-47"><a href="#cb8-47" aria-hidden="true" tabindex="-1"></a>    <span class="at">SUSPECT_HEIGHT =</span> <span class="fu">as.numeric</span>(SUSPECT_HEIGHT),</span>
+<span id="cb8-48"><a href="#cb8-48" aria-hidden="true" tabindex="-1"></a>    <span class="at">SUSPECT_WEIGHT =</span> <span class="fu">as.numeric</span>(SUSPECT_WEIGHT),</span>
+<span id="cb8-49"><a href="#cb8-49" aria-hidden="true" tabindex="-1"></a>    <span class="at">SUSPECT_REPORTED_AGE =</span> <span class="fu">as.numeric</span>(SUSPECT_REPORTED_AGE),</span>
+<span id="cb8-50"><a href="#cb8-50" aria-hidden="true" tabindex="-1"></a>    <span class="at">STOP_DURATION_MINUTES =</span> <span class="fu">as.numeric</span>(STOP_DURATION_MINUTES),</span>
+<span id="cb8-51"><a href="#cb8-51" aria-hidden="true" tabindex="-1"></a>    <span class="at">OBSERVED_DURATION_MINUTES =</span> <span class="fu">as.numeric</span>(OBSERVED_DURATION_MINUTES),</span>
+<span id="cb8-52"><a href="#cb8-52" aria-hidden="true" tabindex="-1"></a>    <span class="at">STOP_LOCATION_X =</span> <span class="fu">as.numeric</span>(STOP_LOCATION_X),</span>
+<span id="cb8-53"><a href="#cb8-53" aria-hidden="true" tabindex="-1"></a>    <span class="at">STOP_LOCATION_Y =</span> <span class="fu">as.numeric</span>(STOP_LOCATION_Y)</span>
+<span id="cb8-54"><a href="#cb8-54" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb8-55"><a href="#cb8-55" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb8-56"><a href="#cb8-56" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-57"><a href="#cb8-57" aria-hidden="true" tabindex="-1"></a><span class="do">## Stop Frisk Time</span></span>
+<span id="cb8-58"><a href="#cb8-58" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-59"><a href="#cb8-59" aria-hidden="true" tabindex="-1"></a>sqf_combined <span class="sc">|&gt;</span></span>
+<span id="cb8-60"><a href="#cb8-60" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">str_detect</span>(STOP_FRISK_TIME, </span>
+<span id="cb8-61"><a href="#cb8-61" aria-hidden="true" tabindex="-1"></a>                     <span class="st">"^</span><span class="sc">\\</span><span class="st">d{2}:</span><span class="sc">\\</span><span class="st">d{2}:</span><span class="sc">\\</span><span class="st">d{2}$"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb8-62"><a href="#cb8-62" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(STOP_FRISK_TIME) <span class="sc">|&gt;</span></span>
+<span id="cb8-63"><a href="#cb8-63" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>()</span>
+<span id="cb8-64"><a href="#cb8-64" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-65"><a href="#cb8-65" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-66"><a href="#cb8-66" aria-hidden="true" tabindex="-1"></a>sqf_combined <span class="ot">&lt;-</span> sqf_combined <span class="sc">|&gt;</span></span>
+<span id="cb8-67"><a href="#cb8-67" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb8-68"><a href="#cb8-68" aria-hidden="true" tabindex="-1"></a>    <span class="at">STOP_FRISK_TIME =</span> <span class="fu">if_else</span>(</span>
+<span id="cb8-69"><a href="#cb8-69" aria-hidden="true" tabindex="-1"></a>      <span class="fu">str_detect</span>(STOP_FRISK_TIME, </span>
+<span id="cb8-70"><a href="#cb8-70" aria-hidden="true" tabindex="-1"></a>                 <span class="st">"^1899-12-31 </span><span class="sc">\\</span><span class="st">d{2}:</span><span class="sc">\\</span><span class="st">d{2}:</span><span class="sc">\\</span><span class="st">d{2}$"</span>),</span>
+<span id="cb8-71"><a href="#cb8-71" aria-hidden="true" tabindex="-1"></a>      <span class="fu">str_extract</span>(STOP_FRISK_TIME, </span>
+<span id="cb8-72"><a href="#cb8-72" aria-hidden="true" tabindex="-1"></a>                  <span class="st">"</span><span class="sc">\\</span><span class="st">d{2}:</span><span class="sc">\\</span><span class="st">d{2}:</span><span class="sc">\\</span><span class="st">d{2}$"</span>),</span>
+<span id="cb8-73"><a href="#cb8-73" aria-hidden="true" tabindex="-1"></a>      <span class="cn">NA_character_</span></span>
+<span id="cb8-74"><a href="#cb8-74" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb8-75"><a href="#cb8-75" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb8-76"><a href="#cb8-76" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-77"><a href="#cb8-77" aria-hidden="true" tabindex="-1"></a>sqf_combined <span class="ot">&lt;-</span> sqf_combined <span class="sc">|&gt;</span></span>
+<span id="cb8-78"><a href="#cb8-78" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb8-79"><a href="#cb8-79" aria-hidden="true" tabindex="-1"></a>    <span class="at">STOP_FRISK_DATE =</span> <span class="fu">as.Date</span>(STOP_FRISK_DATE, </span>
+<span id="cb8-80"><a href="#cb8-80" aria-hidden="true" tabindex="-1"></a>                              <span class="at">format =</span> <span class="st">"%Y-%m-%d"</span>),</span>
+<span id="cb8-81"><a href="#cb8-81" aria-hidden="true" tabindex="-1"></a>    <span class="at">STOP_FRISK_TIME =</span> hms<span class="sc">::</span><span class="fu">as_hms</span>(STOP_FRISK_TIME)</span>
+<span id="cb8-82"><a href="#cb8-82" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb8-83"><a href="#cb8-83" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-84"><a href="#cb8-84" aria-hidden="true" tabindex="-1"></a><span class="do">## Missingness</span></span>
+<span id="cb8-85"><a href="#cb8-85" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-86"><a href="#cb8-86" aria-hidden="true" tabindex="-1"></a>get_na_summary <span class="ot">&lt;-</span> <span class="cf">function</span>(data) {</span>
+<span id="cb8-87"><a href="#cb8-87" aria-hidden="true" tabindex="-1"></a>  data <span class="sc">|&gt;</span></span>
+<span id="cb8-88"><a href="#cb8-88" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise</span>(<span class="fu">across</span>(<span class="fu">everything</span>(), <span class="sc">~</span> <span class="fu">sum</span>(<span class="fu">is.na</span>(.)))) <span class="sc">|&gt;</span></span>
+<span id="cb8-89"><a href="#cb8-89" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="fu">everything</span>(), </span>
+<span id="cb8-90"><a href="#cb8-90" aria-hidden="true" tabindex="-1"></a>                 <span class="at">names_to =</span> <span class="st">"Column"</span>, </span>
+<span id="cb8-91"><a href="#cb8-91" aria-hidden="true" tabindex="-1"></a>                 <span class="at">values_to =</span> <span class="st">"NA_Count"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb8-92"><a href="#cb8-92" aria-hidden="true" tabindex="-1"></a>    <span class="fu">arrange</span>(<span class="fu">desc</span>(NA_Count)) <span class="sc">|&gt;</span></span>
+<span id="cb8-93"><a href="#cb8-93" aria-hidden="true" tabindex="-1"></a>    <span class="fu">print</span>(<span class="at">n =</span> <span class="cn">Inf</span>)</span>
+<span id="cb8-94"><a href="#cb8-94" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb8-95"><a href="#cb8-95" aria-hidden="true" tabindex="-1"></a><span class="fu">get_na_summary</span>(sqf_combined)</span>
+<span id="cb8-96"><a href="#cb8-96" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-97"><a href="#cb8-97" aria-hidden="true" tabindex="-1"></a><span class="do">## Flag Variables</span></span>
+<span id="cb8-98"><a href="#cb8-98" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-99"><a href="#cb8-99" aria-hidden="true" tabindex="-1"></a><span class="co"># Step 1: Identify FLAG/FLG columns</span></span>
+<span id="cb8-100"><a href="#cb8-100" aria-hidden="true" tabindex="-1"></a>flag_columns <span class="ot">&lt;-</span> sqf_combined <span class="sc">|&gt;</span></span>
+<span id="cb8-101"><a href="#cb8-101" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="fu">contains</span>(<span class="st">"FLAG"</span>), <span class="fu">contains</span>(<span class="st">"FLG"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb8-102"><a href="#cb8-102" aria-hidden="true" tabindex="-1"></a>  <span class="fu">colnames</span>()</span>
+<span id="cb8-103"><a href="#cb8-103" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-104"><a href="#cb8-104" aria-hidden="true" tabindex="-1"></a><span class="co"># Glimpse unique values in FLAG/FLG columns</span></span>
+<span id="cb8-105"><a href="#cb8-105" aria-hidden="true" tabindex="-1"></a>sqf_combined <span class="sc">|&gt;</span></span>
+<span id="cb8-106"><a href="#cb8-106" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="fu">all_of</span>(flag_columns)) <span class="sc">|&gt;</span></span>
+<span id="cb8-107"><a href="#cb8-107" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="fu">across</span>(<span class="fu">everything</span>(), <span class="sc">~</span> <span class="fu">list</span>(<span class="fu">unique</span>(.)))) <span class="sc">|&gt;</span></span>
+<span id="cb8-108"><a href="#cb8-108" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="fu">everything</span>(), <span class="at">names_to =</span> <span class="st">"Column"</span>, <span class="at">values_to =</span> <span class="st">"Unique_Values"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb8-109"><a href="#cb8-109" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Unique_Values =</span> <span class="fu">map_chr</span>(Unique_Values, <span class="sc">~</span> <span class="fu">paste</span>(.x, <span class="at">collapse =</span> <span class="st">", "</span>))) <span class="sc">|&gt;</span></span>
+<span id="cb8-110"><a href="#cb8-110" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(<span class="at">n =</span> <span class="cn">Inf</span>)</span>
+<span id="cb8-111"><a href="#cb8-111" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-112"><a href="#cb8-112" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-113"><a href="#cb8-113" aria-hidden="true" tabindex="-1"></a><span class="do">### Impute NA to N in FLAG Columns</span></span>
+<span id="cb8-114"><a href="#cb8-114" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-115"><a href="#cb8-115" aria-hidden="true" tabindex="-1"></a><span class="co">#-   Only "Y" and NA present: Replace NA with "N"</span></span>
+<span id="cb8-116"><a href="#cb8-116" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-117"><a href="#cb8-117" aria-hidden="true" tabindex="-1"></a><span class="co">#-   "Y", NA, and "(" present: Replace "(" with NA, and NA with "N"</span></span>
+<span id="cb8-118"><a href="#cb8-118" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-119"><a href="#cb8-119" aria-hidden="true" tabindex="-1"></a><span class="co">#-   "Y", "N", NA, and "(" present: Replace "(" with NA</span></span>
+<span id="cb8-120"><a href="#cb8-120" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-121"><a href="#cb8-121" aria-hidden="true" tabindex="-1"></a>process_flag_column <span class="ot">&lt;-</span> <span class="cf">function</span>(column) {</span>
+<span id="cb8-122"><a href="#cb8-122" aria-hidden="true" tabindex="-1"></a>  unique_vals <span class="ot">&lt;-</span> <span class="fu">unique</span>(column)</span>
+<span id="cb8-123"><a href="#cb8-123" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb8-124"><a href="#cb8-124" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="fu">all</span>(unique_vals <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Y"</span>, <span class="cn">NA</span>))) {</span>
+<span id="cb8-125"><a href="#cb8-125" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(<span class="fu">if_else</span>(<span class="fu">is.na</span>(column), <span class="st">"N"</span>, column))</span>
+<span id="cb8-126"><a href="#cb8-126" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> <span class="cf">if</span> (<span class="fu">all</span>(unique_vals <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Y"</span>, <span class="cn">NA</span>, <span class="st">"("</span>))) {</span>
+<span id="cb8-127"><a href="#cb8-127" aria-hidden="true" tabindex="-1"></a>    column <span class="ot">&lt;-</span> <span class="fu">if_else</span>(<span class="fu">is.na</span>(column), <span class="st">"N"</span>, column)  <span class="co"># First replace NA with "N"</span></span>
+<span id="cb8-128"><a href="#cb8-128" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(<span class="fu">if_else</span>(column <span class="sc">==</span> <span class="st">"("</span>, <span class="cn">NA_character_</span>, column))  <span class="co"># Then replace "(" with NA</span></span>
+<span id="cb8-129"><a href="#cb8-129" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> <span class="cf">if</span> (<span class="fu">all</span>(unique_vals <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Y"</span>, <span class="st">"N"</span>, <span class="cn">NA</span>, <span class="st">"("</span>))) {</span>
+<span id="cb8-130"><a href="#cb8-130" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(<span class="fu">if_else</span>(column <span class="sc">==</span> <span class="st">"("</span>, <span class="cn">NA_character_</span>, column))</span>
+<span id="cb8-131"><a href="#cb8-131" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> {</span>
+<span id="cb8-132"><a href="#cb8-132" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(column)</span>
+<span id="cb8-133"><a href="#cb8-133" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb8-134"><a href="#cb8-134" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb8-135"><a href="#cb8-135" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-136"><a href="#cb8-136" aria-hidden="true" tabindex="-1"></a>sqf_combined <span class="ot">&lt;-</span> sqf_combined <span class="sc">|&gt;</span></span>
+<span id="cb8-137"><a href="#cb8-137" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">all_of</span>(flag_columns), process_flag_column))</span>
+<span id="cb8-138"><a href="#cb8-138" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-139"><a href="#cb8-139" aria-hidden="true" tabindex="-1"></a>sqf_combined <span class="sc">|&gt;</span></span>
+<span id="cb8-140"><a href="#cb8-140" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="fu">all_of</span>(flag_columns)) <span class="sc">|&gt;</span></span>
+<span id="cb8-141"><a href="#cb8-141" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="fu">across</span>(<span class="fu">everything</span>(), <span class="sc">~</span> <span class="fu">list</span>(<span class="fu">unique</span>(.)))) <span class="sc">|&gt;</span></span>
+<span id="cb8-142"><a href="#cb8-142" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="fu">everything</span>(), <span class="at">names_to =</span> <span class="st">"Column"</span>, <span class="at">values_to =</span> <span class="st">"Unique_Values"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb8-143"><a href="#cb8-143" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Unique_Values =</span> <span class="fu">map_chr</span>(Unique_Values, <span class="sc">~</span> <span class="fu">paste</span>(.x, <span class="at">collapse =</span> <span class="st">", "</span>))) <span class="sc">|&gt;</span></span>
+<span id="cb8-144"><a href="#cb8-144" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(<span class="at">n =</span> <span class="cn">Inf</span>)</span>
+<span id="cb8-145"><a href="#cb8-145" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-146"><a href="#cb8-146" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-147"><a href="#cb8-147" aria-hidden="true" tabindex="-1"></a><span class="do">## Missingness</span></span>
+<span id="cb8-148"><a href="#cb8-148" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-149"><a href="#cb8-149" aria-hidden="true" tabindex="-1"></a>na_summary <span class="ot">&lt;-</span> <span class="fu">get_na_summary</span>(sqf_combined)</span>
+<span id="cb8-150"><a href="#cb8-150" aria-hidden="true" tabindex="-1"></a>na_summary</span>
+<span id="cb8-151"><a href="#cb8-151" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-152"><a href="#cb8-152" aria-hidden="true" tabindex="-1"></a><span class="do">## Working Dataset</span></span>
+<span id="cb8-153"><a href="#cb8-153" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-154"><a href="#cb8-154" aria-hidden="true" tabindex="-1"></a><span class="do">### Drop Columns with High Missingness</span></span>
+<span id="cb8-155"><a href="#cb8-155" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-156"><a href="#cb8-156" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-157"><a href="#cb8-157" aria-hidden="true" tabindex="-1"></a><span class="co"># filter columns with high missingness </span></span>
+<span id="cb8-158"><a href="#cb8-158" aria-hidden="true" tabindex="-1"></a>useful_cols <span class="ot">&lt;-</span> na_summary <span class="sc">|&gt;</span></span>
+<span id="cb8-159"><a href="#cb8-159" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(NA_Count <span class="sc">&lt;</span> <span class="dv">10000</span>) <span class="sc">|&gt;</span></span>
+<span id="cb8-160"><a href="#cb8-160" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(Column) </span>
+<span id="cb8-161"><a href="#cb8-161" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-162"><a href="#cb8-162" aria-hidden="true" tabindex="-1"></a><span class="co"># use useful_cols to filter columns and remove NA</span></span>
+<span id="cb8-163"><a href="#cb8-163" aria-hidden="true" tabindex="-1"></a>working_dataset <span class="ot">&lt;-</span> sqf_combined <span class="sc">|&gt;</span></span>
+<span id="cb8-164"><a href="#cb8-164" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="fu">all_of</span>(useful_cols<span class="sc">$</span>Column)) <span class="sc">|&gt;</span></span>
+<span id="cb8-165"><a href="#cb8-165" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>()</span>
+<span id="cb8-166"><a href="#cb8-166" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-167"><a href="#cb8-167" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(working_dataset)</span>
+<span id="cb8-168"><a href="#cb8-168" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-169"><a href="#cb8-169" aria-hidden="true" tabindex="-1"></a><span class="do">## Type Conversions for remaining predictors</span></span>
+<span id="cb8-170"><a href="#cb8-170" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-171"><a href="#cb8-171" aria-hidden="true" tabindex="-1"></a><span class="co"># Define columns to exclude</span></span>
+<span id="cb8-172"><a href="#cb8-172" aria-hidden="true" tabindex="-1"></a>excluded_columns <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb8-173"><a href="#cb8-173" aria-hidden="true" tabindex="-1"></a>  <span class="st">"STOP_LOCATION_FULL_ADDRESS"</span>, </span>
+<span id="cb8-174"><a href="#cb8-174" aria-hidden="true" tabindex="-1"></a>  <span class="st">"DEMEANOR_OF_PERSON_STOPPED"</span>, </span>
+<span id="cb8-175"><a href="#cb8-175" aria-hidden="true" tabindex="-1"></a>  <span class="st">"STOP_FRISK_DATE"</span>, </span>
+<span id="cb8-176"><a href="#cb8-176" aria-hidden="true" tabindex="-1"></a>  <span class="st">"YEAR2"</span>, </span>
+<span id="cb8-177"><a href="#cb8-177" aria-hidden="true" tabindex="-1"></a>  <span class="st">"MONTH2"</span>, </span>
+<span id="cb8-178"><a href="#cb8-178" aria-hidden="true" tabindex="-1"></a>  <span class="st">"DAY2"</span>, </span>
+<span id="cb8-179"><a href="#cb8-179" aria-hidden="true" tabindex="-1"></a>  <span class="st">"FILE_YEAR"</span>,</span>
+<span id="cb8-180"><a href="#cb8-180" aria-hidden="true" tabindex="-1"></a>  <span class="st">"STOP_LOCATION_X"</span>,</span>
+<span id="cb8-181"><a href="#cb8-181" aria-hidden="true" tabindex="-1"></a>  <span class="st">"STOP_LOCATION_Y"</span></span>
+<span id="cb8-182"><a href="#cb8-182" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb8-183"><a href="#cb8-183" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-184"><a href="#cb8-184" aria-hidden="true" tabindex="-1"></a><span class="co"># Drop excluded columns</span></span>
+<span id="cb8-185"><a href="#cb8-185" aria-hidden="true" tabindex="-1"></a>working_dataset <span class="ot">&lt;-</span> working_dataset <span class="sc">%&gt;%</span></span>
+<span id="cb8-186"><a href="#cb8-186" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span><span class="fu">all_of</span>(excluded_columns))</span>
+<span id="cb8-187"><a href="#cb8-187" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-188"><a href="#cb8-188" aria-hidden="true" tabindex="-1"></a><span class="co"># Identify character columns to convert to factors</span></span>
+<span id="cb8-189"><a href="#cb8-189" aria-hidden="true" tabindex="-1"></a>factor_columns <span class="ot">&lt;-</span> working_dataset <span class="sc">%&gt;%</span></span>
+<span id="cb8-190"><a href="#cb8-190" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="fu">where</span>(is.character)) <span class="sc">%&gt;%</span></span>
+<span id="cb8-191"><a href="#cb8-191" aria-hidden="true" tabindex="-1"></a>  <span class="fu">colnames</span>()</span>
+<span id="cb8-192"><a href="#cb8-192" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-193"><a href="#cb8-193" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert character columns to factors and ensure SUSPECT_RACE_DESCRIPTION stays a factor</span></span>
+<span id="cb8-194"><a href="#cb8-194" aria-hidden="true" tabindex="-1"></a>working_dataset <span class="ot">&lt;-</span> working_dataset <span class="sc">%&gt;%</span></span>
+<span id="cb8-195"><a href="#cb8-195" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">all_of</span>(factor_columns), <span class="sc">~</span> <span class="fu">factor</span>(<span class="fu">make.names</span>(<span class="fu">as.character</span>(.))))) <span class="sc">%&gt;%</span></span>
+<span id="cb8-196"><a href="#cb8-196" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">SUSPECT_RACE_DESCRIPTION =</span> <span class="fu">factor</span>(<span class="fu">make.names</span>(<span class="fu">as.character</span>(SUSPECT_RACE_DESCRIPTION))))</span>
+<span id="cb8-197"><a href="#cb8-197" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-198"><a href="#cb8-198" aria-hidden="true" tabindex="-1"></a><span class="co"># Verify structure</span></span>
+<span id="cb8-199"><a href="#cb8-199" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(working_dataset)</span>
+<span id="cb8-200"><a href="#cb8-200" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-201"><a href="#cb8-201" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-202"><a href="#cb8-202" aria-hidden="true" tabindex="-1"></a><span class="do">## Check unique values in factor columns</span></span>
+<span id="cb8-203"><a href="#cb8-203" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-204"><a href="#cb8-204" aria-hidden="true" tabindex="-1"></a>columns_of_interest <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"SUSPECT_EYE_COLOR"</span>, </span>
+<span id="cb8-205"><a href="#cb8-205" aria-hidden="true" tabindex="-1"></a>                         <span class="st">"SUSPECT_HAIR_COLOR"</span>, </span>
+<span id="cb8-206"><a href="#cb8-206" aria-hidden="true" tabindex="-1"></a>                         <span class="st">"SUSPECT_BODY_BUILD_TYPE"</span>, </span>
+<span id="cb8-207"><a href="#cb8-207" aria-hidden="true" tabindex="-1"></a>                         <span class="st">"SUSPECTED_CRIME_DESCRIPTION"</span>,</span>
+<span id="cb8-208"><a href="#cb8-208" aria-hidden="true" tabindex="-1"></a>                         <span class="st">"STOP_LOCATION_PATROL_BORO_NAME"</span>,</span>
+<span id="cb8-209"><a href="#cb8-209" aria-hidden="true" tabindex="-1"></a>                         <span class="st">"STOP_LOCATION_BORO_NAME"</span>)</span>
+<span id="cb8-210"><a href="#cb8-210" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-211"><a href="#cb8-211" aria-hidden="true" tabindex="-1"></a><span class="co"># Map unique to each column and store the result</span></span>
+<span id="cb8-212"><a href="#cb8-212" aria-hidden="true" tabindex="-1"></a>unique_values <span class="ot">&lt;-</span> <span class="fu">map</span>(columns_of_interest, <span class="sc">~</span> <span class="fu">unique</span>(working_dataset[[.x]]))</span>
+<span id="cb8-213"><a href="#cb8-213" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-214"><a href="#cb8-214" aria-hidden="true" tabindex="-1"></a><span class="co"># Name the results for clarity</span></span>
+<span id="cb8-215"><a href="#cb8-215" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(unique_values) <span class="ot">&lt;-</span> columns_of_interest</span>
+<span id="cb8-216"><a href="#cb8-216" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-217"><a href="#cb8-217" aria-hidden="true" tabindex="-1"></a>unique_values</span>
+<span id="cb8-218"><a href="#cb8-218" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-219"><a href="#cb8-219" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-220"><a href="#cb8-220" aria-hidden="true" tabindex="-1"></a><span class="do">## Clean SUSPECT_HAIR_COLOR with "(nu" to NA</span></span>
+<span id="cb8-221"><a href="#cb8-221" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-222"><a href="#cb8-222" aria-hidden="true" tabindex="-1"></a><span class="co"># Also drop any unused levels that are present</span></span>
+<span id="cb8-223"><a href="#cb8-223" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-224"><a href="#cb8-224" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(working_dataset<span class="sc">$</span>SUSPECT_HAIR_COLOR <span class="sc">==</span> <span class="st">"(nu"</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb8-225"><a href="#cb8-225" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-226"><a href="#cb8-226" aria-hidden="true" tabindex="-1"></a>working_dataset<span class="sc">$</span>SUSPECT_HAIR_COLOR[working_dataset<span class="sc">$</span>SUSPECT_HAIR_COLOR <span class="sc">==</span> <span class="st">"(nu"</span>] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="cb8-227"><a href="#cb8-227" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-228"><a href="#cb8-228" aria-hidden="true" tabindex="-1"></a><span class="co"># Remove rows with NA values in the SUSPECT_HAIR_COLOR column</span></span>
+<span id="cb8-229"><a href="#cb8-229" aria-hidden="true" tabindex="-1"></a>working_dataset <span class="ot">&lt;-</span> working_dataset[<span class="sc">!</span><span class="fu">is.na</span>(working_dataset<span class="sc">$</span>SUSPECT_HAIR_COLOR), ]</span>
+<span id="cb8-230"><a href="#cb8-230" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-231"><a href="#cb8-231" aria-hidden="true" tabindex="-1"></a>working_dataset <span class="ot">&lt;-</span> <span class="fu">droplevels</span>(working_dataset)</span>
+<span id="cb8-232"><a href="#cb8-232" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-233"><a href="#cb8-233" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(working_dataset)</span>
+<span id="cb8-234"><a href="#cb8-234" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-235"><a href="#cb8-235" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-236"><a href="#cb8-236" aria-hidden="true" tabindex="-1"></a><span class="co"># Look at level counts</span></span>
+<span id="cb8-237"><a href="#cb8-237" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-238"><a href="#cb8-238" aria-hidden="true" tabindex="-1"></a>factor_levels <span class="ot">&lt;-</span> <span class="fu">sapply</span>(data, <span class="cf">function</span>(x) <span class="cf">if</span> (<span class="fu">is.factor</span>(x)) <span class="fu">nlevels</span>(x) <span class="cf">else</span> <span class="cn">NA</span>)</span>
+<span id="cb8-239"><a href="#cb8-239" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-240"><a href="#cb8-240" aria-hidden="true" tabindex="-1"></a><span class="co"># Display results</span></span>
+<span id="cb8-241"><a href="#cb8-241" aria-hidden="true" tabindex="-1"></a>factor_info <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb8-242"><a href="#cb8-242" aria-hidden="true" tabindex="-1"></a>  <span class="at">Predictor =</span> <span class="fu">names</span>(factor_levels),</span>
+<span id="cb8-243"><a href="#cb8-243" aria-hidden="true" tabindex="-1"></a>  <span class="at">Levels =</span> factor_levels</span>
+<span id="cb8-244"><a href="#cb8-244" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb8-245"><a href="#cb8-245" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-246"><a href="#cb8-246" aria-hidden="true" tabindex="-1"></a><span class="co"># Show predictors that are factors with their number of levels</span></span>
+<span id="cb8-247"><a href="#cb8-247" aria-hidden="true" tabindex="-1"></a>factor_info <span class="ot">&lt;-</span> factor_info[<span class="sc">!</span><span class="fu">is.na</span>(factor_info<span class="sc">$</span>Levels), ]</span>
+<span id="cb8-248"><a href="#cb8-248" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(factor_info)</span>
+<span id="cb8-249"><a href="#cb8-249" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-250"><a href="#cb8-250" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-251"><a href="#cb8-251" aria-hidden="true" tabindex="-1"></a><span class="co"># Drop RECORD_STATUS_CODE</span></span>
+<span id="cb8-252"><a href="#cb8-252" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-253"><a href="#cb8-253" aria-hidden="true" tabindex="-1"></a>working_dataset <span class="ot">&lt;-</span> working_dataset <span class="sc">%&gt;%</span></span>
+<span id="cb8-254"><a href="#cb8-254" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>RECORD_STATUS_CODE)</span>
+<span id="cb8-255"><a href="#cb8-255" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-256"><a href="#cb8-256" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-257"><a href="#cb8-257" aria-hidden="true" tabindex="-1"></a><span class="co"># Response Variable</span></span>
+<span id="cb8-258"><a href="#cb8-258" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-259"><a href="#cb8-259" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(working_dataset<span class="sc">$</span>SUSPECT_RACE_DESCRIPTION)</span>
+<span id="cb8-260"><a href="#cb8-260" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-261"><a href="#cb8-261" aria-hidden="true" tabindex="-1"></a>working_dataset <span class="ot">&lt;-</span> working_dataset <span class="sc">%&gt;%</span></span>
+<span id="cb8-262"><a href="#cb8-262" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Convert to character to avoid factor level issues</span></span>
+<span id="cb8-263"><a href="#cb8-263" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">SUSPECT_RACE_DESCRIPTION =</span> <span class="fu">as.character</span>(SUSPECT_RACE_DESCRIPTION)) <span class="sc">%&gt;%</span></span>
+<span id="cb8-264"><a href="#cb8-264" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb8-265"><a href="#cb8-265" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Consolidate levels using case_when</span></span>
+<span id="cb8-266"><a href="#cb8-266" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">SUSPECT_RACE_DESCRIPTION =</span> <span class="fu">case_when</span>(</span>
+<span id="cb8-267"><a href="#cb8-267" aria-hidden="true" tabindex="-1"></a>    SUSPECT_RACE_DESCRIPTION <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"AMERICAN.INDIAN.ALASKAN.N"</span>, <span class="st">"AMERICAN.INDIAN.ALASKAN.NATIVE"</span>) <span class="sc">~</span> <span class="st">"Other"</span>,</span>
+<span id="cb8-268"><a href="#cb8-268" aria-hidden="true" tabindex="-1"></a>    SUSPECT_RACE_DESCRIPTION <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"MIDDLE.EASTERN.SOUTHWEST"</span>, <span class="st">"MIDDLE.EASTERN.SOUTHWEST.ASIAN"</span>) <span class="sc">~</span> <span class="st">"Other"</span>,</span>
+<span id="cb8-269"><a href="#cb8-269" aria-hidden="true" tabindex="-1"></a>    SUSPECT_RACE_DESCRIPTION <span class="sc">==</span> <span class="st">"ASIAN...PACIFIC.ISLANDER"</span> <span class="sc">~</span> <span class="st">"Asian"</span>,</span>
+<span id="cb8-270"><a href="#cb8-270" aria-hidden="true" tabindex="-1"></a>    SUSPECT_RACE_DESCRIPTION <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"BLACK.HISPANIC"</span>, <span class="st">"WHITE.HISPANIC"</span>) <span class="sc">~</span> <span class="st">"Hispanic"</span>,</span>
+<span id="cb8-271"><a href="#cb8-271" aria-hidden="true" tabindex="-1"></a>    <span class="cn">TRUE</span> <span class="sc">~</span> SUSPECT_RACE_DESCRIPTION</span>
+<span id="cb8-272"><a href="#cb8-272" aria-hidden="true" tabindex="-1"></a>  )) <span class="sc">%&gt;%</span></span>
+<span id="cb8-273"><a href="#cb8-273" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb8-274"><a href="#cb8-274" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Convert back to factor to remove unused levels</span></span>
+<span id="cb8-275"><a href="#cb8-275" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">SUSPECT_RACE_DESCRIPTION =</span> <span class="fu">factor</span>(SUSPECT_RACE_DESCRIPTION, <span class="at">levels =</span> <span class="fu">unique</span>(SUSPECT_RACE_DESCRIPTION)))</span>
+<span id="cb8-276"><a href="#cb8-276" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-277"><a href="#cb8-277" aria-hidden="true" tabindex="-1"></a><span class="co"># Verify the result</span></span>
+<span id="cb8-278"><a href="#cb8-278" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(working_dataset<span class="sc">$</span>SUSPECT_RACE_DESCRIPTION)</span>
+<span id="cb8-279"><a href="#cb8-279" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-280"><a href="#cb8-280" aria-hidden="true" tabindex="-1"></a><span class="co"># Flag Counts</span></span>
+<span id="cb8-281"><a href="#cb8-281" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-282"><a href="#cb8-282" aria-hidden="true" tabindex="-1"></a>working_dataset <span class="ot">&lt;-</span> working_dataset <span class="sc">|&gt;</span></span>
+<span id="cb8-283"><a href="#cb8-283" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">PHYSICAL_FORCE_COUNT =</span> <span class="fu">rowSums</span>(<span class="fu">across</span>(<span class="fu">contains</span>(<span class="st">"PHYSICAL_FORCE"</span>), </span>
+<span id="cb8-284"><a href="#cb8-284" aria-hidden="true" tabindex="-1"></a>                                               <span class="sc">~</span> . <span class="sc">==</span> <span class="st">"Y"</span>)))</span>
+<span id="cb8-285"><a href="#cb8-285" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-286"><a href="#cb8-286" aria-hidden="true" tabindex="-1"></a><span class="co"># Consolidate suspect actions flags into a single predictor</span></span>
+<span id="cb8-287"><a href="#cb8-287" aria-hidden="true" tabindex="-1"></a>working_dataset <span class="ot">&lt;-</span> working_dataset <span class="sc">|&gt;</span></span>
+<span id="cb8-288"><a href="#cb8-288" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">SUSPECT_ACTIONS_COUNT =</span> <span class="fu">rowSums</span>(<span class="fu">across</span>(<span class="fu">contains</span>(<span class="st">"SUSPECTS_ACTIONS"</span>), </span>
+<span id="cb8-289"><a href="#cb8-289" aria-hidden="true" tabindex="-1"></a>                                                <span class="sc">~</span> . <span class="sc">==</span> <span class="st">"Y"</span>)))</span>
+<span id="cb8-290"><a href="#cb8-290" aria-hidden="true" tabindex="-1"></a><span class="co"># Consolidate weapon flags into a single predictor</span></span>
+<span id="cb8-291"><a href="#cb8-291" aria-hidden="true" tabindex="-1"></a>weapon_flags <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"FIREARM_FLAG"</span>, </span>
+<span id="cb8-292"><a href="#cb8-292" aria-hidden="true" tabindex="-1"></a>                  <span class="st">"KNIFE_CUTTER_FLAG"</span>, </span>
+<span id="cb8-293"><a href="#cb8-293" aria-hidden="true" tabindex="-1"></a>                  <span class="st">"OTHER_WEAPON_FLAG"</span>,</span>
+<span id="cb8-294"><a href="#cb8-294" aria-hidden="true" tabindex="-1"></a>                  <span class="st">"WEAPON_FOUND_FLAG"</span>)</span>
+<span id="cb8-295"><a href="#cb8-295" aria-hidden="true" tabindex="-1"></a>working_dataset <span class="ot">&lt;-</span> working_dataset <span class="sc">|&gt;</span></span>
+<span id="cb8-296"><a href="#cb8-296" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">WEAPON_FLAG_COUNT =</span> <span class="fu">rowSums</span>(<span class="fu">across</span>(weapon_flags, <span class="sc">~</span> . <span class="sc">==</span> <span class="st">"Y"</span>)))</span>
+<span id="cb8-297"><a href="#cb8-297" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-298"><a href="#cb8-298" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(working_dataset)</span>
+<span id="cb8-299"><a href="#cb8-299" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-300"><a href="#cb8-300" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-301"><a href="#cb8-301" aria-hidden="true" tabindex="-1"></a><span class="co"># Save dataset</span></span>
+<span id="cb8-302"><a href="#cb8-302" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-303"><a href="#cb8-303" aria-hidden="true" tabindex="-1"></a><span class="fu">write_xlsx</span>(working_dataset, <span class="st">'working_dataset.xlsx'</span>)</span>
+<span id="cb8-304"><a href="#cb8-304" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-305"><a href="#cb8-305" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(working_dataset, <span class="st">"working_dataset.rds"</span>)</span>
+<span id="cb8-306"><a href="#cb8-306" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-307"><a href="#cb8-307" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-308"><a href="#cb8-308" aria-hidden="true" tabindex="-1"></a><span class="do">## Different Variables on Race</span></span>
+<span id="cb8-309"><a href="#cb8-309" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-310"><a href="#cb8-310" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-311"><a href="#cb8-311" aria-hidden="true" tabindex="-1"></a><span class="co"># Suspected crime vs. race</span></span>
+<span id="cb8-312"><a href="#cb8-312" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> working_dataset</span>
+<span id="cb8-313"><a href="#cb8-313" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-314"><a href="#cb8-314" aria-hidden="true" tabindex="-1"></a>stacked_bar <span class="ot">&lt;-</span> <span class="cf">function</span>(var) {</span>
+<span id="cb8-315"><a href="#cb8-315" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(data, <span class="fu">aes</span>(<span class="at">x =</span> .data[[var]], <span class="at">fill =</span> SUSPECT_ARRESTED_FLAG)) <span class="sc">+</span></span>
+<span id="cb8-316"><a href="#cb8-316" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_bar</span>(<span class="at">position =</span> <span class="st">'fill'</span>) <span class="sc">+</span></span>
+<span id="cb8-317"><a href="#cb8-317" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(</span>
+<span id="cb8-318"><a href="#cb8-318" aria-hidden="true" tabindex="-1"></a>      <span class="at">title =</span> var,</span>
+<span id="cb8-319"><a href="#cb8-319" aria-hidden="true" tabindex="-1"></a>      <span class="at">x =</span> var,</span>
+<span id="cb8-320"><a href="#cb8-320" aria-hidden="true" tabindex="-1"></a>      <span class="at">y =</span> <span class="st">''</span></span>
+<span id="cb8-321"><a href="#cb8-321" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb8-322"><a href="#cb8-322" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb8-323"><a href="#cb8-323" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(</span>
+<span id="cb8-324"><a href="#cb8-324" aria-hidden="true" tabindex="-1"></a>      <span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">90</span>, <span class="at">hjust =</span> <span class="dv">1</span>)</span>
+<span id="cb8-325"><a href="#cb8-325" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb8-326"><a href="#cb8-326" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_fill_manual</span>(<span class="at">values=</span><span class="fu">c</span>(<span class="st">'hotpink'</span>, <span class="st">'purple'</span>))</span>
+<span id="cb8-327"><a href="#cb8-327" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb8-328"><a href="#cb8-328" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-329"><a href="#cb8-329" aria-hidden="true" tabindex="-1"></a>variables <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">'SUSPECT_RACE_DESCRIPTION'</span>,</span>
+<span id="cb8-330"><a href="#cb8-330" aria-hidden="true" tabindex="-1"></a>               <span class="st">'PHYSICAL_FORCE_VERBAL_INSTRUCTION_FLAG'</span>,</span>
+<span id="cb8-331"><a href="#cb8-331" aria-hidden="true" tabindex="-1"></a>               <span class="st">'PHYSICAL_FORCE_WEAPON_IMPACT_FLAG'</span>,</span>
+<span id="cb8-332"><a href="#cb8-332" aria-hidden="true" tabindex="-1"></a>               <span class="st">'PHYSICAL_FORCE_RESTRAINT_USED_FLAG'</span>, </span>
+<span id="cb8-333"><a href="#cb8-333" aria-hidden="true" tabindex="-1"></a>               <span class="st">'PHYSICAL_FORCE_OTHER_FLAG'</span>,</span>
+<span id="cb8-334"><a href="#cb8-334" aria-hidden="true" tabindex="-1"></a>               <span class="st">'PHYSICAL_FORCE_OC_SPRAY_USED_FLAG'</span>,</span>
+<span id="cb8-335"><a href="#cb8-335" aria-hidden="true" tabindex="-1"></a>               <span class="st">'PHYSICAL_FORCE_HANDCUFF_SUSPECT_FLAG'</span>,</span>
+<span id="cb8-336"><a href="#cb8-336" aria-hidden="true" tabindex="-1"></a>               <span class="st">'PHYSICAL_FORCE_DRAW_POINT_FIREARM_FLAG'</span>,</span>
+<span id="cb8-337"><a href="#cb8-337" aria-hidden="true" tabindex="-1"></a>               <span class="st">'PHYSICAL_FORCE_CEW_FLAG'</span>,</span>
+<span id="cb8-338"><a href="#cb8-338" aria-hidden="true" tabindex="-1"></a>               <span class="st">'WEAPON_FLAG_COUNT'</span>,</span>
+<span id="cb8-339"><a href="#cb8-339" aria-hidden="true" tabindex="-1"></a>               <span class="st">'SUSPECT_ACTIONS_COUNT'</span>,</span>
+<span id="cb8-340"><a href="#cb8-340" aria-hidden="true" tabindex="-1"></a>               <span class="st">'SUSPECT_ARRESTED_FLAG'</span>)</span>
+<span id="cb8-341"><a href="#cb8-341" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-342"><a href="#cb8-342" aria-hidden="true" tabindex="-1"></a><span class="co"># Apply the function to each variable</span></span>
+<span id="cb8-343"><a href="#cb8-343" aria-hidden="true" tabindex="-1"></a>plots <span class="ot">&lt;-</span> <span class="fu">lapply</span>(variables, stacked_bar)</span>
+<span id="cb8-344"><a href="#cb8-344" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-345"><a href="#cb8-345" aria-hidden="true" tabindex="-1"></a><span class="co"># Display the plots (e.g., in a grid)</span></span>
+<span id="cb8-346"><a href="#cb8-346" aria-hidden="true" tabindex="-1"></a><span class="fu">ggarrange</span>(</span>
+<span id="cb8-347"><a href="#cb8-347" aria-hidden="true" tabindex="-1"></a>  <span class="at">plotlist =</span> plots,</span>
+<span id="cb8-348"><a href="#cb8-348" aria-hidden="true" tabindex="-1"></a>  <span class="at">ncol =</span> <span class="dv">2</span></span>
+<span id="cb8-349"><a href="#cb8-349" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb8-350"><a href="#cb8-350" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-351"><a href="#cb8-351" aria-hidden="true" tabindex="-1"></a><span class="fu">stacked_bar</span>(<span class="st">'SUSPECTED_CRIME_DESCRIPTION'</span>)</span>
+<span id="cb8-352"><a href="#cb8-352" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-353"><a href="#cb8-353" aria-hidden="true" tabindex="-1"></a>boxplots <span class="ot">&lt;-</span> <span class="cf">function</span>(var) {</span>
+<span id="cb8-354"><a href="#cb8-354" aria-hidden="true" tabindex="-1"></a>  n <span class="ot">&lt;-</span> <span class="fu">max</span>(data[[var]], <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb8-355"><a href="#cb8-355" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(data, <span class="fu">aes</span>(<span class="at">x=</span>.data[[var]], <span class="at">color=</span>SUSPECT_ARRESTED_FLAG, </span>
+<span id="cb8-356"><a href="#cb8-356" aria-hidden="true" tabindex="-1"></a>              <span class="at">fill=</span>SUSPECT_ARRESTED_FLAG)) <span class="sc">+</span></span>
+<span id="cb8-357"><a href="#cb8-357" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
+<span id="cb8-358"><a href="#cb8-358" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_fill_manual</span>(<span class="at">values=</span><span class="fu">c</span>(<span class="st">"hotpink"</span>, <span class="st">"purple"</span>)) <span class="sc">+</span></span>
+<span id="cb8-359"><a href="#cb8-359" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(</span>
+<span id="cb8-360"><a href="#cb8-360" aria-hidden="true" tabindex="-1"></a>      <span class="at">legend.position=</span><span class="st">"none"</span>,</span>
+<span id="cb8-361"><a href="#cb8-361" aria-hidden="true" tabindex="-1"></a>      <span class="at">panel.spacing =</span> <span class="fu">unit</span>(<span class="fl">0.1</span>, <span class="st">"lines"</span>),</span>
+<span id="cb8-362"><a href="#cb8-362" aria-hidden="true" tabindex="-1"></a>      <span class="at">strip.text.x =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">8</span>)</span>
+<span id="cb8-363"><a href="#cb8-363" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb8-364"><a href="#cb8-364" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(</span>
+<span id="cb8-365"><a href="#cb8-365" aria-hidden="true" tabindex="-1"></a>      <span class="at">title =</span> var,</span>
+<span id="cb8-366"><a href="#cb8-366" aria-hidden="true" tabindex="-1"></a>      <span class="at">x =</span> var) <span class="sc">+</span></span>
+<span id="cb8-367"><a href="#cb8-367" aria-hidden="true" tabindex="-1"></a>    <span class="fu">xlim</span>(<span class="dv">0</span>, n) <span class="sc">+</span></span>
+<span id="cb8-368"><a href="#cb8-368" aria-hidden="true" tabindex="-1"></a>    <span class="fu">facet_wrap</span>(<span class="sc">~</span>SUSPECT_ARRESTED_FLAG) </span>
+<span id="cb8-369"><a href="#cb8-369" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb8-370"><a href="#cb8-370" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-371"><a href="#cb8-371" aria-hidden="true" tabindex="-1"></a>variables <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">'STOP_DURATION_MINUTES'</span>)</span>
+<span id="cb8-372"><a href="#cb8-372" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-373"><a href="#cb8-373" aria-hidden="true" tabindex="-1"></a><span class="co"># Apply the function to each variable</span></span>
+<span id="cb8-374"><a href="#cb8-374" aria-hidden="true" tabindex="-1"></a>plots <span class="ot">&lt;-</span> <span class="fu">lapply</span>(variables, boxplots)</span>
+<span id="cb8-375"><a href="#cb8-375" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-376"><a href="#cb8-376" aria-hidden="true" tabindex="-1"></a>plots</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</section>
+<section id="modeling" class="level4">
+<h4 class="anchored" data-anchor-id="modeling">Modeling</h4>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-overflow-wrap code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(caret)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(MLmetrics)</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(doParallel)</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(xgboost)</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>) </span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>num_cores <span class="ot">&lt;-</span> parallel<span class="sc">::</span><span class="fu">detectCores</span>() <span class="sc">-</span> <span class="dv">1</span> </span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Using"</span>, num_cores, <span class="st">"cores for parallel processing.</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>cl <span class="ot">&lt;-</span> <span class="fu">makeCluster</span>(num_cores)   </span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a><span class="fu">registerDoParallel</span>(cl)   </span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Registered parallel backend:"</span>, foreach<span class="sc">::</span><span class="fu">getDoParName</span>(), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Number of workers:"</span>, foreach<span class="sc">::</span><span class="fu">getDoParWorkers</span>(), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Set RNG stream for reproducibility</span></span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a><span class="fu">clusterSetRNGStream</span>(cl, <span class="dv">123</span>)</span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Data</span></span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">"working_dataset.rds"</span>)</span>
+<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a><span class="co"># Check the frequency of the updated categories</span></span>
+<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(data<span class="sc">$</span>SUSPECT_RACE_DESCRIPTION)</span>
+<span id="cb9-26"><a href="#cb9-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-27"><a href="#cb9-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-28"><a href="#cb9-28" aria-hidden="true" tabindex="-1"></a><span class="co"># Defing the Predictors and Response</span></span>
+<span id="cb9-29"><a href="#cb9-29" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> data <span class="sc">|&gt;</span> <span class="fu">select</span>(SUSPECT_RACE_DESCRIPTION,</span>
+<span id="cb9-30"><a href="#cb9-30" aria-hidden="true" tabindex="-1"></a>                       PHYSICAL_FORCE_CEW_FLAG,</span>
+<span id="cb9-31"><a href="#cb9-31" aria-hidden="true" tabindex="-1"></a>                       PHYSICAL_FORCE_DRAW_POINT_FIREARM_FLAG,</span>
+<span id="cb9-32"><a href="#cb9-32" aria-hidden="true" tabindex="-1"></a>                       PHYSICAL_FORCE_HANDCUFF_SUSPECT_FLAG,</span>
+<span id="cb9-33"><a href="#cb9-33" aria-hidden="true" tabindex="-1"></a>                       PHYSICAL_FORCE_OC_SPRAY_USED_FLAG,</span>
+<span id="cb9-34"><a href="#cb9-34" aria-hidden="true" tabindex="-1"></a>                       PHYSICAL_FORCE_OTHER_FLAG,</span>
+<span id="cb9-35"><a href="#cb9-35" aria-hidden="true" tabindex="-1"></a>                       PHYSICAL_FORCE_RESTRAINT_USED_FLAG,</span>
+<span id="cb9-36"><a href="#cb9-36" aria-hidden="true" tabindex="-1"></a>                       PHYSICAL_FORCE_VERBAL_INSTRUCTION_FLAG,</span>
+<span id="cb9-37"><a href="#cb9-37" aria-hidden="true" tabindex="-1"></a>                       PHYSICAL_FORCE_WEAPON_IMPACT_FLAG,</span>
+<span id="cb9-38"><a href="#cb9-38" aria-hidden="true" tabindex="-1"></a>                       WEAPON_FLAG_COUNT,</span>
+<span id="cb9-39"><a href="#cb9-39" aria-hidden="true" tabindex="-1"></a>                       STOP_DURATION_MINUTES,</span>
+<span id="cb9-40"><a href="#cb9-40" aria-hidden="true" tabindex="-1"></a>                       SUSPECT_ACTIONS_COUNT,</span>
+<span id="cb9-41"><a href="#cb9-41" aria-hidden="true" tabindex="-1"></a>                       SUSPECT_ARRESTED_FLAG)</span>
+<span id="cb9-42"><a href="#cb9-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-43"><a href="#cb9-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-44"><a href="#cb9-44" aria-hidden="true" tabindex="-1"></a><span class="co"># Define the formula</span></span>
+<span id="cb9-45"><a href="#cb9-45" aria-hidden="true" tabindex="-1"></a>response <span class="ot">&lt;-</span> <span class="st">"SUSPECT_ARRESTED_FLAG"</span></span>
+<span id="cb9-46"><a href="#cb9-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-47"><a href="#cb9-47" aria-hidden="true" tabindex="-1"></a><span class="co"># Construct the formula dynamically</span></span>
+<span id="cb9-48"><a href="#cb9-48" aria-hidden="true" tabindex="-1"></a>formula <span class="ot">&lt;-</span> <span class="fu">as.formula</span>(<span class="fu">paste</span>(response, <span class="st">"~ ."</span>))</span>
+<span id="cb9-49"><a href="#cb9-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-50"><a href="#cb9-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-51"><a href="#cb9-51" aria-hidden="true" tabindex="-1"></a><span class="co"># Preprocessing</span></span>
+<span id="cb9-52"><a href="#cb9-52" aria-hidden="true" tabindex="-1"></a>numeric_cols <span class="ot">&lt;-</span> <span class="fu">sapply</span>(data, is.numeric)</span>
+<span id="cb9-53"><a href="#cb9-53" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-54"><a href="#cb9-54" aria-hidden="true" tabindex="-1"></a><span class="co"># Apply standardization (centering and scaling)</span></span>
+<span id="cb9-55"><a href="#cb9-55" aria-hidden="true" tabindex="-1"></a>preprocess <span class="ot">&lt;-</span> <span class="fu">preProcess</span>(data[, numeric_cols], <span class="at">method =</span> <span class="fu">c</span>(<span class="st">"center"</span>, <span class="st">"scale"</span>))</span>
+<span id="cb9-56"><a href="#cb9-56" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-57"><a href="#cb9-57" aria-hidden="true" tabindex="-1"></a><span class="co"># Standardize the numeric columns and overwrite the dataset</span></span>
+<span id="cb9-58"><a href="#cb9-58" aria-hidden="true" tabindex="-1"></a>data[, numeric_cols] <span class="ot">&lt;-</span> <span class="fu">predict</span>(preprocess, data[, numeric_cols])</span>
+<span id="cb9-59"><a href="#cb9-59" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-60"><a href="#cb9-60" aria-hidden="true" tabindex="-1"></a>train_index <span class="ot">&lt;-</span> <span class="fu">createDataPartition</span>(data<span class="sc">$</span>SUSPECT_ARRESTED_FLAG, </span>
+<span id="cb9-61"><a href="#cb9-61" aria-hidden="true" tabindex="-1"></a>                                   <span class="at">p =</span> <span class="fl">0.7</span>, <span class="at">list =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb9-62"><a href="#cb9-62" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-63"><a href="#cb9-63" aria-hidden="true" tabindex="-1"></a>train_data <span class="ot">&lt;-</span> data[train_index, ]</span>
+<span id="cb9-64"><a href="#cb9-64" aria-hidden="true" tabindex="-1"></a>test_data <span class="ot">&lt;-</span> data[<span class="sc">-</span>train_index, ]</span>
+<span id="cb9-65"><a href="#cb9-65" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-66"><a href="#cb9-66" aria-hidden="true" tabindex="-1"></a><span class="co"># save data used for modeling</span></span>
+<span id="cb9-67"><a href="#cb9-67" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(data, <span class="st">"training_data.rds"</span>)</span>
+<span id="cb9-68"><a href="#cb9-68" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(test_data, <span class="st">"testing_data.rds"</span>)</span>
+<span id="cb9-69"><a href="#cb9-69" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-70"><a href="#cb9-70" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(train_data)</span>
+<span id="cb9-71"><a href="#cb9-71" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(train_data<span class="sc">$</span>SUSPECT_ARRESTED_FLAG)</span>
+<span id="cb9-72"><a href="#cb9-72" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-73"><a href="#cb9-73" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(test_data)</span>
+<span id="cb9-74"><a href="#cb9-74" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-75"><a href="#cb9-75" aria-hidden="true" tabindex="-1"></a><span class="co"># Define control object with metrics</span></span>
+<span id="cb9-76"><a href="#cb9-76" aria-hidden="true" tabindex="-1"></a>ctrl <span class="ot">&lt;-</span> <span class="fu">trainControl</span>(</span>
+<span id="cb9-77"><a href="#cb9-77" aria-hidden="true" tabindex="-1"></a>  <span class="at">method =</span> <span class="st">"cv"</span>,</span>
+<span id="cb9-78"><a href="#cb9-78" aria-hidden="true" tabindex="-1"></a>  <span class="at">number =</span> <span class="dv">5</span>,</span>
+<span id="cb9-79"><a href="#cb9-79" aria-hidden="true" tabindex="-1"></a>  <span class="at">summaryFunction =</span> twoClassSummary,</span>
+<span id="cb9-80"><a href="#cb9-80" aria-hidden="true" tabindex="-1"></a>  <span class="at">classProbs =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb9-81"><a href="#cb9-81" aria-hidden="true" tabindex="-1"></a>  <span class="at">allowParallel =</span> <span class="cn">TRUE</span></span>
+<span id="cb9-82"><a href="#cb9-82" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb9-83"><a href="#cb9-83" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-84"><a href="#cb9-84" aria-hidden="true" tabindex="-1"></a><span class="co"># Logistic Regression</span></span>
+<span id="cb9-85"><a href="#cb9-85" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-86"><a href="#cb9-86" aria-hidden="true" tabindex="-1"></a>logistic_model <span class="ot">&lt;-</span> <span class="fu">train</span>(</span>
+<span id="cb9-87"><a href="#cb9-87" aria-hidden="true" tabindex="-1"></a>  formula, </span>
+<span id="cb9-88"><a href="#cb9-88" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> train_data, </span>
+<span id="cb9-89"><a href="#cb9-89" aria-hidden="true" tabindex="-1"></a>  <span class="at">method =</span> <span class="st">"glm"</span>,</span>
+<span id="cb9-90"><a href="#cb9-90" aria-hidden="true" tabindex="-1"></a>  <span class="at">trControl =</span> ctrl,</span>
+<span id="cb9-91"><a href="#cb9-91" aria-hidden="true" tabindex="-1"></a>  <span class="at">metric =</span> <span class="st">"ROC"</span></span>
+<span id="cb9-92"><a href="#cb9-92" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb9-93"><a href="#cb9-93" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-94"><a href="#cb9-94" aria-hidden="true" tabindex="-1"></a>log_reg_imp <span class="ot">&lt;-</span> <span class="fu">varImp</span>(logistic_model)</span>
+<span id="cb9-95"><a href="#cb9-95" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(log_reg_imp)</span>
+<span id="cb9-96"><a href="#cb9-96" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-97"><a href="#cb9-97" aria-hidden="true" tabindex="-1"></a><span class="co"># Elastic Net</span></span>
+<span id="cb9-98"><a href="#cb9-98" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-99"><a href="#cb9-99" aria-hidden="true" tabindex="-1"></a>elastic_net_grid <span class="ot">&lt;-</span> <span class="fu">expand.grid</span>(</span>
+<span id="cb9-100"><a href="#cb9-100" aria-hidden="true" tabindex="-1"></a>  <span class="at">alpha =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="at">by =</span> <span class="fl">0.05</span>),  </span>
+<span id="cb9-101"><a href="#cb9-101" aria-hidden="true" tabindex="-1"></a>  <span class="at">lambda =</span> <span class="dv">10</span><span class="sc">^</span><span class="fu">seq</span>(<span class="sc">-</span><span class="dv">5</span>, <span class="dv">0</span>, <span class="at">length =</span> <span class="dv">20</span>)  </span>
+<span id="cb9-102"><a href="#cb9-102" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb9-103"><a href="#cb9-103" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-104"><a href="#cb9-104" aria-hidden="true" tabindex="-1"></a>elastic_net_model <span class="ot">&lt;-</span> <span class="fu">train</span>(</span>
+<span id="cb9-105"><a href="#cb9-105" aria-hidden="true" tabindex="-1"></a>  formula, </span>
+<span id="cb9-106"><a href="#cb9-106" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> train_data, </span>
+<span id="cb9-107"><a href="#cb9-107" aria-hidden="true" tabindex="-1"></a>  <span class="at">method =</span> <span class="st">"glmnet"</span>,</span>
+<span id="cb9-108"><a href="#cb9-108" aria-hidden="true" tabindex="-1"></a>  <span class="at">trControl =</span> ctrl,</span>
+<span id="cb9-109"><a href="#cb9-109" aria-hidden="true" tabindex="-1"></a>  <span class="at">tuneGrid =</span> elastic_net_grid,</span>
+<span id="cb9-110"><a href="#cb9-110" aria-hidden="true" tabindex="-1"></a>  <span class="at">metric =</span> <span class="st">"ROC"</span></span>
+<span id="cb9-111"><a href="#cb9-111" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb9-112"><a href="#cb9-112" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-113"><a href="#cb9-113" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(elastic_net_model)</span>
+<span id="cb9-114"><a href="#cb9-114" aria-hidden="true" tabindex="-1"></a>elastic_net_model<span class="sc">$</span>bestTune</span>
+<span id="cb9-115"><a href="#cb9-115" aria-hidden="true" tabindex="-1"></a>elastic_imp <span class="ot">&lt;-</span> <span class="fu">varImp</span>(elastic_net_model)</span>
+<span id="cb9-116"><a href="#cb9-116" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(elastic_imp)</span>
+<span id="cb9-117"><a href="#cb9-117" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-118"><a href="#cb9-118" aria-hidden="true" tabindex="-1"></a><span class="co"># Random Forest</span></span>
+<span id="cb9-119"><a href="#cb9-119" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-120"><a href="#cb9-120" aria-hidden="true" tabindex="-1"></a>rf_grid <span class="ot">&lt;-</span> <span class="fu">expand.grid</span>(<span class="at">mtry =</span> <span class="fu">seq</span>(<span class="dv">1</span>, <span class="fu">ncol</span>(train_data) <span class="sc">-</span> <span class="dv">1</span>, </span>
+<span id="cb9-121"><a href="#cb9-121" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">by =</span> <span class="dv">1</span>))</span>
+<span id="cb9-122"><a href="#cb9-122" aria-hidden="true" tabindex="-1"></a>rf_model <span class="ot">&lt;-</span> <span class="fu">train</span>(</span>
+<span id="cb9-123"><a href="#cb9-123" aria-hidden="true" tabindex="-1"></a> formula,</span>
+<span id="cb9-124"><a href="#cb9-124" aria-hidden="true" tabindex="-1"></a> <span class="at">data =</span> train_data,</span>
+<span id="cb9-125"><a href="#cb9-125" aria-hidden="true" tabindex="-1"></a> <span class="at">method =</span> <span class="st">"rf"</span>,</span>
+<span id="cb9-126"><a href="#cb9-126" aria-hidden="true" tabindex="-1"></a> <span class="at">trControl =</span> ctrl,</span>
+<span id="cb9-127"><a href="#cb9-127" aria-hidden="true" tabindex="-1"></a> <span class="at">tuneGrid =</span> rf_grid,</span>
+<span id="cb9-128"><a href="#cb9-128" aria-hidden="true" tabindex="-1"></a> <span class="at">metric =</span> <span class="st">"ROC"</span></span>
+<span id="cb9-129"><a href="#cb9-129" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb9-130"><a href="#cb9-130" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-131"><a href="#cb9-131" aria-hidden="true" tabindex="-1"></a>rf_model<span class="sc">$</span>bestTune</span>
+<span id="cb9-132"><a href="#cb9-132" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-133"><a href="#cb9-133" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(rf_model)</span>
+<span id="cb9-134"><a href="#cb9-134" aria-hidden="true" tabindex="-1"></a>rf_imp <span class="ot">&lt;-</span> <span class="fu">varImp</span>(rf_model)</span>
+<span id="cb9-135"><a href="#cb9-135" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(rf_imp)</span>
+<span id="cb9-136"><a href="#cb9-136" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-137"><a href="#cb9-137" aria-hidden="true" tabindex="-1"></a><span class="co"># XGBoost</span></span>
+<span id="cb9-138"><a href="#cb9-138" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-139"><a href="#cb9-139" aria-hidden="true" tabindex="-1"></a>xgb_model <span class="ot">&lt;-</span> <span class="fu">train</span>(</span>
+<span id="cb9-140"><a href="#cb9-140" aria-hidden="true" tabindex="-1"></a>  formula, </span>
+<span id="cb9-141"><a href="#cb9-141" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> train_data, </span>
+<span id="cb9-142"><a href="#cb9-142" aria-hidden="true" tabindex="-1"></a>  <span class="at">method =</span> <span class="st">"xgbTree"</span>,</span>
+<span id="cb9-143"><a href="#cb9-143" aria-hidden="true" tabindex="-1"></a>  <span class="at">trControl =</span> ctrl,</span>
+<span id="cb9-144"><a href="#cb9-144" aria-hidden="true" tabindex="-1"></a>  <span class="at">metric =</span> <span class="st">"ROC"</span>,</span>
+<span id="cb9-145"><a href="#cb9-145" aria-hidden="true" tabindex="-1"></a>  <span class="at">tuneLength =</span> <span class="dv">10</span></span>
+<span id="cb9-146"><a href="#cb9-146" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb9-147"><a href="#cb9-147" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-148"><a href="#cb9-148" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(xgb_model)</span>
+<span id="cb9-149"><a href="#cb9-149" aria-hidden="true" tabindex="-1"></a>xgb_model<span class="sc">$</span>bestTune</span>
+<span id="cb9-150"><a href="#cb9-150" aria-hidden="true" tabindex="-1"></a>xgb_imp <span class="ot">&lt;-</span> <span class="fu">varImp</span>(xgb_model)</span>
+<span id="cb9-151"><a href="#cb9-151" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(xgb_imp)</span>
+<span id="cb9-152"><a href="#cb9-152" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-153"><a href="#cb9-153" aria-hidden="true" tabindex="-1"></a><span class="fu">stopCluster</span>(cl)</span>
+<span id="cb9-154"><a href="#cb9-154" aria-hidden="true" tabindex="-1"></a><span class="fu">registerDoSEQ</span>()</span>
+<span id="cb9-155"><a href="#cb9-155" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-156"><a href="#cb9-156" aria-hidden="true" tabindex="-1"></a><span class="co"># Compare Trained Models</span></span>
+<span id="cb9-157"><a href="#cb9-157" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-158"><a href="#cb9-158" aria-hidden="true" tabindex="-1"></a><span class="co"># Define models</span></span>
+<span id="cb9-159"><a href="#cb9-159" aria-hidden="true" tabindex="-1"></a>models <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb9-160"><a href="#cb9-160" aria-hidden="true" tabindex="-1"></a>  <span class="at">XGBoost =</span> xgb_model,</span>
+<span id="cb9-161"><a href="#cb9-161" aria-hidden="true" tabindex="-1"></a>  <span class="at">ElasticNet =</span> elastic_net_model,</span>
+<span id="cb9-162"><a href="#cb9-162" aria-hidden="true" tabindex="-1"></a>  <span class="at">LogisticRegression =</span> logistic_model,</span>
+<span id="cb9-163"><a href="#cb9-163" aria-hidden="true" tabindex="-1"></a>  <span class="at">RandomForest =</span> rf_model</span>
+<span id="cb9-164"><a href="#cb9-164" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb9-165"><a href="#cb9-165" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-166"><a href="#cb9-166" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate resamples</span></span>
+<span id="cb9-167"><a href="#cb9-167" aria-hidden="true" tabindex="-1"></a>resamples <span class="ot">&lt;-</span> <span class="fu">resamples</span>(models)</span>
+<span id="cb9-168"><a href="#cb9-168" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-169"><a href="#cb9-169" aria-hidden="true" tabindex="-1"></a><span class="co"># Summary of metrics</span></span>
+<span id="cb9-170"><a href="#cb9-170" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(resamples)</span>
+<span id="cb9-171"><a href="#cb9-171" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-172"><a href="#cb9-172" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualize the selected metrics</span></span>
+<span id="cb9-173"><a href="#cb9-173" aria-hidden="true" tabindex="-1"></a><span class="fu">bwplot</span>(resamples, <span class="at">metric =</span> <span class="st">"ROC"</span>)</span>
+<span id="cb9-174"><a href="#cb9-174" aria-hidden="true" tabindex="-1"></a><span class="fu">bwplot</span>(resamples, <span class="at">metric =</span> <span class="st">"Sens"</span>)</span>
+<span id="cb9-175"><a href="#cb9-175" aria-hidden="true" tabindex="-1"></a><span class="fu">bwplot</span>(resamples, <span class="at">metric =</span> <span class="st">"Spec"</span>)</span>
+<span id="cb9-176"><a href="#cb9-176" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-177"><a href="#cb9-177" aria-hidden="true" tabindex="-1"></a><span class="co"># Save Trained Models</span></span>
+<span id="cb9-178"><a href="#cb9-178" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(models, <span class="st">"models.rds"</span>)</span>
+<span id="cb9-179"><a href="#cb9-179" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-180"><a href="#cb9-180" aria-hidden="true" tabindex="-1"></a><span class="co"># Compare Tested Models</span></span>
+<span id="cb9-181"><a href="#cb9-181" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-182"><a href="#cb9-182" aria-hidden="true" tabindex="-1"></a><span class="co"># Initialize a list to store metrics</span></span>
+<span id="cb9-183"><a href="#cb9-183" aria-hidden="true" tabindex="-1"></a>test_metrics <span class="ot">&lt;-</span> <span class="fu">lapply</span>(<span class="fu">seq_along</span>(models), <span class="cf">function</span>(i) {</span>
+<span id="cb9-184"><a href="#cb9-184" aria-hidden="true" tabindex="-1"></a>  model <span class="ot">&lt;-</span> models[[i]]</span>
+<span id="cb9-185"><a href="#cb9-185" aria-hidden="true" tabindex="-1"></a>  model_name <span class="ot">&lt;-</span> <span class="fu">names</span>(models)[i]</span>
+<span id="cb9-186"><a href="#cb9-186" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb9-187"><a href="#cb9-187" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Predict class probabilities and class labels</span></span>
+<span id="cb9-188"><a href="#cb9-188" aria-hidden="true" tabindex="-1"></a>  probs <span class="ot">&lt;-</span> <span class="fu">predict</span>(model, <span class="at">newdata =</span> test_data, <span class="at">type =</span> <span class="st">"prob"</span>)</span>
+<span id="cb9-189"><a href="#cb9-189" aria-hidden="true" tabindex="-1"></a>  preds <span class="ot">&lt;-</span> <span class="fu">predict</span>(model, <span class="at">newdata =</span> test_data)</span>
+<span id="cb9-190"><a href="#cb9-190" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb9-191"><a href="#cb9-191" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Debug: Check structure of predictions and test data</span></span>
+<span id="cb9-192"><a href="#cb9-192" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(<span class="fu">paste</span>(<span class="st">"Model:"</span>, model_name))</span>
+<span id="cb9-193"><a href="#cb9-193" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(<span class="fu">str</span>(probs))  <span class="co"># Check if probs is correctly formatted</span></span>
+<span id="cb9-194"><a href="#cb9-194" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(<span class="fu">table</span>(preds))  <span class="co"># Distribution of predicted classes</span></span>
+<span id="cb9-195"><a href="#cb9-195" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(<span class="fu">table</span>(test_data<span class="sc">$</span>SUSPECT_ARRESTED_FLAG))  <span class="co"># Distribution of true classes</span></span>
+<span id="cb9-196"><a href="#cb9-196" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb9-197"><a href="#cb9-197" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Compute confusion matrix</span></span>
+<span id="cb9-198"><a href="#cb9-198" aria-hidden="true" tabindex="-1"></a>  cm <span class="ot">&lt;-</span> <span class="fu">confusionMatrix</span>(preds, test_data<span class="sc">$</span>SUSPECT_ARRESTED_FLAG)</span>
+<span id="cb9-199"><a href="#cb9-199" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb9-200"><a href="#cb9-200" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(cm)</span>
+<span id="cb9-201"><a href="#cb9-201" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb9-202"><a href="#cb9-202" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Calculate metrics</span></span>
+<span id="cb9-203"><a href="#cb9-203" aria-hidden="true" tabindex="-1"></a>  accuracy <span class="ot">&lt;-</span> cm<span class="sc">$</span>overall[<span class="st">"Accuracy"</span>]</span>
+<span id="cb9-204"><a href="#cb9-204" aria-hidden="true" tabindex="-1"></a>  kappa <span class="ot">&lt;-</span> cm<span class="sc">$</span>overall[<span class="st">"Kappa"</span>]</span>
+<span id="cb9-205"><a href="#cb9-205" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb9-206"><a href="#cb9-206" aria-hidden="true" tabindex="-1"></a>  positive_class <span class="ot">&lt;-</span> <span class="fu">levels</span>(test_data<span class="sc">$</span>SUSPECT_ARRESTED_FLAG)[<span class="dv">2</span>]</span>
+<span id="cb9-207"><a href="#cb9-207" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb9-208"><a href="#cb9-208" aria-hidden="true" tabindex="-1"></a>  log_loss <span class="ot">&lt;-</span> <span class="fu">LogLoss</span>(</span>
+<span id="cb9-209"><a href="#cb9-209" aria-hidden="true" tabindex="-1"></a>    <span class="at">y_pred =</span> <span class="fu">as.matrix</span>(probs), </span>
+<span id="cb9-210"><a href="#cb9-210" aria-hidden="true" tabindex="-1"></a>    <span class="at">y_true =</span> <span class="fu">as.numeric</span>(test_data<span class="sc">$</span>SUSPECT_ARRESTED_FLAG <span class="sc">==</span> positive_class)</span>
+<span id="cb9-211"><a href="#cb9-211" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb9-212"><a href="#cb9-212" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb9-213"><a href="#cb9-213" aria-hidden="true" tabindex="-1"></a>  auc <span class="ot">&lt;-</span> MLmetrics<span class="sc">::</span><span class="fu">AUC</span>(</span>
+<span id="cb9-214"><a href="#cb9-214" aria-hidden="true" tabindex="-1"></a>    <span class="at">y_pred =</span> probs[, positive_class], </span>
+<span id="cb9-215"><a href="#cb9-215" aria-hidden="true" tabindex="-1"></a>    <span class="at">y_true =</span> <span class="fu">as.numeric</span>(test_data<span class="sc">$</span>SUSPECT_ARRESTED_FLAG <span class="sc">==</span> positive_class)</span>
+<span id="cb9-216"><a href="#cb9-216" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb9-217"><a href="#cb9-217" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb9-218"><a href="#cb9-218" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Return metrics as a data frame</span></span>
+<span id="cb9-219"><a href="#cb9-219" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>(</span>
+<span id="cb9-220"><a href="#cb9-220" aria-hidden="true" tabindex="-1"></a>    <span class="at">Model =</span> model_name,</span>
+<span id="cb9-221"><a href="#cb9-221" aria-hidden="true" tabindex="-1"></a>    <span class="at">Accuracy =</span> accuracy,</span>
+<span id="cb9-222"><a href="#cb9-222" aria-hidden="true" tabindex="-1"></a>    <span class="at">Kappa =</span> kappa,</span>
+<span id="cb9-223"><a href="#cb9-223" aria-hidden="true" tabindex="-1"></a>    <span class="at">LogLoss =</span> log_loss,</span>
+<span id="cb9-224"><a href="#cb9-224" aria-hidden="true" tabindex="-1"></a>    <span class="at">AUC =</span> auc</span>
+<span id="cb9-225"><a href="#cb9-225" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb9-226"><a href="#cb9-226" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb9-227"><a href="#cb9-227" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-228"><a href="#cb9-228" aria-hidden="true" tabindex="-1"></a><span class="co"># Combine into a single data frame</span></span>
+<span id="cb9-229"><a href="#cb9-229" aria-hidden="true" tabindex="-1"></a>test_metrics_df <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(test_metrics)</span>
+<span id="cb9-230"><a href="#cb9-230" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(test_metrics_df)</span>
+<span id="cb9-231"><a href="#cb9-231" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-232"><a href="#cb9-232" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-233"><a href="#cb9-233" aria-hidden="true" tabindex="-1"></a>test_metrics_df_long <span class="ot">&lt;-</span> test_metrics_df <span class="sc">|&gt;</span></span>
+<span id="cb9-234"><a href="#cb9-234" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="sc">-</span>Model, </span>
+<span id="cb9-235"><a href="#cb9-235" aria-hidden="true" tabindex="-1"></a>               <span class="at">names_to =</span> <span class="st">"Metric"</span>, </span>
+<span id="cb9-236"><a href="#cb9-236" aria-hidden="true" tabindex="-1"></a>               <span class="at">values_to =</span> <span class="st">"Value"</span>)</span>
+<span id="cb9-237"><a href="#cb9-237" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-238"><a href="#cb9-238" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(test_metrics_df_long, <span class="fu">aes</span>(<span class="at">x =</span> Model, </span>
+<span id="cb9-239"><a href="#cb9-239" aria-hidden="true" tabindex="-1"></a>                                 <span class="at">y =</span> Value, </span>
+<span id="cb9-240"><a href="#cb9-240" aria-hidden="true" tabindex="-1"></a>                                 <span class="at">fill =</span> Model)) <span class="sc">+</span></span>
+<span id="cb9-241"><a href="#cb9-241" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"identity"</span>, </span>
+<span id="cb9-242"><a href="#cb9-242" aria-hidden="true" tabindex="-1"></a>           <span class="at">position =</span> <span class="fu">position_dodge</span>(), </span>
+<span id="cb9-243"><a href="#cb9-243" aria-hidden="true" tabindex="-1"></a>           <span class="at">width =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
+<span id="cb9-244"><a href="#cb9-244" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> Metric, </span>
+<span id="cb9-245"><a href="#cb9-245" aria-hidden="true" tabindex="-1"></a>             <span class="at">scales =</span> <span class="st">"free_y"</span>, </span>
+<span id="cb9-246"><a href="#cb9-246" aria-hidden="true" tabindex="-1"></a>             <span class="at">nrow =</span> <span class="dv">1</span>) <span class="sc">+</span> </span>
+<span id="cb9-247"><a href="#cb9-247" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Model Performance Metrics"</span>,</span>
+<span id="cb9-248"><a href="#cb9-248" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Model"</span>,</span>
+<span id="cb9-249"><a href="#cb9-249" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Metric Value"</span>) <span class="sc">+</span></span>
+<span id="cb9-250"><a href="#cb9-250" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb9-251"><a href="#cb9-251" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>, </span>
+<span id="cb9-252"><a href="#cb9-252" aria-hidden="true" tabindex="-1"></a>        <span class="at">strip.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">12</span>), </span>
+<span id="cb9-253"><a href="#cb9-253" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>, <span class="at">hjust =</span> <span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</section>
 </section>
 </section>
 </section>

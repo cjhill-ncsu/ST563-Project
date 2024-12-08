@@ -166,19 +166,6 @@ rf_model <- train(
 
 rf_model$bestTune
 
-#rf_grid <- expand.grid(mtry = 8)
-
-#rf_model <- train(
-#  formula,
-#  data = train_data,
-#  method = "rf",
-#  trControl = ctrl,
-#  tuneGrid = rf_grid,
-#  ntree = 500,
-#  metric = "ROC"
-#)
-#
-
 plot(rf_model)
 rf_imp <- varImp(rf_model)
 plot(rf_imp)
