@@ -133,7 +133,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#data-summaries" id="toc-data-summaries" class="nav-link" data-scroll-target="#data-summaries">A. Data Summaries</a></li>
   <li><a href="#variable-importance-plots" id="toc-variable-importance-plots" class="nav-link" data-scroll-target="#variable-importance-plots">B. Variable Importance Plots</a></li>
   <li><a href="#tuning-parameter-plots" id="toc-tuning-parameter-plots" class="nav-link" data-scroll-target="#tuning-parameter-plots">C. Tuning Parameters</a></li>
-  <li><a href="#trained-model-summaries" id="toc-trained-model-summaries" class="nav-link" data-scroll-target="#trained-model-summaries">D. Trained model summaries</a></li>
+  <li><a href="#d.-trained-model-summaries" id="toc-d.-trained-model-summaries" class="nav-link" data-scroll-target="#d.-trained-model-summaries">D. Trained model summaries</a></li>
   <li><a href="#test-metrics" id="toc-test-metrics" class="nav-link" data-scroll-target="#test-metrics">E. Test Metrics</a></li>
   <li><a href="#f.-source-code" id="toc-f.-source-code" class="nav-link" data-scroll-target="#f.-source-code">F. Source Code</a></li>
   </ul></li>
@@ -174,12 +174,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h1>Introduction (Kristina)</h1>
 <section id="problem-description" class="level2">
 <h2 class="anchored" data-anchor-id="problem-description">Problem Description</h2>
+<p>Racial profiling in law enforcement has been a debated issue, shaped by personal experiences and societal narratives. This divide is reflected in Kristina’s AP Statistics classroom, where she uses the NYPD stop-and-frisk dataset (2018–2023) to teach chi-square tests for independence. Her students analyze the association between race and the level of force used, leading to discussions that often mirror broader American views. Some students express skepticism about racial profiling, while others—particularly minority students— challenge their classmates skepticism by sharing personal accounts of being profiled.</p>
+<p>These classroom experiences motivated us to explore whether the variables in the stop-and-frisk dataset could predict a suspect’s race. This inquiry was further driven by the stark disparities revealed in the data. According to the <a href="https://www.census.gov/quickfacts/fact/table/newyorkcitynewyork/PST045223">2020 US Census</a>, Black individuals comprise 23% of New York City’s population but accounted for 58% of stop-and-frisk incidents from 2018–2023. Their goal was to determine whether the dataset could offer insights into systemic biases in law enforcement and inform broader societal discussions.</p>
 </section>
 <section id="study-design-and-sampling-methods" class="level2">
 <h2 class="anchored" data-anchor-id="study-design-and-sampling-methods">Study Design and Sampling Methods</h2>
+<p>We analyzed a census of NYPD stop-and-frisk stops from 2018-2023. The dataset includes suspect demographic information, reasons for the stop, levels of force used, stop duration, arrest status, etc.</p>
 </section>
 <section id="scientific-questions-to-investigate" class="level2">
 <h2 class="anchored" data-anchor-id="scientific-questions-to-investigate">Scientific Questions to Investigate</h2>
+<p>Initially, we sought to determine whether the information in the NYPD stop-and-frisk dataset could be used to predict a suspect’s race. However, when our models accuracies failed to exceed that of random guessing, our focus shifted to the question “can the 2018-2023 NYPD stop-and-frisk dataset be used to predict whether or not a suspect was arrested?” We also explored “which variables carry the most importance when attempting to predict a suspect’s arrest status?”</p>
 </section>
 <section id="overview-of-conclusions" class="level2">
 <h2 class="anchored" data-anchor-id="overview-of-conclusions">Overview of Conclusions</h2>
@@ -582,8 +586,8 @@ NULL
 </div>
 </div>
 </section>
-<section id="trained-model-summaries" class="level3">
-<h3 class="anchored" data-anchor-id="trained-model-summaries">D. Trained model summaries</h3>
+<section id="d.-trained-model-summaries" class="level3">
+<h3 class="anchored" data-anchor-id="d.-trained-model-summaries">D. Trained model summaries</h3>
 <div class="cell">
 <div class="cell-output-display">
 <div>

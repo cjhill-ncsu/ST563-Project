@@ -65,24 +65,31 @@ test_metrics <- lapply(seq_along(models), function(i) {
 })
 ```
 
-
 # Introduction (Kristina)
 
 ## Problem Description
 
+Racial profiling in law enforcement has been a debated issue, shaped by personal experiences and societal narratives. This divide is reflected in Kristina’s AP Statistics classroom, where she uses the NYPD stop-and-frisk dataset (2018–2023) to teach chi-square tests for independence. Her students analyze the association between race and the level of force used, leading to discussions that often mirror broader American views. Some students express skepticism about racial profiling, while others—particularly minority students— challenge their classmates skepticism by sharing personal accounts of being profiled.
+
+These classroom experiences motivated us to explore whether the variables in the stop-and-frisk dataset could predict a suspect’s race. This inquiry was further driven by the stark disparities revealed in the data. According to the [2020 US Census](https://www.census.gov/quickfacts/fact/table/newyorkcitynewyork/PST045223), Black individuals comprise 23% of New York City’s population but accounted for 58% of stop-and-frisk incidents from 2018–2023. Their goal was to determine whether the dataset could offer insights into systemic biases in law enforcement and inform broader societal discussions.
+
 ## Study Design and Sampling Methods
 
+We analyzed a census of NYPD stop-and-frisk stops from 2018-2023. The dataset includes suspect demographic information, reasons for the stop, levels of force used, stop duration, arrest status, etc.
+
 ## Scientific Questions to Investigate
+
+Initially, we sought to determine whether the information in the NYPD stop-and-frisk dataset could be used to predict a suspect's race. However, when our models accuracies failed to exceed that of random guessing, our focus shifted to the question "can the 2018-2023 NYPD stop-and-frisk dataset be used to predict whether or not a suspect was arrested?" We also explored "which variables carry the most importance when attempting to predict a suspect's arrest status?"
 
 ## Overview of Conclusions
 
 ### Chosen Model
 
- - XGBoost: The best performing model based on the test metrics of AUC, Kappa, and Accuracy.
+-   XGBoost: The best performing model based on the test metrics of AUC, Kappa, and Accuracy.
 
 ### Key Findings
 
- - Though Blacks account for ~59% of the Stop, Question, and Frisk data, the proportions of those arrested based on any given race do not serve as a good predictor of whether an arrest will be made.
+-   Though Blacks account for \~59% of the Stop, Question, and Frisk data, the proportions of those arrested based on any given race do not serve as a good predictor of whether an arrest will be made.
 
 ## Roadmap to Follow
 
@@ -108,86 +115,89 @@ The [Appendix](#appendix) houses tables, source code, and supplementary plots fo
 
 The data was cleaned, transformed, and structured to suit the requirements of the statistical machine learning algorithms for our predictive models. The following steps were taken:
 
-1. Data from multiple years (2018–2023) was read and combined into a single dataset. Column names were standardized by converting them to uppercase and replacing spaces with underscores for consistency. An additional column was added to indicate the year each record belonged to.
+1.  Data from multiple years (2018–2023) was read and combined into a single dataset. Column names were standardized by converting them to uppercase and replacing spaces with underscores for consistency. An additional column was added to indicate the year each record belonged to.
 
-2. Strings such as "(null)" were identified as placeholders for missing data and replaced with proper `NA` values to facilitate further processing.
+2.  Strings such as "(null)" were identified as placeholders for missing data and replaced with proper `NA` values to facilitate further processing.
 
-3. Several columns, particularly those representing numeric data like suspect height, weight, and stop durations, were converted from character strings to numeric.
+3.  Several columns, particularly those representing numeric data like suspect height, weight, and stop durations, were converted from character strings to numeric.
 
-4. Time and Date columns were converted to the appropriate data types for analysis.
+4.  Time and Date columns were converted to the appropriate data types for analysis.
 
-5. Binary flag variables, containing values such as `Y`, `N`, `NA`, and occasionally invalid entries like `(`, were handled with special consideration to ensure usability in modeling. This process involved the following rules:
-   a. *Columns with Only Y and`NA`Values*: If a column contained only `Y` and NA, the`NA`values were imputed with N. This assumption was made based on the interpretation that the absence of a `Y` flag implied the event did not occur.
-   b. *Columns with `Y`, `NA`, and `(` Values*: First, all `NA` values were replaced with `N`. Then, invalid entries represented by `(` were converted to `NA`. This ensured no invalid characters remained in the dataset.
-   c. *Columns with `Y`, `N`, `NA`, and `(` Values*: Invalid entries (`(`) were replaced with `NA`. Existing `Y`, `N`, and `NA` values were left unchanged, maintaining the integrity of the valid binary flags.
-   d. *Other Scenarios*: For Flag columns not fitting the above patterns, the values were left as-is, as they did not conform to predefined rules or patterns for binary flags.
+5.  Binary flag variables, containing values such as `Y`, `N`, `NA`, and occasionally invalid entries like `(`, were handled with special consideration to ensure usability in modeling. This process involved the following rules:
 
-6. The extent of missingness across columns was evaluated. Variables with excessive missing data (more than 10,000 missing values) were excluded from further consideration. Remaining rows with missing values were removed to create a complete dataset.
+    a.  *Columns with Only Y and`NA`Values*: If a column contained only `Y` and NA, the`NA`values were imputed with N. This assumption was made based on the interpretation that the absence of a `Y` flag implied the event did not occur.
+    b.  *Columns with `Y`, `NA`, and `(` Values*: First, all `NA` values were replaced with `N`. Then, invalid entries represented by `(` were converted to `NA`. This ensured no invalid characters remained in the dataset.
+    c.  *Columns with `Y`, `N`, `NA`, and `(` Values*: Invalid entries (`(`) were replaced with `NA`. Existing `Y`, `N`, and `NA` values were left unchanged, maintaining the integrity of the valid binary flags.
+    d.  *Other Scenarios*: For Flag columns not fitting the above patterns, the values were left as-is, as they did not conform to predefined rules or patterns for binary flags.
 
-7. Remaining character variables were converted into factors to enable categorical analyses. Some factors, like SUSPECT_RACE_DESCRIPTION, were consolidated by merging specific levels (e.g., "Black Hispanic" and "White Hispanic" were grouped under "Hispanic").
+6.  The extent of missingness across columns was evaluated. Variables with excessive missing data (more than 10,000 missing values) were excluded from further consideration. Remaining rows with missing values were removed to create a complete dataset.
 
-8. New predictors were created by aggregating related binary flag variables:
-   a. *Physical Force Count*: Summed all physical force-related flags to capture the intensity of force used.
-   b. *Suspect Actions Count*: Consolidated actions taken by suspects into a single predictor.
-   c. *Weapon Flag Count*: Combined multiple weapon-related flags into one variable representing the presence of any weapon.
- 
- 9. All numeric columns were standardized by centering and scaling. This ensured that variables with different units or scales were treated equitably by the models.
- 
- 10. Variables deemed irrelevant or redundant, such as geographic coordinates (STOP_LOCATION_X, STOP_LOCATION_Y) were excluded. The final dataset was saved for use in modeling.
+7.  Remaining character variables were converted into factors to enable categorical analyses. Some factors, like SUSPECT_RACE_DESCRIPTION, were consolidated by merging specific levels (e.g., "Black Hispanic" and "White Hispanic" were grouped under "Hispanic").
+
+8.  New predictors were created by aggregating related binary flag variables:
+
+    a.  *Physical Force Count*: Summed all physical force-related flags to capture the intensity of force used.
+    b.  *Suspect Actions Count*: Consolidated actions taken by suspects into a single predictor.
+    c.  *Weapon Flag Count*: Combined multiple weapon-related flags into one variable representing the presence of any weapon.
+
+9.  All numeric columns were standardized by centering and scaling. This ensured that variables with different units or scales were treated equitably by the models.
+
+10. Variables deemed irrelevant or redundant, such as geographic coordinates (STOP_LOCATION_X, STOP_LOCATION_Y) were excluded. The final dataset was saved for use in modeling.
 
 ### Selected Variables and Data Summaries
 
- - SUSPECT_RACE_DESCRIPTION may capture systemic or situational biases, influencing how interactions escalate and the resulting arrest probabilities.
+-   SUSPECT_RACE_DESCRIPTION may capture systemic or situational biases, influencing how interactions escalate and the resulting arrest probabilities.
 
- - Physical Force actions such as Handcuffs and OC Spray typically occur in escalated situations which can often lead to arrests.
- 
- - Verbal Commands and Observed Actions are more common and may not necessarily lead to arrests. These reflect observed behaviors that may contribute to escalation or suspicion however.
- 
- - Weapon involvement naturally heightens the intensity of the encounter and would likely increase arrest likelihood.
- 
- - STOP_DURATION_MINUTES provides a measure of the stop’s complexity or escalation over time, with longer stops potentially indicating more contentious or involved interactions.
- 
+-   Physical Force actions such as Handcuffs and OC Spray typically occur in escalated situations which can often lead to arrests.
+
+-   Verbal Commands and Observed Actions are more common and may not necessarily lead to arrests. These reflect observed behaviors that may contribute to escalation or suspicion however.
+
+-   Weapon involvement naturally heightens the intensity of the encounter and would likely increase arrest likelihood.
+
+-   STOP_DURATION_MINUTES provides a measure of the stop’s complexity or escalation over time, with longer stops potentially indicating more contentious or involved interactions.
+
 [Summary Table and Plots](#data-summaries)
 
 ## 2. Statistical Models and Methods
 
 We follow the guidelines for statistical modeling laid out in the Model Building and Data Splitting lecture notes.
 
-1. *Split the data into a training set and a test set.*
+1.  *Split the data into a training set and a test set.*
 
-2. *Tune hyperparameters (of all the models under consideration) using the training set:*
-   a. *Split the training set further into two sets: one for fitting the model (a new training set), and the other for evaluating model performance (known as validation set or holdout set).*
-   b. *For each candidate value of hyperparameter(s), fit the model using the new training set, and evaluate the fitted model using the validation set using a metric of our choice.*
-   c. *Typically, we repeat steps a. and b. a few times so that we get repeated measurements of model performance for each value of hyperparameters. The final model performance is taken to be the average of these multiple measurements.*
-   d. *Choose the best value of hyperparameters by optimizing the model performance measure obtained in step c.*
+2.  *Tune hyperparameters (of all the models under consideration) using the training set:*
 
-3. *Using the best value of hyperparameters, fit the model(s) on the entire training set and estimate the model parameters. This is (are) the final model(s) chosen using the training set.*
+    a.  *Split the training set further into two sets: one for fitting the model (a new training set), and the other for evaluating model performance (known as validation set or holdout set).*
+    b.  *For each candidate value of hyperparameter(s), fit the model using the new training set, and evaluate the fitted model using the validation set using a metric of our choice.*
+    c.  *Typically, we repeat steps a. and b. a few times so that we get repeated measurements of model performance for each value of hyperparameters. The final model performance is taken to be the average of these multiple measurements.*
+    d.  *Choose the best value of hyperparameters by optimizing the model performance measure obtained in step c.*
 
-4. *Use the test set to estimate the model performance of the final model(s) from step 3.*
+3.  *Using the best value of hyperparameters, fit the model(s) on the entire training set and estimate the model parameters. This is (are) the final model(s) chosen using the training set.*
 
-5. *Again, we may want to repeat steps 1–4 a few times to get a reliable estimate of model performance of the final models. For example, we can use cross-validation here to incorporate the uncertainty due to hyperparameter tuning as well.*
+4.  *Use the test set to estimate the model performance of the final model(s) from step 3.*
 
-By leveraging the `caret` package in R, we can efficiently implement the above steps for a variety of models. The `train()` function in `caret` will handle steps 2 and 3 for us. This can be termed the "inner loop". After tuning hyperparameters and fitting the final trained model, we can then evaluate the various models on the test set. This can be termed the "outer loop". 
+5.  *Again, we may want to repeat steps 1–4 a few times to get a reliable estimate of model performance of the final models. For example, we can use cross-validation here to incorporate the uncertainty due to hyperparameter tuning as well.*
+
+By leveraging the `caret` package in R, we can efficiently implement the above steps for a variety of models. The `train()` function in `caret` will handle steps 2 and 3 for us. This can be termed the "inner loop". After tuning hyperparameters and fitting the final trained model, we can then evaluate the various models on the test set. This can be termed the "outer loop".
 
 To evaluate the models in the outer loop and the very first step when modeling began, we used a 70/30 split, where 70% of the data was used for training and 30% for testing. This is known as the holdout method. For training in the inner loop, 5-fold cross validation was used on the training data split. The test data was never used in the inner loop, only for evaluating the final model performance.
 
 ### Model Descriptions and Assumptions
 
-- **Random Forest** - Improves prediction accuracy by combining multiple decision trees. Each tree is trained on a random bootstrap sample of the data, and at every split, only a random subset of predictors is considered. This medigates the correlation between trees when a certain predictor may be present in all trees, reducing their variance and improving the robustness of the predictions.
+-   **Random Forest** - Improves prediction accuracy by combining multiple decision trees. Each tree is trained on a random bootstrap sample of the data, and at every split, only a random subset of predictors is considered. This medigates the correlation between trees when a certain predictor may be present in all trees, reducing their variance and improving the robustness of the predictions.
 
-- **Extreme Gradient Boosting (XGBoost)** - Builds models sequentially, each new tree correcting errors made by previous ones, and optimizes a loss function. XGBoost also uses regularization, meaning it penalizes complex models to prevent overfitting.
+-   **Extreme Gradient Boosting (XGBoost)** - Builds models sequentially, each new tree correcting errors made by previous ones, and optimizes a loss function. XGBoost also uses regularization, meaning it penalizes complex models to prevent overfitting.
 
-- **Logistic Regression** - Models the relationship between a set of predictor variables and a binary outcome by estimating the probability of the outcome occurring, using the logistic function to ensure probabilities fall between 0 and 1. The method identifies linear relationships between predictors and the log-odds of the outcome
+-   **Logistic Regression** - Models the relationship between a set of predictor variables and a binary outcome by estimating the probability of the outcome occurring, using the logistic function to ensure probabilities fall between 0 and 1. The method identifies linear relationships between predictors and the log-odds of the outcome
 
-- **Elastic Net** - A regularized regression method that combines the penalties of Lasso and Ridge regression. It balances variable selection and shrinkage by minimizing prediction error while preventing overfitting.
+-   **Elastic Net** - A regularized regression method that combines the penalties of Lasso and Ridge regression. It balances variable selection and shrinkage by minimizing prediction error while preventing overfitting.
 
-### Model Comparisons 
+### Model Comparisons
 
 In training and tuning the models, we instructed `caret` to use the [AUC](#metrics) metric as described further below. This metric was chosen because it is a robust measure of model performance compared to accuracy.
 
 We will also consider AUC in our comparisons between models, as well as other metrics such as LogLoss, Kappa, and Accuracy. These metrics will help us evaluate the models' performance on the test set and determine which model is best suited for our predicting our response and generalizing to new data.
 
-#### Trained Model Summaries
+#### Trained Model Summaries {#trained-model-summaries}
 
 The following plots summarize the performance of the models on the training data. The boxplots show the distribution of the AUC metric during cross-validation and model tuning. This provides a convenient visual comparison of their performance.
 
@@ -199,7 +209,7 @@ We see in our model tuning that the XGBoost model appears to have a better metri
 
 WEAPON_FLAG_COUNT and PHYSICAL_FORCE_HANDCUFF_SUSPECT were consistently amongst the top 3 variables of importance across all models. This suggests that the presence of a weapon and the use of handcuffs are strong predictors of whether a suspect will be arrested.
 
-The suspect's Race description is found to be somewhat important (5th) in the Random Forest. This was it's highest showing across the tested models in ranked order of importance. 
+The suspect's Race description is found to be somewhat important (5th) in the Random Forest. This was it's highest showing across the tested models in ranked order of importance.
 
 [Variables of Importance Plots](#variable-importance-plots)
 
@@ -211,17 +221,17 @@ The [Hyperparameter Tuning Plots](#tuning-parameter-plots) show the manner in wh
 
 ## Performance Investigation and Criteria
 
-We evaluate several metrics to compare the performance of the models as they generalize to our test set. These metrics include: AUC, LogLoss, Kappa, and Accuracy. 
+We evaluate several metrics to compare the performance of the models as they generalize to our test set. These metrics include: AUC, LogLoss, Kappa, and Accuracy.
 
 ### Metrics Used for Model Evaluation {#metrics}
 
-- **AUC** (Area Under the *Receiver Operating Characteristic* Curve) - was used as our training metric of choice during model tuning. AUC measures how correctly a model distinguishes between true outcomes and false outcomes across all possible boundaries between classes. A model with a larger AUC value can be said to better distinguish between true and false outcomes across all boundaries between classes.
+-   **AUC** (Area Under the *Receiver Operating Characteristic* Curve) - was used as our training metric of choice during model tuning. AUC measures how correctly a model distinguishes between true outcomes and false outcomes across all possible boundaries between classes. A model with a larger AUC value can be said to better distinguish between true and false outcomes across all boundaries between classes.
 
-- **LogLoss** - quantifies how uncertain a model is about its predictions, penalizing incorrect predictions with greater uncertainty. A model with a smaller LogLoss value can be said to make more confident and accurate predictions because it assigns higher probabilities to correct outcomes and lower probabilities to incorrect ones, minimizing uncertainty.
+-   **LogLoss** - quantifies how uncertain a model is about its predictions, penalizing incorrect predictions with greater uncertainty. A model with a smaller LogLoss value can be said to make more confident and accurate predictions because it assigns higher probabilities to correct outcomes and lower probabilities to incorrect ones, minimizing uncertainty.
 
-- **Kappa** - measures how correct a model's predictions are compared to actual outcomes, while accounting for correctness expected by random chance. A model with a larger Kappa value can be said to make predictions that are more correct relative to chance alone.
+-   **Kappa** - measures how correct a model's predictions are compared to actual outcomes, while accounting for correctness expected by random chance. A model with a larger Kappa value can be said to make predictions that are more correct relative to chance alone.
 
-- **Accuracy** - is the proportion of correctly predicted outcomes out of all predictions made. Included for its simplicity and interpretability.
+-   **Accuracy** - is the proportion of correctly predicted outcomes out of all predictions made. Included for its simplicity and interpretability.
 
 ### Test Metrics Results Summary
 
@@ -233,30 +243,49 @@ The best model will be determined based on the combination of these metrics, wit
 
 ### 1. Data Preprocessing:
 
- - Binary Flags: Simplified handling of missing or invalid entries (e.g., replacing `NA` with `N`) was an assumption and may have introduced bias.
- - Aggregating multiple binary flags into predictors (e.g., Suspect Action Count) simplifies the data but may lose nuanced information about individual variables.
+-   Binary Flags: Simplified handling of missing or invalid entries (e.g., replacing `NA` with `N`) was an assumption and may have introduced bias.
+-   Aggregating multiple binary flags into predictors (e.g., Suspect Action Count) simplifies the data but may lose nuanced information about individual variables.
 
 ### 2. Modeling Limitations:
 
- - Hyperparameter Tuning: Though the Tuning was given a fair range to explore, it was primarily left to default behavior in `caret`. More rigorous tuning may have produced better models with more exacting hyperparameters.
- - Evaluation Metrics: The models were primarily evaluated using metrics like AUC, LogLoss, Kappa, and Accuracy. (AUC explicitely in training.) While these metrics provide a robust comparison, they focus on different aspects of model performance, and prioritizing one metric over another could bias tuning or model selection.
- - Holdout Method: The 70/30 split used testing may not be optimal. Cross-validation in the outer loop could provide a more robust estimate of model performance.
+-   Hyperparameter Tuning: Though the Tuning was given a fair range to explore, it was primarily left to default behavior in `caret`. More rigorous tuning may have produced better models with more exacting hyperparameters.
+-   Evaluation Metrics: The models were primarily evaluated using metrics like AUC, LogLoss, Kappa, and Accuracy. (AUC explicitely in training.) While these metrics provide a robust comparison, they focus on different aspects of model performance, and prioritizing one metric over another could bias tuning or model selection.
+-   Holdout Method: The 70/30 split used testing may not be optimal. Cross-validation in the outer loop could provide a more robust estimate of model performance.
 
 ### 3. Contextual Factors:
 
- - Ethical Concerns: Systemic and situational biases in the dataset may influence predictions and reinforce existing inequities. Predictive models trained on such data may inadvertently reinforce these biases.
+-   Ethical Concerns: Systemic and situational biases in the dataset may influence predictions and reinforce existing inequities. Predictive models trained on such data may inadvertently reinforce these biases.
 
 \newpage
 
-# Conclusions (Kristina) {#conclusions} 
+# Conclusions (Kristina) {#conclusions}
 
 ## Study Objectives Summary
 
+The anaylsis aimed to explore whether variables in the NYPD stop-and-frisk dataset (2018–2023) could predict a suspect’s race. When models failed to surpass random guessing, the focus shifted to predicting whether a suspect would be arrested. The analysis also sought to identify the most significant variables influencing arrest prediction outcomes.
+
 ## Findings and Interpretation
+
+1.  **Predicting Race**: Models attempting to predict a suspect’s race using variables such as age, height, and weight did not exceed random guessing accuracy. This indicates the dataset lacked sufficient information to capture systemic profiling patterns.
+
+2.  **Predicting Arrest Outcomes**: Refocusing the analysis on predicting arrest status proved more successful. Among all models fit, XGBoost demonstrated the best performance, achieving an accuracy of 72.9%. This model’s predictive power relied heavily on the following variables:
+
+    i.  Weapon_Flag_Count
+    ii. Stop_Duration_Minutes
+    iii. Physical_Force_Handcuff_Suspect_FlagY
+    iv. Suspect_Action_Counts
+
+3.  **Key Predictive Variables**: Weapon_Flag_Count and Physical_Force_Handcuff_Supsect_FlagY are in the top 4 variables for each model. These findings align with expectations, as both factors directly relate to the severity of the incident and procedural escalation.
 
 ## Project Goals and Outcomes
 
+The project’s initial goal to predict race proved unachievable, as the data and variables provided insufficient predictive power. However, shifting the focus to arrest led to predictions higher than random guessing. The models identified important predictors, with accuracy nearing 75%, demonstrating the dataset’s utility in analyzing procedural outcomes rather than profiling individuals.
+
 ## Additional Observations
+
+The dataset revealed obvious racial disparities: Black individuals, despite comprising 23% of NYC’s population (2020 U.S. Census), represented 58% of stop-and-frisk cases. This disparity aligns with broader concerns about systemic biases in policing.
+
+Notably, Suspect_Race_Description did not emerge as a top predictor in any of the models, including XGBoost, suggesting that other variables—such as procedural actions and contextual factors—play a more prominent role in determining arrest outcomes. This observation raises questions about how systemic factors are reflected (or not) in the data and underscores the limitations of using this dataset to analyze racial profiling directly.
 
 \newpage
 
@@ -434,7 +463,7 @@ lapply(names(models), function(model_name) {
 })
 ```
 
-### D. Trained model summaries  {#trained-model-summaries}
+### D. Trained model summaries
 
 ```{r}
 resamples <- resamples(models)
@@ -1216,5 +1245,3 @@ ggplot(test_metrics_df_long, aes(x = Model,
         axis.text.x = element_text(angle = 45, hjust = 1))
 
 ```
-
-
