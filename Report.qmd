@@ -321,7 +321,7 @@ summarize_data <- function(data) {
       paste(names(tbl), tbl, 
             sprintf("(%.2f%%)", 
                     prop * 100), 
-            sep = ":  ", collapse = " \\newline ")
+            sep = "  ", collapse = " \\newline ")
     })) |>
     pivot_longer(cols = everything(), 
                  names_to = "Variable", 
@@ -330,10 +330,11 @@ summarize_data <- function(data) {
   # Combine and display
   bind_rows(numeric_summary, 
             factor_summary) |>
+    mutate(Variable = paste0("- ", Variable)) |>
     select(Variable, Summary) |>
     kable(
           col.names = c("Variable", "Summary"), 
-          escape = FALSE) 
+          escape = FALSE)  
 }
 
 summarize_data(train_data)
@@ -414,10 +415,10 @@ lapply(names(models), function(model_name) {
 summarize_tuning <- function(models) {
   # Mapping of original model names to display names
   model_names <- c(
-    "XGBoost" = "XG Boost",
-    "ElasticNet" = "Elastic Net",
-    "LogisticRegression" = "Logistic Regression",
-    "RandomForest" = "Random Forest"
+    "XGBoost" = "- XG Boost",
+    "ElasticNet" = "- Elastic Net",
+    "LogisticRegression" = "- Logistic Regression",
+    "RandomForest" = "- Random Forest"
   )
   
   # Extract and format best tuning parameters for each model
