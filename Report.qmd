@@ -4,7 +4,7 @@ author:
   - name: "Kristina Golden"
   - name: "Christopher Hill"
 format: 
-  html:
+  pdf:
     toc: true    
     toc-depth: 3 
 editor: visual
@@ -24,6 +24,8 @@ library(caret)
 library(lattice)
 library(MLmetrics)
 library(knitr)
+library(kableExtra)
+library(ggpubr)
 
 train_data <- readRDS("training_data.rds")
 test_data <- readRDS("testing_data.rds")
@@ -125,7 +127,7 @@ The data was cleaned, transformed, and structured to suit the requirements of th
 
 5.  Binary flag variables, containing values such as `Y`, `N`, `NA`, and occasionally invalid entries like `(`, were handled with special consideration to ensure usability in modeling. This process involved the following rules:
 
-    a.  *Columns with Only Y and`NA`Values*: If a column contained only `Y` and NA, the`NA`values were imputed with N. This assumption was made based on the interpretation that the absence of a `Y` flag implied the event did not occur.
+    a.  *Columns with Only Y and `NA` Values*: If a column contained only `Y` and NA, the`NA`values were imputed with N. This assumption was made based on the interpretation that the absence of a `Y` flag implied the event did not occur.
     b.  *Columns with `Y`, `NA`, and `(` Values*: First, all `NA` values were replaced with `N`. Then, invalid entries represented by `(` were converted to `NA`. This ensured no invalid characters remained in the dataset.
     c.  *Columns with `Y`, `N`, `NA`, and `(` Values*: Invalid entries (`(`) were replaced with `NA`. Existing `Y`, `N`, and `NA` values were left unchanged, maintaining the integrity of the valid binary flags.
     d.  *Other Scenarios*: For Flag columns not fitting the above patterns, the values were left as-is, as they did not conform to predefined rules or patterns for binary flags.
@@ -299,6 +301,9 @@ Notably, Suspect_Race_Description did not emerge as a top predictor in any of th
 
 ```{r}
 summarize_data <- function(data) {
+  
+  colnames(data) <- gsub("_", " ", colnames(data))
+  
   # Handle numeric variables
   numeric_summary <- data |>
     select(where(is.numeric)) |>
@@ -306,7 +311,7 @@ summarize_data <- function(data) {
       stats <- summary(.)
       stats <- round(stats, 2)
       paste(names(stats), stats, 
-            sep = "\t", collapse = "<br>") 
+            sep = "\t", collapse = " \\newline ") 
     })) |>
     pivot_longer(cols = everything(), 
                  names_to = "Variable", 
@@ -322,7 +327,7 @@ summarize_data <- function(data) {
       paste(names(tbl), tbl, 
             sprintf("(%.2f%%)", 
                     prop * 100), 
-            sep = ":  ", collapse = "<br>")
+            sep = ":  ", collapse = " \\newline ")
     })) |>
     pivot_longer(cols = everything(), 
                  names_to = "Variable", 
@@ -332,9 +337,9 @@ summarize_data <- function(data) {
   bind_rows(numeric_summary, 
             factor_summary) |>
     select(Variable, Summary) |>
-    kable(align = "r", 
+    kable(
           col.names = c("Variable", "Summary"), 
-          escape = FALSE)
+          escape = FALSE) 
 }
 
 summarize_data(train_data)
@@ -342,42 +347,47 @@ summarize_data(train_data)
 
 Table of modeled variables and their summaries.
 
-```{r}
-# Display Race levels and their proportions of Arrested
-proportions_table <- train_data |>
-  group_by(SUSPECT_RACE_DESCRIPTION) |>
-  summarise(
-    Total = n(),
-    Arrested = sum(SUSPECT_ARRESTED_FLAG == "Y"),
-    Proportion = Arrested / Total
-  ) |>
-  arrange(desc(Proportion))
+\newpage
 
-# Display proportion of arrested by race level as a stacked bar plot
-train_data |>
-  mutate(SUSPECT_RACE_DESCRIPTION = factor(
-    SUSPECT_RACE_DESCRIPTION, 
-    levels = proportions_table$SUSPECT_RACE_DESCRIPTION
-  )) |>
-  ggplot(aes(x = SUSPECT_RACE_DESCRIPTION, 
-             fill = SUSPECT_ARRESTED_FLAG)) + 
-  geom_bar(position = "fill") +
-  labs(
-    title = "Proportion Arrested",
-    x = "Race Description",
-    y = "Proportion"
-  ) +
-  theme_minimal() + 
-  theme(
-    legend.position = "none",
-    axis.text.x = element_text(angle = 45, hjust = 1)
-  )
+#### Top Predictor Variables by Arrested Status
+
+```{r, fig.height=4, fig.width=8}
+# Suspected crime vs. race
+data <- train_data
+
+stacked_bar <- function(var) {
+  ggplot(data, aes(x = .data[[var]], fill = SUSPECT_ARRESTED_FLAG)) +
+    geom_bar(position = 'fill') +
+    labs(
+      title = var,
+      x = var,
+      y = ''
+    ) +
+    theme_minimal() +
+    theme(
+      axis.text.x = element_text(angle = 90, hjust = 1)
+    ) 
+}
+
+variables <- c('SUSPECT_RACE_DESCRIPTION',
+               'PHYSICAL_FORCE_VERBAL_INSTRUCTION_FLAG',
+               'PHYSICAL_FORCE_WEAPON_IMPACT_FLAG',
+               'PHYSICAL_FORCE_RESTRAINT_USED_FLAG', 
+               'PHYSICAL_FORCE_OC_SPRAY_USED_FLAG',
+               'PHYSICAL_FORCE_HANDCUFF_SUSPECT_FLAG',
+               'PHYSICAL_FORCE_CEW_FLAG',
+               'WEAPON_FLAG_COUNT')
+
+lapply(variables, stacked_bar)
+
 
 ```
 
+\newpage
+
 ### B. Variable Importance Plots {#variable-importance-plots}
 
-```{r}
+```{r, fig.height=3, fig.width=8}
 lapply(names(models), function(model_name) {
   
   var_imp_df <- as.data.frame(varImp(models[[model_name]])$importance)
@@ -394,6 +404,7 @@ lapply(names(models), function(model_name) {
     labs(
       title = paste("Top 10 Variables for", model_name),
       y = "Importance",
+      x = "",
       caption = "This plot shows the top variables contributing to the model's predictive performance."
     ) +
     theme_minimal()
@@ -401,16 +412,26 @@ lapply(names(models), function(model_name) {
 
 ```
 
+\newpage
+
 ### C. Tuning Parameters {#tuning-parameter-plots}
 
 ```{r}
 summarize_tuning <- function(models) {
+  # Mapping of original model names to display names
+  model_names <- c(
+    "XGBoost" = "XG Boost",
+    "ElasticNet" = "Elastic Net",
+    "LogisticRegression" = "Logistic Regression",
+    "RandomForest" = "Random Forest"
+  )
+  
   # Extract and format best tuning parameters for each model
   tuning_summary <- lapply(names(models), function(model_name) {
     best_tune <- models[[model_name]]$bestTune
     
     # Handle cases with and without tuning parameters
-    if (best_tune[[1]] != "none") {
+    if (!is.null(best_tune) && best_tune[[1]] != "none") {
       summary <- best_tune |>
         as.data.frame() |>
         mutate(across(everything(), 
@@ -426,34 +447,36 @@ summarize_tuning <- function(models) {
                                  Value, 
                                  sep = "\t")) |>
         pull(Formatted) |>
-        paste(collapse = "<br>")
+        paste(collapse = " \\newline ")
     } else {
       summary <- "No tuning parameters"
     }
     
-    # Return a data frame for each model
-    data.frame(Model = model_name, 
-               Summary = summary, 
-               stringsAsFactors = FALSE)
+    # Return a data frame for each model with the updated name
+    data.frame(
+      Model = model_names[model_name],
+      Summary = summary,
+      stringsAsFactors = FALSE
+    )
   })
   
   # Combine all results into a single data frame and render the table
   do.call(rbind, tuning_summary) |>
     kable(
-      align = "r",
       col.names = c("Model", "Best Tuning Parameters"),
-      escape = FALSE
+      escape = FALSE,
+      row.names = FALSE
     )
 }
 
-
 # Use the function to summarize tuning parameters
 summarize_tuning(models)
+
 ```
 
 Table of best tuning parameters for each model.
 
-```{r}
+```{r plot-models, fig.height=7, fig.width=8}
 lapply(names(models), function(model_name) {
   model <- models[[model_name]]
   
@@ -462,6 +485,8 @@ lapply(names(models), function(model_name) {
   }
 })
 ```
+
+\newpage
 
 ### D. Trained model summaries
 
@@ -475,6 +500,8 @@ trellis.par.set(
 
 bwplot(resamples, metric = "ROC")
 ```
+
+\newpage
 
 ### E. Test Metrics {#test-metrics}
 
@@ -510,7 +537,7 @@ summarize_test_metrics <- function(test_metrics) {
           Model = paste0(Model, ": ", Value)
         ) |>
         pull(Model) |>
-        paste(collapse = "<br>") # Combine all models for the metric
+        paste(collapse = " \\newline ") # Combine all models for the metric
       
       # Return a data frame for the metric
       data.frame(
@@ -525,7 +552,6 @@ summarize_test_metrics <- function(test_metrics) {
   summary_table |>
     kable(
       col.names = c("Metric", "Models and Values"),
-      align = "r",                  
       escape = FALSE                       
     )
 }
